@@ -1,6 +1,6 @@
 
-function App() {
-  return null;
-}
+const App = () => {
+    return null;
+};
 
-export default App
+export default App;
