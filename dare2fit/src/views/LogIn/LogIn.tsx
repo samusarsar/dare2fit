@@ -1,17 +1,36 @@
-import { FC, ReactElement, useState } from 'react';
+import { FC, useContext, useState } from 'react';
+import { loginUser } from '../../services/auth.services';
 import AccountBase from '../../components/Base/AccountBase/AccountBase';
 import { Formik, Field } from 'formik';
 import { VStack, FormControl, FormLabel, Input, InputGroup, InputRightElement, FormErrorMessage, Button, HStack, Text, useColorModeValue, useToast } from '@chakra-ui/react';
 import { PASSWORD_MIN_LENGTH } from '../../common/constants';
-import { loginUser } from '../../services/auth.services';
+import { AppContext } from '../../context/AppContext/AppContext';
 
-const LogIn: FC = (): ReactElement => {
+const LogIn: FC = () => {
+    const { setContext } = useContext(AppContext);
+
     const [show, setShow] = useState(false);
-
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
     const toast = useToast();
+
+    // const handleLogOut = () => {
+    //     logoutUser();
+    //     setContext({
+    //         user: null,
+    //         userData: null,
+    //     });
+    //     toast({
+    //         title: 'See you soon!',
+    //         description: 'You have successfully logged out.',
+    //         status: 'info',
+    //         duration: 3000,
+    //         isClosable: true,
+    //         position: 'top',
+    //         variant: 'subtle',
+    //     });
+    // };
 
     return (
         <AccountBase>
@@ -24,10 +43,11 @@ const LogIn: FC = (): ReactElement => {
                 validateOnBlur={false}
                 onSubmit={(values) => {
                     loginUser(values.email, values.password)
-                        // .then(credential =>
-                        //     setContext({
-                        //         user: credential.user,
-                        //     }))
+                        .then(credential =>
+                            setContext({
+                                user: credential.user,
+                                userData: null,
+                            }))
                         .then(() => {
                             // navigate(from, { replace: true });
                             toast({
@@ -69,7 +89,7 @@ const LogIn: FC = (): ReactElement => {
                                     placeholder='Enter email' />
                                 <FormErrorMessage>Email doesn&apos;t exist.</FormErrorMessage>
                             </FormControl>
-                            <FormControl isInvalid={(!!errors.password && touched.password) || passwordError} isRequired={true} pr={4}>
+                            <FormControl isInvalid={(!!errors.password && touched.password) || !!passwordError} isRequired={true} pr={4}>
                                 <FormLabel htmlFor='password'>Password</FormLabel>
                                 <InputGroup size='md'>
                                     <Field
