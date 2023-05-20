@@ -1,5 +1,5 @@
 import { FC, ReactElement, useState } from 'react';
-import AccountBase from '../../views/AccountBase/AccountBase';
+import AccountBase from '../../components/Base/AccountBase/AccountBase';
 import { Formik, Field } from 'formik';
 import { VStack, FormControl, FormLabel, Input, InputGroup, InputRightElement, FormErrorMessage, Button, HStack, Text, useColorModeValue, useToast } from '@chakra-ui/react';
 import { PASSWORD_MIN_LENGTH } from '../../common/constants';

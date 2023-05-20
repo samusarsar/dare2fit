@@ -4,7 +4,7 @@ import { FormControl, FormLabel, Input, FormErrorMessage, Text, Button, HStack, 
 import { Formik, Field } from 'formik';
 import { FC, ReactElement, useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
-import AccountBase from '../../views/AccountBase/AccountBase';
+import AccountBase from '../../components/Base/AccountBase/AccountBase';
 // import { AppContext } from '../../context/AppContext/AppContext';
 import { createUser, getUserByHandle } from '../../services/user.services';
 import { registerUser } from '../../services/auth.services';
