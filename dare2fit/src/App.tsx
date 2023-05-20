@@ -18,7 +18,7 @@ const App: React.FC = () => {
             <Routes>
                 <Route path='/' element={<RootLayout />}>
                     <Route index element={<LandingPage />} />
-                    <Route path='activity' element={<ActivityView />} />  
+                    <Route path='activity' element={<ActivityView />} />
                     <Route path='exercises' element={<ExercisesView />} />
                     <Route path='goals' element={<GoalsView />} />
                     <Route path='community' element={<CommunityView />} />
