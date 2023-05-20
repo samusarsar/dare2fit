@@ -6,11 +6,13 @@ import LandingPage from './views/LandingPage/LandingPage.jsx';
 import ActivityView from './views/ActivityView/ActivityView.jsx';
 import ExercisesView from './views/ExercisesView/ExercisesView.jsx';
 import GoalsView from './views/GoalsView/GoalsView.jsx';
-import CommunityView from './views/CommunityView/CommunityView.js';
-import ProfileView from './views/ProfileView/ProfileView.js';
-import UserView from './views/UserView/UserView.js';
-import MyProfileView from './views/MyProfileView/MyProfileView.js';
-import NotFound from './views/NotFound/NotFound.js';
+import CommunityView from './views/CommunityView/CommunityView.jsx';
+import ProfileView from './views/ProfileView/ProfileView.jsx';
+import UserView from './views/UserView/UserView.jsx';
+import MyProfileView from './views/MyProfileView/MyProfileView.jsx';
+import NotFound from './views/NotFound/NotFound.jsx';
+import LogIn from './views/LogIn/LogIn.jsx';
+import SignUp from './views/SignUp/SignUp.js';
 
 const App: React.FC = () => {
     return (
@@ -18,6 +20,8 @@ const App: React.FC = () => {
             <Routes>
                 <Route path='/' element={<RootLayout />}>
                     <Route index element={<LandingPage />} />
+                    <Route path='login' element={<LogIn />} />
+                    <Route path='signup' element={<SignUp />} />
                     <Route path='activity' element={<ActivityView />} />
                     <Route path='exercises' element={<ExercisesView />} />
                     <Route path='goals' element={<GoalsView />} />
