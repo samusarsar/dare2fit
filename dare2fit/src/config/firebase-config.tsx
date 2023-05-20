@@ -3,14 +3,14 @@ import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import { getStorage } from 'firebase/storage';
 
-export const firebaseConfig = {
-    apiKey: 'AIzaSyARKNVxiD_4lY6UUdhylzzS-2uge_XJpa0',
-    authDomain: 'interiorum-6c515.firebaseapp.com',
-    projectId: 'interiorum-6c515',
-    storageBucket: 'interiorum-6c515.appspot.com',
-    messagingSenderId: '621308142785',
-    appId: '1:621308142785:web:93dcf8ef0e478d4eb46040',
-    databaseURL: 'https://interiorum-6c515-default-rtdb.europe-west1.firebasedatabase.app/',
+const firebaseConfig = {
+    apiKey: 'AIzaSyA81NZAR0kdRmdADvaYC0tum0dBDejLS8w',
+    authDomain: 'dare2fit-f6eb4.firebaseapp.com',
+    databaseURL: 'https://dare2fit-f6eb4-default-rtdb.europe-west1.firebasedatabase.app',
+    projectId: 'dare2fit-f6eb4',
+    storageBucket: 'dare2fit-f6eb4.appspot.com',
+    messagingSenderId: '813135937088',
+    appId: '1:813135937088:web:86c1f13ab2e808259229a5',
 };
 
 export const app = initializeApp(firebaseConfig);
