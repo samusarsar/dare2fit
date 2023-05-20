@@ -1,16 +1,16 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-import RootLayout from "./views/RootLayout/RootLayout.jsx";
-import LandingPage from "./views/LandingPage/LandingPage.jsx";
-import ActivityView from "./views/ActivityView/ActivityView.jsx";
-import ExercisesView from "./views/ExercisesView/ExercisesView.jsx";
-import GoalsView from "./views/GoalsView/GoalsView.jsx";
-import CommunityView from "./views/CommunityView/CommunityView.js";
-import ProfileView from "./views/ProfileView/ProfileView.js";
-import UserView from "./views/UserView/UserView.js";
-import MyProfileView from "./views/MyProfileView/MyProfileView.js";
-import NotFound from "./views/NotFound/NotFound.js";
+import RootLayout from './views/RootLayout/RootLayout.jsx';
+import LandingPage from './views/LandingPage/LandingPage.jsx';
+import ActivityView from './views/ActivityView/ActivityView.jsx';
+import ExercisesView from './views/ExercisesView/ExercisesView.jsx';
+import GoalsView from './views/GoalsView/GoalsView.jsx';
+import CommunityView from './views/CommunityView/CommunityView.js';
+import ProfileView from './views/ProfileView/ProfileView.js';
+import UserView from './views/UserView/UserView.js';
+import MyProfileView from './views/MyProfileView/MyProfileView.js';
+import NotFound from './views/NotFound/NotFound.js';
 
 const App: React.FC = () => {
     return (
