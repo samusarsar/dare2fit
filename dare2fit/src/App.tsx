@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { User } from 'firebase/auth';
 import { onValue, ref } from 'firebase/database';
 import { auth, db } from './config/firebase-config.js';
 import { getUserData } from './services/user.services.js';
@@ -18,7 +19,6 @@ import MyProfileView from './views/MyProfileView/MyProfileView.jsx';
 import NotFound from './views/NotFound/NotFound.jsx';
 import LogIn from './views/LogIn/LogIn.jsx';
 import SignUp from './views/SignUp/SignUp.js';
-import { User } from 'firebase/auth';
 
 const App: React.FC = () => {
     const [user, loading] = useAuthState(auth);
