@@ -5,7 +5,7 @@ import { Flex, Link, useColorModeValue } from '@chakra-ui/react';
 
 import NavButton from './NavButton';
 
-const NavBar: React.FC = ():ReactElement => {
+const SidebarWithHeader: React.FC = ():ReactElement => {
 
     return (
         <nav>
@@ -42,4 +42,4 @@ const NavBar: React.FC = ():ReactElement => {
     );
 };
 
-export default NavBar;
+export default SidebarWithHeader;

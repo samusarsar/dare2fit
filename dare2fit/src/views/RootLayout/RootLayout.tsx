@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router';
 
-import NavBar from '../../components/Navigation/NavBar.js';
+import SidebarWithHeader from '../../components/Navigation/SidebarWithHeader.js';
 import Footer from '../../components/Base/Footer.jsx';
 import { Grid, GridItem } from '@chakra-ui/react';
 
@@ -15,7 +15,7 @@ const RootLayout: React.FC = () => {
                 <GridItem
                     rowSpan={{ base: 3, md: 2 }}
                     colSpan={{ base: 2, md: 1 }}>
-                    <NavBar />
+                    <SidebarWithHeader />
                 </GridItem>
 
                 <GridItem
