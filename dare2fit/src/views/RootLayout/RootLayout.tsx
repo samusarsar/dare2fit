@@ -9,20 +9,23 @@ import { Grid, GridItem } from '@chakra-ui/react';
 const RootLayout: React.FC = () => {
     return (
         <main>
-            <Grid height={'100vh'}
-                templateAreas={`"nav main"
-                                "nav footer"`}
-                gridTemplateRows={'1fr 5%'}
+            <Grid
+                gridTemplateRows={'auto auto 5%'}
                 gridTemplateColumns='min-content 1fr'>
-                <GridItem area={'nav'}>
+                <GridItem
+                    rowSpan={{ base: 3, md: 2 }}
+                    colSpan={{ base: 2, md: 1 }}>
                     <NavBar />
                 </GridItem>
 
-                <GridItem area={'main'}>
+                <GridItem
+                    colSpan={{ base: 2, md: 1 }}
+                    rowSpan={2}>
                     <Outlet />
                 </GridItem>
 
-                <GridItem area={'footer'}>
+                <GridItem
+                    colSpan={{ base: 2, md: 1 }}>
                     <Footer />
                 </GridItem>
             </Grid>

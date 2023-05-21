@@ -7,10 +7,11 @@ const NavButton: FC<{ color: string, children: string }> = ({ color, children })
     return (
         <Link as={NavLink}
             to={children.toLowerCase()}
-            p='15px 10px'
+            p={{ base: '5px', md: '15px 10px' }}
             width='100%'
             textAlign='center'
-            fontWeight='bold'
+            fontWeight={{ md: 'bold' }}
+            fontSize={{ base: '0.8em', md: '1em' }}
             color={useColorModeValue('brand.light', 'brand.dark')}
             _activeLink={{ color: color }}
             _hover={{ textDecoration: 'none', bg: color, color: 'brand.light' }}>
