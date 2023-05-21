@@ -9,7 +9,7 @@ import App from './App';
 const theme = extendTheme({
     colors: {
         brand: {
-            light: '#FFFFFF',
+            light: '#F7FAFC',
             dark: '#1A202C',
             red: '#F24968',
             blue: '#6929F2',
