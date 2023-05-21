@@ -1,7 +1,7 @@
 import { createContext } from 'react';
-import iAppContextValue from '../../common/interfaces/iAppContextValue';
+import { IAppContextValue } from '../../common/types';
 
-export const AppContext = createContext<iAppContextValue>({
+export const AppContext = createContext<IAppContextValue>({
     user: null,
     userData: null,
     setContext: () => {

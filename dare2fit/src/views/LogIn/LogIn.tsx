@@ -1,36 +1,21 @@
-import { FC, useContext, useState } from 'react';
+import { FC, ReactElement, useContext, useState } from 'react';
 import { loginUser } from '../../services/auth.services';
 import AccountBase from '../../components/Base/AccountBase/AccountBase';
 import { Formik, Field } from 'formik';
 import { VStack, FormControl, FormLabel, Input, InputGroup, InputRightElement, FormErrorMessage, Button, HStack, Text, useColorModeValue, useToast } from '@chakra-ui/react';
 import { PASSWORD_MIN_LENGTH } from '../../common/constants';
 import { AppContext } from '../../context/AppContext/AppContext';
+import { useNavigate } from 'react-router';
 
-const LogIn: FC = () => {
+const LogIn: FC = (): ReactElement => {
     const { setContext } = useContext(AppContext);
 
     const [show, setShow] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
+    const navigate = useNavigate();
     const toast = useToast();
-
-    // const handleLogOut = () => {
-    //     logoutUser();
-    //     setContext({
-    //         user: null,
-    //         userData: null,
-    //     });
-    //     toast({
-    //         title: 'See you soon!',
-    //         description: 'You have successfully logged out.',
-    //         status: 'info',
-    //         duration: 3000,
-    //         isClosable: true,
-    //         position: 'top',
-    //         variant: 'subtle',
-    //     });
-    // };
 
     return (
         <AccountBase>
@@ -49,7 +34,7 @@ const LogIn: FC = () => {
                                 userData: null,
                             }))
                         .then(() => {
-                            // navigate(from, { replace: true });
+                            navigate('/activity');
                             toast({
                                 title: 'Welcome back!',
                                 description: 'Dare to continue your fitness journey?',
