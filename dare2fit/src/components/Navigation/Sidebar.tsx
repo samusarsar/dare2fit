@@ -9,7 +9,7 @@ const Sidebar: FC<{ onClose: () => void, display?: object }> = ({ onClose, ...re
         <Box
             transition='3s ease'
             bg={useColorModeValue('brand.dark', 'brand.light')}
-            borderRight='1px solid white'
+            borderRight={useColorModeValue('1px solid white', '1px solid black')}
             w={{ base: 'full', md: 60 }}
             pos='fixed'
             h='full'
@@ -24,7 +24,7 @@ const Sidebar: FC<{ onClose: () => void, display?: object }> = ({ onClose, ...re
                 <CloseButton
                     display={{ base: 'flex', md: 'none' }}
                     onClick={onClose}
-                    color={ useColorModeValue('white', 'black') } />
+                    color={useColorModeValue('white', 'black') } />
             </Flex>
 
             <NavButton color={'brand.red'}>
