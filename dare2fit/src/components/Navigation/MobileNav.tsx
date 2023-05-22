@@ -1,9 +1,13 @@
 import { FC, ReactElement } from 'react';
 
-import { Avatar, Box, Flex, HStack, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, VStack, useColorModeValue } from '@chakra-ui/react';
+import { Avatar, Box, Flex, HStack, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, VStack, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { FiBell, FiChevronDown, FiMenu } from 'react-icons/fi';
+import { BsMoon, BsSun } from 'react-icons/bs';
 
 const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
+
+    const { colorMode, toggleColorMode } = useColorMode();
+
     return (
         <Flex
             ml={{ base: 0, md: 60 }}
@@ -18,7 +22,7 @@ const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
                 colorScheme={useColorModeValue('white', 'black')}
                 onClick={onOpen}
                 aria-label='open menu'
-                icon={<FiMenu style={{ color: 'white' }} />}
+                icon={<FiMenu style={{ color: useColorModeValue('white', 'black') }} />}
             />
 
             <Text
@@ -30,14 +34,24 @@ const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
                 dare2fit
             </Text>
 
-            <HStack spacing={{ base: '0', md: '6' }}>
+            <HStack spacing={{ base: '0', md: '3' }}>
                 <IconButton
                     size='lg'
                     variant='ghost'
-                    colorScheme={useColorModeValue('white', 'black')}
                     aria-label='open menu'
-                    icon={<FiBell style={{ color: 'white' }} />}
+                    colorScheme={useColorModeValue('black', 'white')}
+                    icon={<FiBell style={{ color: useColorModeValue('white', 'black') }} />}
                 />
+                <IconButton
+                    size='lg'
+                    aria-label='toggle theme'
+                    variant='ghost'
+                    onClick={toggleColorMode}
+                    colorScheme={useColorModeValue('black', 'white')}
+                    icon={colorMode === 'light' ?
+                        <BsMoon style={{ color: 'white' }} /> :
+                        <BsSun style={{ color: 'black' }} />}>
+                </IconButton>
                 <Flex alignItems={'center'}>
                     <Menu>
                         <MenuButton
@@ -60,7 +74,7 @@ const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
                                     <Text
                                         fontSize='sm'
                                         color={useColorModeValue('brand.light', 'brand.dark')}>
-                                            User Name
+                                        User Name
                                     </Text>
                                     <Text
                                         fontSize='xs'

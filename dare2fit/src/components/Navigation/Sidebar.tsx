@@ -21,7 +21,10 @@ const Sidebar: FC<{ onClose: () => void, display?: object }> = ({ onClose, ...re
                     fontWeight='bold'color={useColorModeValue('brand.light', 'brand.dark')}>
                     dare2fit
                 </Text>
-                <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} color={'white'} />
+                <CloseButton
+                    display={{ base: 'flex', md: 'none' }}
+                    onClick={onClose}
+                    color={ useColorModeValue('white', 'black') } />
             </Flex>
 
             <NavButton color={'brand.red'}>
