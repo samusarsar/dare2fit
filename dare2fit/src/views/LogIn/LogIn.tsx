@@ -1,16 +1,20 @@
-import { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useContext, useState } from 'react';
+import { loginUser } from '../../services/auth.services';
 import AccountBase from '../../components/Base/AccountBase/AccountBase';
 import { Formik, Field } from 'formik';
 import { VStack, FormControl, FormLabel, Input, InputGroup, InputRightElement, FormErrorMessage, Button, HStack, Text, useColorModeValue, useToast } from '@chakra-ui/react';
 import { PASSWORD_MIN_LENGTH } from '../../common/constants';
-import { loginUser } from '../../services/auth.services';
+import { AppContext } from '../../context/AppContext/AppContext';
+import { useNavigate } from 'react-router';
 
 const LogIn: FC = (): ReactElement => {
-    const [show, setShow] = useState(false);
+    const { setContext } = useContext(AppContext);
 
+    const [show, setShow] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
+    const navigate = useNavigate();
     const toast = useToast();
 
     return (
@@ -24,12 +28,13 @@ const LogIn: FC = (): ReactElement => {
                 validateOnBlur={false}
                 onSubmit={(values) => {
                     loginUser(values.email, values.password)
-                        // .then(credential =>
-                        //     setContext({
-                        //         user: credential.user,
-                        //     }))
+                        .then(credential =>
+                            setContext({
+                                user: credential.user,
+                                userData: null,
+                            }))
                         .then(() => {
-                            // navigate(from, { replace: true });
+                            navigate('/activity');
                             toast({
                                 title: 'Welcome back!',
                                 description: 'Dare to continue your fitness journey?',
@@ -69,7 +74,7 @@ const LogIn: FC = (): ReactElement => {
                                     placeholder='Enter email' />
                                 <FormErrorMessage>Email doesn&apos;t exist.</FormErrorMessage>
                             </FormControl>
-                            <FormControl isInvalid={(!!errors.password && touched.password) || passwordError} isRequired={true} pr={4}>
+                            <FormControl isInvalid={(!!errors.password && touched.password) || !!passwordError} isRequired={true} pr={4}>
                                 <FormLabel htmlFor='password'>Password</FormLabel>
                                 <InputGroup size='md'>
                                     <Field

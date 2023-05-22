@@ -1,5 +1,11 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { User } from 'firebase/auth';
+import { onValue, ref } from 'firebase/database';
+import { auth, db } from './config/firebase-config.js';
+import { getUserData } from './services/user.services.js';
+import { AppContext } from './context/AppContext/AppContext.js';
 
 import RootLayout from './views/RootLayout/RootLayout.jsx';
 import LandingPage from './views/LandingPage/LandingPage.jsx';
@@ -15,26 +21,69 @@ import LogIn from './views/LogIn/LogIn.jsx';
 import SignUp from './views/SignUp/SignUp.js';
 
 const App: React.FC = () => {
-    return (
-        <>
-            <Routes>
-                <Route path='/' element={<RootLayout />}>
-                    <Route index element={<LandingPage />} />
-                    <Route path='login' element={<LogIn />} />
-                    <Route path='signup' element={<SignUp />} />
-                    <Route path='activity' element={<ActivityView />} />
-                    <Route path='exercises' element={<ExercisesView />} />
-                    <Route path='goals' element={<GoalsView />} />
-                    <Route path='community' element={<CommunityView />} />
-                    <Route path='profile' element={<ProfileView />}>
-                        <Route index element={<MyProfileView />} />
-                        <Route path=':user' element={<UserView />} />
-                    </Route>
-                    <Route path='*' element={<NotFound />} />
-                </Route>
-            </Routes>
-        </>
-    );
+    const [user, loading] = useAuthState(auth);
+    const [dataLoading, setDataLoading] = useState(false);
+    const [appState, setAppState] = useState({
+        user,
+        userData: null,
+    });
+
+    if (appState.user !== user) {
+        setAppState({
+            ...appState,
+            user,
+        });
+    }
+
+    useEffect(() => {
+        if (!user) {
+            return;
+        }
+
+        setDataLoading(true);
+
+        getUserData(user.uid)
+            .then(data => {
+                return onValue(ref(db, `users/${Object.keys(data)[0]}`), (snapshot) => {
+                    const userData = snapshot.val();
+                    setAppState({
+                        ...appState,
+                        userData: userData,
+                    });
+                });
+            })
+            .catch(e => alert(e.message))
+            .finally(() => setDataLoading(false));
+    }, [user]);
+
+    if (!loading && !dataLoading) {
+        return (
+            <>
+                {console.log(appState.userData)}
+                <AppContext.Provider value={{ ...appState, setContext: setAppState as Dispatch<SetStateAction<{ user: User | null | undefined; userData: null; }>> }}>
+                    <Routes>
+                        <Route path='/' element={<RootLayout />}>
+                            <Route index element={<LandingPage />} />
+                            <Route path='login' element={<LogIn />} />
+                            <Route path='signup' element={<SignUp />} />
+                            <Route path='activity' element={<ActivityView />} />
+                            <Route path='exercises' element={<ExercisesView />} />
+                            <Route path='goals' element={<GoalsView />} />
+                            <Route path='community' element={<CommunityView />} />
+                            <Route path='profile' element={<ProfileView />}>
+                                <Route index element={<MyProfileView />} />
+                                <Route path=':user' element={<UserView />} />
+                            </Route>
+                            <Route path='*' element={<NotFound />} />
+                        </Route>
+                    </Routes>
+                </AppContext.Provider>
+
+            </>
+        );
+    }
+
+    return null;
 };
 
 export default App;

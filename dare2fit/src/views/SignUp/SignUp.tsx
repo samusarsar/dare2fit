@@ -2,17 +2,17 @@
 import { FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH, PASSWORD_MIN_LENGTH, RESTRICTED_CHARS, USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH } from '../../common/constants';
 import { FormControl, FormLabel, Input, FormErrorMessage, Text, Button, HStack, Divider, VStack, useToast } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
-import { FC, ReactElement, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { FC, ReactElement, useContext, useState } from 'react';
+import { useNavigate } from 'react-router';
 import AccountBase from '../../components/Base/AccountBase/AccountBase';
-// import { AppContext } from '../../context/AppContext/AppContext';
+import { AppContext } from '../../context/AppContext/AppContext';
 import { createUser, getUserByHandle } from '../../services/user.services';
 import { registerUser } from '../../services/auth.services';
 
 const SignUp: FC = (): ReactElement => {
-    // const { setContext } = useContext(AppContext);
+    const { setContext } = useContext(AppContext);
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const [currPassword, setCurrPassword] = useState('');
     const [usernameExists, setUsernameExists] = useState(false);
@@ -34,21 +34,21 @@ const SignUp: FC = (): ReactElement => {
                 validateOnChange={false}
                 validateOnBlur={false}
                 onSubmit={(values) => {
-                    console.log(values);
                     getUserByHandle(values.username)
                         .catch(() => {
                             setUsernameExists(false);
                             return registerUser(values.email, values.password)
                                 .then(credential => {
-                                    return createUser(values.username, credential.user.uid, credential.user.email, values.firstName, values.lastName);
-                                    // .then(() =>
-                                    //     setContext({
-                                    //         user: credential.user,
-                                    //     }));
+                                    return createUser(values.username, credential.user.uid, credential.user.email, values.firstName, values.lastName)
+                                        .then(() =>
+                                            setContext({
+                                                user: credential.user,
+                                                userData: null,
+                                            }));
                                 })
                                 .then(() => {
                                     setEmailExists(false);
-                                    // navigate('/home');
+                                    navigate('/activity');
                                     toast({
                                         title: 'Welcome to dare2fit!',
                                         description: 'Get ready for your fitness journey!',
@@ -84,7 +84,7 @@ const SignUp: FC = (): ReactElement => {
                                 <FormControl isInvalid={(!!errors.username && touched.username) || usernameExists} isRequired={true} pr={4}>
                                     <FormLabel htmlFor='username'>Username</FormLabel>
                                     <Field as={Input} id='username' name='username' type='text' placeholder='johndoe'
-                                        validate={async (value: string) => {
+                                        validate={(value: string) => {
                                             return (value.length < USERNAME_MIN_LENGTH || value.length > USERNAME_MAX_LENGTH) ?
                                                 'Username must be between 2 and 20 characters.' :
                                                 RESTRICTED_CHARS.some(c => value.includes(c)) ?
