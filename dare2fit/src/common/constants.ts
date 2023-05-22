@@ -11,7 +11,14 @@ export const GOAL_NAME_MIN_LENGTH = 4;
 export const GOAL_NAME_MAX_LENGTH = 30;
 export const PASSWORD_MIN_LENGTH = 6;
 export const RESTRICTED_CHARS: string[] = ['.', '#', '$', '[', ']'];
-export const BASE_ROLE = 'base';
-export const WANT_ADMIN_ROLE = 'wantAdmin';
-export const ADMIN_ROLE = 'admin';
-export const BLOCKED_ROLE = 'blocked';
+// export const BASE_ROLE = 'base';
+// export const WANT_ADMIN_ROLE = 'wantAdmin';
+// export const ADMIN_ROLE = 'admin';
+// export const BLOCKED_ROLE = 'blocked';
+
+export enum Roles {
+    Base = 'base',
+    WantAdmin = 'wantAdmin',
+    Admin = 'admin',
+    Blocked = 'blocked',
+}
