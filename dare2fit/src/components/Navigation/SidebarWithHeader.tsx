@@ -1,44 +1,36 @@
 import React, { ReactElement } from 'react';
-import { NavLink } from 'react-router-dom';
 
-import { Flex, Link, useColorModeValue } from '@chakra-ui/react';
+import { Box, Drawer, DrawerContent, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 
-import NavButton from './NavButton';
+import Sidebar from './Sidebar';
+import MobileNav from './MobileNav';
 
-const SidebarWithHeader: React.FC = ():ReactElement => {
+const SidebarWithHeader: React.FC<{ children: ReactElement }> = ({ children }): ReactElement => {
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
-        <nav>
-            <Flex
-                flexDirection='column'
-                justifyContent='space-evenly'
-                alignItems='center'
-                bg={useColorModeValue('brand.dark', 'brand.light')}
-                minHeight={{ base: 'auto', md: '100vh' }}
-            >
-                <Link as={NavLink} // TODO - replace with profile picture
-                    to='profile'
-                    color={useColorModeValue('brand.light', 'brand.dark')}>
-                    Profile
-                </Link>
-
-                <NavButton color={'brand.red'}>
-                    Activity
-                </NavButton>
-
-                <NavButton color={'brand.blue'}>
-                    Exercises
-                </NavButton>
-
-                <NavButton color={'brand.green'}>
-                    Goals
-                </NavButton>
-
-                <NavButton color={'brand.yellow'}>
-                    Community
-                </NavButton>
-            </Flex>
-        </nav>
+        <Box minH="100vh" bg={useColorModeValue('brand.light', 'brand.dark')}>
+            <Sidebar
+                onClose={() => onClose}
+                display={{ base: 'none', md: 'block' }} />
+            <Drawer
+                autoFocus={false}
+                isOpen={isOpen}
+                placement='left'
+                onClose={() => onClose}
+                returnFocusOnClose={false}
+                onOverlayClick={() => onClose}
+                size='full'>
+                <DrawerContent>
+                    <Sidebar onClose={onClose} />
+                </DrawerContent>
+            </Drawer>
+            <MobileNav onOpen={onOpen} />
+            <Box ml={{ base: 0, md: 60 }} p='4'>
+                { children }
+            </Box>
+        </Box>
     );
 };
 
