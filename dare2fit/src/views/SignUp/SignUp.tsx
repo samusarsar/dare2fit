@@ -1,6 +1,6 @@
 // eslint-disable-next-line max-len
 import { FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH, PASSWORD_MIN_LENGTH, RESTRICTED_CHARS, USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH } from '../../common/constants';
-import { FormControl, FormLabel, Input, FormErrorMessage, Text, Button, HStack, Divider, VStack, useToast, useColorModeValue } from '@chakra-ui/react';
+import { FormControl, FormLabel, Input, FormErrorMessage, Text, Button, HStack, Divider, VStack, useToast } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
 import { FC, ReactElement, useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -81,7 +81,7 @@ const SignUp: FC = (): ReactElement => {
                             <VStack>
                                 <FormControl isInvalid={(!!errors.username && touched.username) || usernameExists} isRequired={true} pr={4}>
                                     <FormLabel htmlFor='username'>Username</FormLabel>
-                                    <Field as={Input} id='username' name='username' type='text' placeholder='johndoe' borderColor={useColorModeValue('brand.light', 'brand.dark')}
+                                    <Field as={Input} id='username' name='username' type='text' placeholder='johndoe'
                                         validate={(value: string) => {
                                             return (value.length < USERNAME_MIN_LENGTH || value.length > USERNAME_MAX_LENGTH) ?
                                                 'Username must be between 2 and 20 characters.' :
@@ -93,7 +93,7 @@ const SignUp: FC = (): ReactElement => {
                                 </FormControl>
                                 <FormControl isInvalid={!!errors.password && touched.password} isRequired={true} pr={4}>
                                     <FormLabel htmlFor='password'>Password</FormLabel>
-                                    <Field as={Input} id='password' name='password' type='password' borderColor={useColorModeValue('brand.light', 'brand.dark')}
+                                    <Field as={Input} id='password' name='password' type='password'
                                         validate={(value: string) => {
                                             return value.length < PASSWORD_MIN_LENGTH ?
                                                 'Password should be more than 6 characters.' :
@@ -102,11 +102,11 @@ const SignUp: FC = (): ReactElement => {
                                     <FormErrorMessage>{errors.password}</FormErrorMessage>
                                 </FormControl>
                             </VStack>
-                            <Divider orientation='vertical' borderColor={useColorModeValue('brand.light', 'brand.dark')} />
+                            <Divider orientation='vertical' />
                             <VStack pl={4}>
                                 <FormControl isInvalid={!!errors.firstName && touched.firstName} isRequired={true}>
                                     <FormLabel>First Name</FormLabel>
-                                    <Field as={Input} id='firstName' name='firstName' type='text' placeholder='John' borderColor={useColorModeValue('brand.light', 'brand.dark')}
+                                    <Field as={Input} id='firstName' name='firstName' type='text' placeholder='John'
                                         validate={(value: string) => {
                                             return (value.length < FIRST_NAME_MIN_LENGTH || value.length > FIRST_NAME_MAX_LENGTH) ?
                                                 'First name should be between 3 and 32 characters.' :
@@ -116,7 +116,7 @@ const SignUp: FC = (): ReactElement => {
                                 </FormControl>
                                 <FormControl isInvalid={!!errors.lastName && touched.lastName} isRequired={true}>
                                     <FormLabel>Last Name</FormLabel>
-                                    <Field as={Input} id='lastName' name='lastName' type='text' placeholder='Doe' borderColor={useColorModeValue('brand.light', 'brand.dark')}
+                                    <Field as={Input} id='lastName' name='lastName' type='text' placeholder='Doe'
                                         validate={(value: string) => {
                                             return (value.length < LAST_NAME_MIN_LENGTH || value.length > LAST_NAME_MAX_LENGTH) ?
                                                 'Last name should be between 3 and 32 characters.' :
@@ -126,8 +126,7 @@ const SignUp: FC = (): ReactElement => {
                                 </FormControl>
                                 <FormControl isInvalid={emailExists} isRequired={true} >
                                     <FormLabel>Email</FormLabel>
-                                    <Field as={Input} id='email' name='email' type='email' placeholder='johndoe@dare2fit.bg'
-                                        borderColor={useColorModeValue('brand.light', 'brand.dark')}/>
+                                    <Field as={Input} id='email' name='email' type='email' placeholder='johndoe@dare2fit.bg'/>
                                     <FormErrorMessage>Email is already in use.</FormErrorMessage>
                                 </FormControl>
                             </VStack>
@@ -135,7 +134,7 @@ const SignUp: FC = (): ReactElement => {
                         <VStack mb={8}>
                             <HStack>
                                 <Button colorScheme='yellow' type='submit' >Sign Up</Button>
-                                <Button colorScheme='whiteAlpha' >Cancel</Button>
+                                <Button>Cancel</Button>
                             </HStack>
                             <Text fontSize='sm'>Already have an account?
                                 <Button colorScheme='pink' variant='link' ml={2} >Log In</Button>

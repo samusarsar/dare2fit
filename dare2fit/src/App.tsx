@@ -1,7 +1,6 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { User } from 'firebase/auth';
 import { onValue, ref } from 'firebase/database';
 import { auth, db } from './config/firebase-config.js';
 import { getUserData } from './services/user.services.js';
@@ -60,7 +59,7 @@ const App: React.FC = () => {
         return (
             <>
                 {console.log(appState.userData)}
-                <AppContext.Provider value={{ ...appState, setContext: setAppState as Dispatch<SetStateAction<{ user: User | null | undefined; userData: null; }>> }}>
+                <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
                     <Routes>
                         <Route path='/' element={<RootLayout />}>
                             <Route index element={<LandingPage />} />

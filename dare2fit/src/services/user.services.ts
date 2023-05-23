@@ -1,6 +1,6 @@
 import { get, set, ref, query, equalTo, orderByChild } from 'firebase/database';
 import { db } from '../config/firebase-config';
-import { BASE_ROLE } from '../common/constants.js';
+import { Roles } from '../common/constants.js';
 import moment from 'moment';
 
 export const getUserByHandle = (handle: string) => {
@@ -23,7 +23,7 @@ export const createUser = (handle: string, uid: string, email: string | null, fi
         createdOn: createdOn,
         firstName,
         lastName,
-        role: BASE_ROLE,
+        role: Roles.Base,
     });
 };
 

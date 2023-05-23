@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { Flex, Link, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Link } from '@chakra-ui/react';
 
 const NavButton: FC<{ color: string, children: string }> = ({ color, children }) => {
     return (
@@ -13,7 +13,6 @@ const NavButton: FC<{ color: string, children: string }> = ({ color, children })
             width='100%'
             textAlign='center'
             fontWeight='bold'
-            color={useColorModeValue('brand.light', 'brand.dark')}
             _activeLink={{ color: color }}
             _focus={{ boxShadow: 'none' }}
         >

@@ -8,9 +8,10 @@ import MobileNav from './MobileNav';
 const SidebarWithHeader: React.FC<{ children: ReactElement }> = ({ children }): ReactElement => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const bg = useColorModeValue('brand.light', 'brand.dark');
 
     return (
-        <Box minH="100vh" bg={useColorModeValue('brand.light', 'brand.dark')}>
+        <Box minH="100vh" bg={bg}>
             <Sidebar
                 onClose={() => onClose}
                 display={{ base: 'none', md: 'block' }} />

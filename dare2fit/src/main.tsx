@@ -9,15 +9,15 @@ import App from './App';
 const theme = extendTheme({
     colors: {
         brand: {
+            white: '#FFFFFF',
             light: '#F7FAFC',
-            dark: '#1A202C',
             red: '#F24968',
             blue: '#6929F2',
             purple: '#9B72F2',
             green: '#14D990',
             yellow: '#F2B807',
-            white: '#FFFFFF',
-            gray: '#2D3748',
+            grey: '#2D3748',
+            dark: '#1A202C',
         },
     },
 });

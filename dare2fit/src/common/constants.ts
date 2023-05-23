@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export const USERNAME_MIN_LENGTH = 2;
 export const USERNAME_MAX_LENGTH = 20;
 export const FIRST_NAME_MIN_LENGTH = 3;
@@ -11,10 +12,14 @@ export const GOAL_NAME_MIN_LENGTH = 4;
 export const GOAL_NAME_MAX_LENGTH = 30;
 export const PASSWORD_MIN_LENGTH = 6;
 export const RESTRICTED_CHARS: string[] = ['.', '#', '$', '[', ']'];
-export const BASE_ROLE = 'base';
-export const WANT_ADMIN_ROLE = 'wantAdmin';
-export const ADMIN_ROLE = 'admin';
-export const BLOCKED_ROLE = 'blocked';
+
+// eslint-disable-next-line no-shadow
+export enum Roles {
+    Base = 'base',
+    WantAdmin = 'wantAdmin',
+    Admin = 'admin',
+    Blocked = 'blocked',
+}
 export const COLOR_BRAND_LIGHT = '#F7FAFC';
 export const COLOR_BRAND_DARK = '#1A202C';
 export const COLOR_BRAND_RED = '#F24968';
