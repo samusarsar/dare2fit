@@ -1,9 +1,40 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
+import { useNavigate } from 'react-router';
 
-import { Avatar, Box, HStack, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, VStack, useColorModeValue } from '@chakra-ui/react';
+import { Avatar, Box, HStack, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, VStack, useColorModeValue, useToast } from '@chakra-ui/react';
 import { FiChevronDown } from 'react-icons/fi';
 
+import { AppContext } from '../../context/AppContext/AppContext';
+import { logoutUser } from '../../services/auth.services';
+
+
 const UserMenu: FC = () => {
+    const { userData, setContext } = useContext(AppContext);
+    const navigate = useNavigate();
+    const toast = useToast();
+
+    const handleLogout = () => {
+        logoutUser()
+            .then(() => {
+                setContext({
+                    user: null,
+                    userData: null,
+                });
+            })
+            .then(() => {
+                navigate('../');
+                toast({
+                    title: 'See you soon!',
+                    description: 'You have successfully logged out.',
+                    status: 'info',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'top',
+                    variant: 'subtle',
+                });
+            });
+    };
+
     return (
         <Menu>
             <MenuButton
@@ -13,10 +44,6 @@ const UserMenu: FC = () => {
                 <HStack>
                     <Avatar
                         size={'sm'}
-                        src={
-                            // eslint-disable-next-line max-len
-                            'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                        }
                     />
                     <VStack
                         display={{ base: 'none', md: 'flex' }}
@@ -26,12 +53,12 @@ const UserMenu: FC = () => {
                         <Text
                             fontSize='sm'
                             color={useColorModeValue('brand.light', 'brand.dark')}>
-                            User Name
+                            {userData?.firstName + ' ' + userData?.lastName}
                         </Text>
                         <Text
                             fontSize='xs'
                             color={useColorModeValue('gray.200', 'gray.700')}>
-                            user role
+                            {userData?.role}
                         </Text>
                     </VStack>
                     <Box display={{ base: 'none', md: 'flex' }}>
@@ -44,10 +71,9 @@ const UserMenu: FC = () => {
                 borderColor={useColorModeValue('gray.200', 'gray.700')}>
                 <MenuItem>Profile</MenuItem>
                 <MenuDivider />
-                <MenuItem>Sign out</MenuItem>
+                <MenuItem color='red.500' onClick={() => handleLogout()}>Log out</MenuItem>
             </MenuList>
         </Menu>
-
     );
 };
 
