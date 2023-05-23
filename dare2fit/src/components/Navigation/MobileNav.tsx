@@ -1,12 +1,17 @@
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
-import { Avatar, Box, Flex, HStack, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, VStack, useColorMode, useColorModeValue } from '@chakra-ui/react';
-import { FiBell, FiChevronDown, FiMenu } from 'react-icons/fi';
+import { Button, Flex, HStack, IconButton, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { FiBell, FiMenu } from 'react-icons/fi';
 import { BsMoon, BsSun } from 'react-icons/bs';
 
-const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
+import UserMenu from './UserMenu';
+import { AppContext } from '../../context/AppContext/AppContext';
 
+const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
+    const { user, userData } = useContext(AppContext);
     const { colorMode, toggleColorMode } = useColorMode();
+    const bg = useColorModeValue('brand.white', 'brand.grey');
 
     return (
         <Flex
@@ -14,21 +19,19 @@ const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
             px={{ base: 4, md: 4 }}
             height='20'
             alignItems='center'
-            bg={useColorModeValue('brand.dark', 'brand.light')}
+            bg={bg}
             borderBottomWidth='1px'
             justifyContent={{ base: 'space-between', md: 'flex-end' }}>
             <IconButton
                 display={{ base: 'flex', md: 'none' }}
-                colorScheme={useColorModeValue('white', 'black')}
                 onClick={onOpen}
                 aria-label='open menu'
-                icon={<FiMenu style={{ color: useColorModeValue('white', 'black') }} />}
+                icon={<FiMenu />}
             />
 
             <Text
                 display={{ base: 'flex', md: 'none' }}
                 fontSize='2xl'
-                color={useColorModeValue('brand.light', 'brand.dark')}
                 fontFamily='monospace'
                 fontWeight='bold'>
                 dare2fit
@@ -37,65 +40,29 @@ const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
             <HStack spacing={{ base: '0', md: '3' }}>
                 <IconButton
                     size='lg'
-                    variant='ghost'
-                    aria-label='open menu'
-                    colorScheme={useColorModeValue('black', 'white')}
-                    icon={<FiBell style={{ color: useColorModeValue('white', 'black') }} />}
-                />
-                <IconButton
-                    size='lg'
                     aria-label='toggle theme'
                     variant='ghost'
                     onClick={toggleColorMode}
-                    colorScheme={useColorModeValue('black', 'white')}
-                    icon={colorMode === 'light' ?
-                        <BsMoon style={{ color: 'white' }} /> :
-                        <BsSun style={{ color: 'black' }} />}>
+                    icon={colorMode === 'light' ? <BsMoon /> : <BsSun />}>
                 </IconButton>
-                <Flex alignItems={'center'}>
-                    <Menu>
-                        <MenuButton
-                            py={2}
-                            transition='all 0.3s'
-                            _focus={{ boxShadow: 'none' }}>
-                            <HStack>
-                                <Avatar
-                                    size={'sm'}
-                                    src={
-                                        // eslint-disable-next-line max-len
-                                        'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                                    }
-                                />
-                                <VStack
-                                    display={{ base: 'none', md: 'flex' }}
-                                    alignItems='flex-start'
-                                    spacing='1px'
-                                    ml='2'>
-                                    <Text
-                                        fontSize='sm'
-                                        color={useColorModeValue('brand.light', 'brand.dark')}>
-                                        User Name
-                                    </Text>
-                                    <Text
-                                        fontSize='xs'
-                                        color={useColorModeValue('gray.200', 'gray.700')}>
-                                        userRole
-                                    </Text>
-                                </VStack>
-                                <Box display={{ base: 'none', md: 'flex' }}>
-                                    <FiChevronDown style={{ color: 'white' }} />
-                                </Box>
-                            </HStack>
-                        </MenuButton>
-                        <MenuList
-                            bg={useColorModeValue('white', 'gray.900')}
-                            borderColor={useColorModeValue('gray.200', 'gray.700')}>
-                            <MenuItem>Profile</MenuItem>
-                            <MenuDivider />
-                            <MenuItem>Sign out</MenuItem>
-                        </MenuList>
-                    </Menu>
-                </Flex>
+
+
+                {(user && userData) ? (
+                    <>
+                        <IconButton
+                            size='lg'
+                            variant='ghost'
+                            aria-label='open menu'
+                            icon={<FiBell />}
+                        />
+                        <Flex alignItems={'center'}>
+                            <UserMenu />
+                        </Flex>
+                    </>
+                ) : (
+                    <Button as={Link} to='/login' colorScheme='purple'>Log in</ Button>
+                )}
+
             </HStack>
         </Flex>
     );

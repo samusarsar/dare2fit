@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export const USERNAME_MIN_LENGTH = 2;
 export const USERNAME_MAX_LENGTH = 20;
 export const FIRST_NAME_MIN_LENGTH = 3;
@@ -11,13 +12,15 @@ export const GOAL_NAME_MIN_LENGTH = 4;
 export const GOAL_NAME_MAX_LENGTH = 30;
 export const PASSWORD_MIN_LENGTH = 6;
 export const RESTRICTED_CHARS: string[] = ['.', '#', '$', '[', ']'];
-export const BASE_ROLE = 'base';
-export const WANT_ADMIN_ROLE = 'wantAdmin';
-export const ADMIN_ROLE = 'admin';
-export const BLOCKED_ROLE = 'blocked';
+
 export const ACCEPTED_IMAGE_TYPES: string[] = ['image/jpg', 'image/jpeg', 'image/png'];
 export const TYPES_TO_STEPS = ['walking'];
 export const TYPES_TO_KM = ['running', 'cycling'];
 export const TYPES_TO_M = ['swimming'];
 export const TYPES_TO_MINS = ['stretching', 'hi-cardio', 'lo-cardio'];
 export const TYPES_TO_REPS = ['arms', 'chest', 'back', 'core', 'legs'];
+
+export const BASE_ROLE = 'base';
+export const WANT_ADMIN_ROLE = 'wantAdmin';
+export const ADMIN_ROLE = 'admin';
+export const BLOCKED_ROLE = 'blocked';

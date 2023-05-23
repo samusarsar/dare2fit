@@ -2,10 +2,10 @@ import { FC, ReactElement, useContext, useState } from 'react';
 import { loginUser } from '../../services/auth.services';
 import AccountBase from '../../components/Base/AccountBase/AccountBase';
 import { Formik, Field } from 'formik';
-import { VStack, FormControl, FormLabel, Input, InputGroup, InputRightElement, FormErrorMessage, Button, HStack, Text, useColorModeValue, useToast } from '@chakra-ui/react';
+import { VStack, FormControl, FormLabel, Input, InputGroup, InputRightElement, FormErrorMessage, Button, HStack, Text, useToast } from '@chakra-ui/react';
 import { PASSWORD_MIN_LENGTH } from '../../common/constants';
 import { AppContext } from '../../context/AppContext/AppContext';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 const LogIn: FC = (): ReactElement => {
     const { setContext } = useContext(AppContext);
@@ -15,6 +15,8 @@ const LogIn: FC = (): ReactElement => {
     const [passwordError, setPasswordError] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
+
     const toast = useToast();
 
     return (
@@ -34,7 +36,7 @@ const LogIn: FC = (): ReactElement => {
                                 userData: null,
                             }))
                         .then(() => {
-                            navigate('/activity');
+                            navigate(location.state || '/activity', { replace: true });
                             toast({
                                 title: 'Welcome back!',
                                 description: 'Dare to continue your fitness journey?',
@@ -63,7 +65,7 @@ const LogIn: FC = (): ReactElement => {
             >
                 {({ handleSubmit, errors, touched }) => (
                     <form onSubmit={handleSubmit}>
-                        <VStack p={10} color={useColorModeValue('brand.light', 'brand.dark')}>
+                        <VStack p={10}>
                             <FormControl pr={4} isInvalid={emailError}>
                                 <FormLabel htmlFor='email'>Email</FormLabel>
                                 <Field
@@ -89,7 +91,7 @@ const LogIn: FC = (): ReactElement => {
                                                 null;
                                         }}/>
                                     <InputRightElement width='4.5rem'>
-                                        <Button colorScheme='blackAlpha' size='sm' onClick={() => setShow(!show)}>
+                                        <Button size='sm' onClick={() => setShow(!show)}>
                                             {show ? 'Hide' : 'Show'}
                                         </Button>
                                     </InputRightElement>
@@ -100,7 +102,7 @@ const LogIn: FC = (): ReactElement => {
                         <VStack mb={8}>
                             <HStack>
                                 <Button type='submit' colorScheme='purple'>Log In</Button>
-                                <Button colorScheme='whiteAlpha'>Cancel</Button>
+                                <Button>Cancel</Button>
                             </HStack>
                             <Text fontSize='sm'>Not yet a member? Join us now!
                                 <Button colorScheme='yellow' variant='link' ml={2}>Sign Up</Button>

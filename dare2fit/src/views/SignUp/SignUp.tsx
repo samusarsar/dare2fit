@@ -14,7 +14,6 @@ const SignUp: FC = (): ReactElement => {
 
     const navigate = useNavigate();
 
-    const [currPassword, setCurrPassword] = useState('');
     const [usernameExists, setUsernameExists] = useState(false);
     const [emailExists, setEmailExists] = useState(false);
 
@@ -27,7 +26,6 @@ const SignUp: FC = (): ReactElement => {
                     username: '',
                     email: '',
                     password: '',
-                    rePassword: '',
                     firstName: '',
                     lastName: '',
                 }}
@@ -97,22 +95,11 @@ const SignUp: FC = (): ReactElement => {
                                     <FormLabel htmlFor='password'>Password</FormLabel>
                                     <Field as={Input} id='password' name='password' type='password'
                                         validate={(value: string) => {
-                                            setCurrPassword(value);
                                             return value.length < PASSWORD_MIN_LENGTH ?
                                                 'Password should be more than 6 characters.' :
                                                 null;
                                         }}/>
                                     <FormErrorMessage>{errors.password}</FormErrorMessage>
-                                </FormControl>
-                                <FormControl isInvalid={!!errors.rePassword && touched.rePassword} isRequired={true} pr={4}>
-                                    <FormLabel htmlFor='rePassword'>Confirm</FormLabel>
-                                    <Field as={Input} id='rePassword' name='rePassword' type='password'
-                                        validate={(value: string) => {
-                                            return value !== currPassword ?
-                                                'Password confirmation does not match.' :
-                                                null;
-                                        }}/>
-                                    <FormErrorMessage>{errors.rePassword}</FormErrorMessage>
                                 </FormControl>
                             </VStack>
                             <Divider orientation='vertical' />
@@ -139,7 +126,7 @@ const SignUp: FC = (): ReactElement => {
                                 </FormControl>
                                 <FormControl isInvalid={emailExists} isRequired={true} >
                                     <FormLabel>Email</FormLabel>
-                                    <Field as={Input} id='email' name='email' type='email' placeholder='johndoe@dare2fit.bg' />
+                                    <Field as={Input} id='email' name='email' type='email' placeholder='johndoe@dare2fit.bg'/>
                                     <FormErrorMessage>Email is already in use.</FormErrorMessage>
                                 </FormControl>
                             </VStack>
@@ -147,7 +134,7 @@ const SignUp: FC = (): ReactElement => {
                         <VStack mb={8}>
                             <HStack>
                                 <Button colorScheme='yellow' type='submit' >Sign Up</Button>
-                                <Button colorScheme='whiteAlpha' >Cancel</Button>
+                                <Button>Cancel</Button>
                             </HStack>
                             <Text fontSize='sm'>Already have an account?
                                 <Button colorScheme='pink' variant='link' ml={2} >Log In</Button>
