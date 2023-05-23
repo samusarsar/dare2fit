@@ -11,6 +11,7 @@ import { AppContext } from '../../context/AppContext/AppContext';
 const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
     const { user, userData } = useContext(AppContext);
     const { colorMode, toggleColorMode } = useColorMode();
+    const bg = useColorModeValue('brand.white', 'brand.grey');
 
     return (
         <Flex
@@ -18,21 +19,19 @@ const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
             px={{ base: 4, md: 4 }}
             height='20'
             alignItems='center'
-            bg={useColorModeValue('brand.dark', 'brand.light')}
+            bg={bg}
             borderBottomWidth='1px'
             justifyContent={{ base: 'space-between', md: 'flex-end' }}>
             <IconButton
                 display={{ base: 'flex', md: 'none' }}
-                colorScheme={useColorModeValue('white', 'black')}
                 onClick={onOpen}
                 aria-label='open menu'
-                icon={<FiMenu style={{ color: useColorModeValue('white', 'black') }} />}
+                icon={<FiMenu />}
             />
 
             <Text
                 display={{ base: 'flex', md: 'none' }}
                 fontSize='2xl'
-                color={useColorModeValue('brand.light', 'brand.dark')}
                 fontFamily='monospace'
                 fontWeight='bold'>
                 dare2fit
@@ -44,10 +43,7 @@ const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
                     aria-label='toggle theme'
                     variant='ghost'
                     onClick={toggleColorMode}
-                    colorScheme={useColorModeValue('black', 'white')}
-                    icon={colorMode === 'light' ?
-                        <BsMoon style={{ color: 'white' }} /> :
-                        <BsSun style={{ color: 'black' }} />}>
+                    icon={colorMode === 'light' ? <BsMoon /> : <BsSun />}>
                 </IconButton>
 
 
@@ -57,8 +53,7 @@ const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
                             size='lg'
                             variant='ghost'
                             aria-label='open menu'
-                            // colorScheme={useColorModeValue('black', 'white')}
-                            // icon={<FiBell style={{ color: useColorModeValue('white', 'black') }} />}
+                            icon={<FiBell />}
                         />
                         <Flex alignItems={'center'}>
                             <UserMenu />

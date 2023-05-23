@@ -5,11 +5,13 @@ import { Box, CloseButton, Flex, Text, useColorModeValue } from '@chakra-ui/reac
 import NavButton from './NavButton';
 
 const Sidebar: FC<{ onClose: () => void, display?: object }> = ({ onClose, ...rest }): ReactElement => {
+    const bg = useColorModeValue('brand.white', 'brand.grey');
+
     return (
         <Box
             transition='3s ease'
-            bg={useColorModeValue('brand.dark', 'brand.light')}
-            borderRight={useColorModeValue('1px solid white', '1px solid black')}
+            bg={bg}
+            borderRightWidth='1px'
             w={{ base: 'full', md: 60 }}
             pos='fixed'
             h='full'
@@ -18,13 +20,12 @@ const Sidebar: FC<{ onClose: () => void, display?: object }> = ({ onClose, ...re
                 <Text
                     fontSize='2xl'
                     fontFamily='monospace'
-                    fontWeight='bold'color={useColorModeValue('brand.light', 'brand.dark')}>
+                    fontWeight='bold'>
                     dare2fit
                 </Text>
                 <CloseButton
                     display={{ base: 'flex', md: 'none' }}
-                    onClick={onClose}
-                    color={useColorModeValue('white', 'black') } />
+                    onClick={onClose}/>
             </Flex>
 
             <NavButton color={'brand.red'}>
