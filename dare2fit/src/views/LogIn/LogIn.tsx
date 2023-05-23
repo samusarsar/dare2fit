@@ -5,7 +5,7 @@ import { Formik, Field } from 'formik';
 import { VStack, FormControl, FormLabel, Input, InputGroup, InputRightElement, FormErrorMessage, Button, HStack, Text, useToast } from '@chakra-ui/react';
 import { PASSWORD_MIN_LENGTH } from '../../common/constants';
 import { AppContext } from '../../context/AppContext/AppContext';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 const LogIn: FC = (): ReactElement => {
     const { setContext } = useContext(AppContext);
@@ -15,6 +15,8 @@ const LogIn: FC = (): ReactElement => {
     const [passwordError, setPasswordError] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
+
     const toast = useToast();
 
     return (
@@ -34,7 +36,7 @@ const LogIn: FC = (): ReactElement => {
                                 userData: null,
                             }))
                         .then(() => {
-                            navigate('/activity');
+                            navigate(location.state || '/activity', { replace: true });
                             toast({
                                 title: 'Welcome back!',
                                 description: 'Dare to continue your fitness journey?',
