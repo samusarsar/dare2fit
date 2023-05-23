@@ -24,11 +24,14 @@ export type IDuration = {
 }
 
 export interface IGoal {
+    name?: string;
+    goalId: string;
     category: string;
     type: string;
     duration?: IDuration;
-    repeatEvery?: string;
+    repeat?: string;
     target: number;
+    units: string;
     author: string;
     isExpired?: boolean;
     initDate?: string;

@@ -4,16 +4,14 @@ import { FC, useState } from 'react';
 import { IGoal } from '../../../common/types';
 import { COLOR_BRAND_BLUE, COLOR_BRAND_GREEN, COLOR_BRAND_RED, COLOR_BRAND_YELLOW } from '../../../common/constants';
 import { useColorModeValue } from '@chakra-ui/color-mode';
-import { Tooltip } from '@chakra-ui/tooltip';
-import { Button } from '@chakra-ui/button';
 import { Icon } from '@chakra-ui/icon';
 import { AiOutlineCheck } from 'react-icons/ai';
 
 const HabitRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
     let hoverText: string;
-    const habitProgress = goal[goal.author] / goal.target * 100;
+    const habitProgress = (goal[goal.author] as number) / goal.target * 100;
     const habitProgressText = `${habitProgress.toFixed(0)}%`;
-    const habitUnitsLeft = goal.target - goal[goal.author];
+    const habitUnitsLeft = goal.target - (goal[goal.author] as number);
     const habitUnitsLeftText = `${habitUnitsLeft.toFixed(0)} ${goal.units} left`;
     const circleInfoColor = habitProgress < 50 ? COLOR_BRAND_RED :
         habitProgress < 80 ? COLOR_BRAND_YELLOW :
@@ -45,7 +43,7 @@ const HabitRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
         'id': `${hoverText}`,
         'data': [
             {
-                'y': parseInt(goal[goal.author]),
+                'y': goal[goal.author] as number,
             },
         ],
     }];
@@ -86,7 +84,7 @@ const HabitRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
                 onMouseLeave={() => setCircleInfo(habitProgressText)}>
                 {habitProgress < 100 ?
                     <Text textAlign='center' fontSize='lg'>{circleInfo}</Text> :
-                    <Icon as={AiOutlineCheck} fontSize='3xl' />}
+                    <Icon as={AiOutlineCheck} fontSize='3xl'/>}
             </VStack>
         </Box>
     );
