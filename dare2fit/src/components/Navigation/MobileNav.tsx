@@ -1,14 +1,15 @@
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
-import { Flex, HStack, IconButton, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { Button, Flex, HStack, IconButton, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { FiBell, FiMenu } from 'react-icons/fi';
 import { BsMoon, BsSun } from 'react-icons/bs';
 
-
 import UserMenu from './UserMenu';
+import { AppContext } from '../../context/AppContext/AppContext';
 
 const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
-
+    const { user, userData } = useContext(AppContext);
     const { colorMode, toggleColorMode } = useColorMode();
 
     return (
@@ -49,16 +50,24 @@ const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
                         <BsSun style={{ color: 'black' }} />}>
                 </IconButton>
 
-                <IconButton
-                    size='lg'
-                    variant='ghost'
-                    aria-label='open menu'
-                    colorScheme={useColorModeValue('black', 'white')}
-                    icon={<FiBell style={{ color: useColorModeValue('white', 'black') }} />}
-                />
-                <Flex alignItems={'center'}>
-                    <UserMenu />
-                </Flex>
+
+                {(user && userData) ? (
+                    <>
+                        <IconButton
+                            size='lg'
+                            variant='ghost'
+                            aria-label='open menu'
+                            // colorScheme={useColorModeValue('black', 'white')}
+                            // icon={<FiBell style={{ color: useColorModeValue('white', 'black') }} />}
+                        />
+                        <Flex alignItems={'center'}>
+                            <UserMenu />
+                        </Flex>
+                    </>
+                ) : (
+                    <Button as={Link} to='/login' colorScheme='purple'>Log in</ Button>
+                )}
+
             </HStack>
         </Flex>
     );
