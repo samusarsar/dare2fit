@@ -1,6 +1,6 @@
 import { get, set, ref, query, equalTo, orderByChild } from 'firebase/database';
 import { db } from '../config/firebase-config';
-import { BASE_ROLE, Roles } from '../common/constants.js';
+import { Roles } from '../common/constants.js';
 import moment from 'moment';
 
 export const getUserByHandle = (handle: string) => {
