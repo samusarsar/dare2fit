@@ -49,7 +49,7 @@ const HabitRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
     }];
 
     return (
-        <Box h='100%' w='200px' position='relative'>
+        <Box h='100%' w='280px' position='relative'>
             <ResponsiveRadialBar
                 data={radialData}
                 maxValue={goal.target}
