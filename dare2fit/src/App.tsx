@@ -18,6 +18,7 @@ import MyProfileView from './views/MyProfileView/MyProfileView.jsx';
 import NotFound from './views/NotFound/NotFound.jsx';
 import LogIn from './views/LogIn/LogIn.jsx';
 import SignUp from './views/SignUp/SignUp.js';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.js';
 
 const App: React.FC = () => {
     const [user, loading] = useAuthState(auth);
@@ -58,21 +59,24 @@ const App: React.FC = () => {
     if (!loading && !dataLoading) {
         return (
             <>
-                {console.log(appState.userData)}
+                {/* {console.log(appState.userData)} */}
                 <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
                     <Routes>
                         <Route path='/' element={<RootLayout />}>
                             <Route index element={<LandingPage />} />
                             <Route path='login' element={<LogIn />} />
                             <Route path='signup' element={<SignUp />} />
-                            <Route path='activity' element={<ActivityView />} />
-                            <Route path='exercises' element={<ExercisesView />} />
-                            <Route path='goals' element={<GoalsView />} />
-                            <Route path='community' element={<CommunityView />} />
-                            <Route path='profile' element={<ProfileView />}>
-                                <Route index element={<MyProfileView />} />
-                                <Route path=':user' element={<UserView />} />
+                            <Route element={<ProtectedRoute />} >
+                                <Route path='activity' element={<ActivityView />} />
+                                <Route path='exercises' element={<ExercisesView />} />
+                                <Route path='goals' element={<GoalsView />} />
+                                <Route path='community' element={<CommunityView />} />
+                                <Route path='profile' element={<ProfileView />}>
+                                    <Route index element={<MyProfileView />} />
+                                    <Route path=':user' element={<UserView />} />
+                                </Route>
                             </Route>
+
                             <Route path='*' element={<NotFound />} />
                         </Route>
                     </Routes>
