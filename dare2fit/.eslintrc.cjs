@@ -43,7 +43,7 @@ module.exports = {
         'no-irregular-whitespace': 2,
         'valid-jsdoc': 2,
         'valid-typeof': 2,
-        '@typescript-eslint/no-non-null-assertion': false,
+        '@typescript-eslint/no-non-null-assertion': 0,
         // //////// Best Practices //////////
         'prefer-const': 2,
         'consistent-return': 2,

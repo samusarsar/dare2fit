@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { User } from 'firebase/auth';
-import { Roles } from './constants';
+import { Roles } from './enums';
 
 export interface IAppContextValue {
     user: User | null | undefined;

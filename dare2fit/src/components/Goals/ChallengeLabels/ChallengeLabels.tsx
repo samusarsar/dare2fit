@@ -20,16 +20,16 @@ const ChallengeLabels: FC<{ goal: IGoal }> = ({ goal }): ReactElement => {
             <HStack w='100%' justify='space-between' p={2} rounded='lg'>
                 <VStack>
                     {participantsList.map((p) => (
-                        <HStack key={p}>
+                        <HStack key={p} w='100%'>
                             <Tooltip label={p}>
                                 <Avatar name={p} size='xs' />
                             </Tooltip>
-                            <Text>{goal[p as string]?.toString()} {goal.units?.toString()}</Text>
+                            <Text align='center'>{goal[p as string]?.toString()} {goal.units?.toString()}</Text>
                         </HStack>
                     ))}
                 </VStack>
                 <Icon as={BiTargetLock} fontSize='1.2em'/>
-                <Text>{goal.target} {goal.units?.toString()}</Text>
+                <Text align='center'>{goal.target} {goal.units?.toString()}</Text>
             </HStack>
         </>
     );

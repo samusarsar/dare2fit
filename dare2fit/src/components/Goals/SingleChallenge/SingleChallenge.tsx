@@ -18,7 +18,7 @@ const SingleChallenge: FC<{ goal: IGoal }> = ({ goal }): ReactElement => {
     }, []);
 
     return (
-        <Box bg={background} rounded='lg' boxShadow='lg' w='300px' h='100%' p={4}>
+        <Box bg={background} rounded='lg' boxShadow='lg' h='100%' p={4}>
             <Box h='200px'>
                 <ChallengeRadialBar goal={currGoal}/>
             </Box>

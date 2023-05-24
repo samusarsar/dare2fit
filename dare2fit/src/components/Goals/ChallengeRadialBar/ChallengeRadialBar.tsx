@@ -1,11 +1,9 @@
 import { Box, HStack, Heading, Text, VStack } from '@chakra-ui/layout';
 import { RadialBarDatum, RadialBarSerie, ResponsiveRadialBar } from '@nivo/radial-bar';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { IGoal } from '../../../common/types';
-import { COLOR_BRAND_BLUE, COLOR_BRAND_GREEN, COLOR_BRAND_RED, COLOR_BRAND_YELLOW } from '../../../common/constants';
-import { useColorMode, useColorModeValue } from '@chakra-ui/color-mode';
+import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Icon } from '@chakra-ui/icon';
-import { Tooltip } from '@chakra-ui/tooltip';
 import { Button } from '@chakra-ui/button';
 import { AiFillCalendar } from 'react-icons/ai';
 
@@ -16,9 +14,10 @@ const ChallengeRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
     const authorProgress: RadialBarSerie<RadialBarDatum> = {
         'id': goal.author,
         'data': [{
-        'x': goal.author,
-        'y': (goal[goal.author] as number),
-    }]};
+            'x': goal.author,
+            'y': (goal[goal.author] as number),
+        }],
+    };
 
     let jointProgress: RadialBarSerie<RadialBarDatum>[] = [];
 
@@ -26,15 +25,16 @@ const ChallengeRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
         jointProgress = Object.keys(goal.competingWith).map(handle => ({
             'id': handle,
             'data': [{
-            'x': handle,
-            'y': (goal[handle] as number),
-        }]}));
+                'x': handle,
+                'y': (goal[handle] as number),
+            }],
+        }));
     }
 
     jointProgress = [authorProgress, ...jointProgress];
 
     return (
-        <Box h='100%' position='relative'>
+        <Box h='100%' w='280px' position='relative'>
             <ResponsiveRadialBar
                 data={jointProgress}
                 maxValue={goal.target}
@@ -52,7 +52,8 @@ const ChallengeRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
                 tooltip={(el) => {
                     return (
                         <Button bg={tooltipColor}>{el.bar.category}: {el.bar.value}</Button>
-                )}}
+                    );
+                }}
                 motionConfig="molasses"
                 transitionMode="startAngle"
             />

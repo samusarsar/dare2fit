@@ -5,6 +5,7 @@ import { HStack } from '@chakra-ui/layout';
 import SingleHabit from '../../components/Goals/SingleHabit/SingleHabit';
 import GoalList from '../../components/Goals/GoalList/GoalList';
 import SingleChallenge from '../../components/Goals/SingleChallenge/SingleChallenge';
+import CreateGoal from '../../components/Goals/CreateGoal/CreateGoal';
 
 const GoalsView: React.FC = () => {
     const { userData } = useContext(AppContext);
@@ -28,6 +29,7 @@ const GoalsView: React.FC = () => {
 
     return (
         <HStack gap={2} flexWrap='wrap'>
+            <CreateGoal />
             <GoalList goals={habits} heading='My Habits:' SingleGoal={SingleHabit} />
             <GoalList goals={challenges} heading='My Challenges:' SingleGoal={SingleChallenge} />
         </HStack>

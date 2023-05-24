@@ -12,10 +12,10 @@ const HabitLabels: FC<{ goal: IGoal }> = ({ goal }): ReactElement => {
             <Heading as='h3' size='md'>{heading}</Heading>
             <HStack w='100%' justify='space-evenly' p={2} rounded='lg'>
                 <Icon as={AiOutlineClockCircle} fontSize='1.2em' color={(goal[goal.author] as number) < goal.target ? '' : 'green'}/>
-                <Text>{goal[goal.author]?.toString()} {goal.units?.toString()}</Text>
+                <Text align='center'>{goal[goal.author]?.toString()} {goal.units?.toString()}</Text>
                 <Spacer />
                 <Icon as={BiTargetLock} fontSize='1.2em'/>
-                <Text>{goal.target} {goal.units}</Text>
+                <Text align='center'>{goal.target} {goal.units}</Text>
             </HStack>
         </VStack>
     );
