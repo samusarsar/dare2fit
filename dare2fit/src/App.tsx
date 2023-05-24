@@ -19,6 +19,7 @@ import LogIn from './views/LogIn/LogIn.jsx';
 import SignUp from './views/SignUp/SignUp.js';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.js';
 import WorkoutsView from './views/WorkoutsView/WorkoutsView.js';
+import CreateWorkoutForm from './components/Workouts/CreateWorkoutForm.js';
 
 const App: React.FC = () => {
     const [user, loading] = useAuthState(auth);
@@ -68,7 +69,9 @@ const App: React.FC = () => {
                             <Route path='signup' element={<SignUp />} />
                             <Route element={<ProtectedRoute />} >
                                 <Route path='activity' element={<ActivityView />} />
-                                <Route path='workouts' element={<WorkoutsView />} />
+                                <Route path='workouts' element={<WorkoutsView />} >
+                                    <Route path='create' element={<CreateWorkoutForm />} />
+                                </Route>
                                 <Route path='goals' element={<GoalsView />} />
                                 <Route path='community' element={<CommunityView />} />
                                 <Route path='profile' element={<ProfileView />}>
