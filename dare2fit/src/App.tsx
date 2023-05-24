@@ -22,7 +22,6 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.js';
 
 const App: React.FC = () => {
     const [user, loading] = useAuthState(auth);
-    const [dataLoading, setDataLoading] = useState(false);
     const [appState, setAppState] = useState({
         user,
         userData: null,
@@ -40,8 +39,6 @@ const App: React.FC = () => {
             return;
         }
 
-        setDataLoading(true);
-
         getUserData(user.uid)
             .then(data => {
                 return onValue(ref(db, `users/${Object.keys(data)[0]}`), (snapshot) => {
@@ -52,11 +49,10 @@ const App: React.FC = () => {
                     });
                 });
             })
-            .catch(e => alert(e.message))
-            .finally(() => setDataLoading(false));
+            .catch(e => alert(e.message));
     }, [user]);
 
-    if (!loading && !dataLoading) {
+    if ((!loading && !user) || (!loading && user && appState.userData)) {
         return (
             <>
                 {/* {console.log(appState.userData)} */}
