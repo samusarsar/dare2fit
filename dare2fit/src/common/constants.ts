@@ -20,7 +20,10 @@ export const TYPES_TO_M = ['swimming'];
 export const TYPES_TO_MINS = ['stretching', 'hi-cardio', 'lo-cardio'];
 export const TYPES_TO_REPS = ['arms', 'chest', 'back', 'core', 'legs'];
 
-export const BASE_ROLE = 'base';
-export const WANT_ADMIN_ROLE = 'wantAdmin';
-export const ADMIN_ROLE = 'admin';
-export const BLOCKED_ROLE = 'blocked';
+// eslint-disable-next-line no-shadow
+export enum Roles {
+    Base = 'base',
+    WantAdmin = 'wantAdmin',
+    Admin = 'admin',
+    Blocked = 'blocked',
+}

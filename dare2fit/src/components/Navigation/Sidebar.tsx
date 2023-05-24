@@ -33,7 +33,7 @@ const Sidebar: FC<{ onClose: () => void, display?: object }> = ({ onClose, ...re
             </NavButton>
 
             <NavButton color={'brand.blue'}>
-                Exercises
+                Workouts
             </NavButton>
 
             <NavButton color={'brand.green'}>

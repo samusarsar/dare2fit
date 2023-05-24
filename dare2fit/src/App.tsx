@@ -9,7 +9,6 @@ import { AppContext } from './context/AppContext/AppContext.js';
 import RootLayout from './views/RootLayout/RootLayout.jsx';
 import LandingPage from './views/LandingPage/LandingPage.jsx';
 import ActivityView from './views/ActivityView/ActivityView.jsx';
-import ExercisesView from './views/ExercisesView/ExercisesView.jsx';
 import GoalsView from './views/GoalsView/GoalsView.jsx';
 import CommunityView from './views/CommunityView/CommunityView.jsx';
 import ProfileView from './views/ProfileView/ProfileView.jsx';
@@ -19,6 +18,7 @@ import NotFound from './views/NotFound/NotFound.jsx';
 import LogIn from './views/LogIn/LogIn.jsx';
 import SignUp from './views/SignUp/SignUp.js';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.js';
+import WorkoutsView from './views/WorkoutsView/WorkoutsView.js';
 
 const App: React.FC = () => {
     const [user, loading] = useAuthState(auth);
@@ -68,7 +68,7 @@ const App: React.FC = () => {
                             <Route path='signup' element={<SignUp />} />
                             <Route element={<ProtectedRoute />} >
                                 <Route path='activity' element={<ActivityView />} />
-                                <Route path='exercises' element={<ExercisesView />} />
+                                <Route path='workouts' element={<WorkoutsView />} />
                                 <Route path='goals' element={<GoalsView />} />
                                 <Route path='community' element={<CommunityView />} />
                                 <Route path='profile' element={<ProfileView />}>
