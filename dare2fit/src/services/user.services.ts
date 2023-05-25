@@ -1,4 +1,4 @@
-import { get, set, ref, query, equalTo, orderByChild } from 'firebase/database';
+import { get, set, ref, query, equalTo, orderByChild, update } from 'firebase/database';
 import { db } from '../config/firebase-config';
 import { FriendRequestType, Roles } from '../common/enums';
 import moment from 'moment';
@@ -109,4 +109,58 @@ export const getUserFriendRequests = (handle: string, type: FriendRequestType) =
 
             return snapshot.val();
         });
+};
+
+export const sendFriendRequest = (sender: string, recipient: string) => {
+    return get(ref(db, `users/${sender}/sentFriendRequests`))
+        .then(snapshot => {
+            if (snapshot.exists()) {
+                update(ref(db, `users/${sender}/sentFriendRequests`), { [recipient]: true });
+            } else {
+                set(ref(db, `users/${sender}/sentFriendRequests`), { [recipient]: true });
+            }
+        })
+        .then(() => get(ref(db, `users/${recipient}/receivedFriendRequests`)))
+        .then(snapshot => {
+            if (snapshot.exists()) {
+                update(ref(db, `users/${recipient}/receivedFriendRequests`), { [sender]: true });
+            } else {
+                set(ref(db, `users/${recipient}/receivedFriendRequests`), { [sender]: true });
+            }
+        });
+};
+
+export const resolveRequestBySender = (sender: string, recipient: string) => {
+    return update(ref(db, `users/${sender}/sentFriendRequests`), { [recipient]: null })
+        .then(() => update(ref(db, `users/${recipient}/receivedFriendRequests`), { [sender]: null }));
+};
+
+export const resolveRequestByRecipient = (recipient: string, sender: string) => {
+    return update(ref(db, `users/${recipient}/receivedFriendRequests`), { [sender]: null })
+        .then(() => update(ref(db, `users/${sender}/sentFriendRequests`), { [recipient]: null }));
+};
+
+export const makeFriends = (accepting: string, accepted: string) => {
+    return resolveRequestByRecipient(accepting, accepted)
+        .then(() => get(ref(db, `users/${accepting}/friends`)))
+        .then(snapshot => {
+            if (snapshot.exists()) {
+                update(ref(db, `users/${accepting}/friends`), { [accepted]: true });
+            } else {
+                set(ref(db, `users/${accepting}/friends`), { [accepted]: true });
+            }
+        })
+        .then(() => get(ref(db, `users/${accepted}/friends`)))
+        .then(snapshot => {
+            if (snapshot.exists()) {
+                update(ref(db, `users/${accepted}/friends`), { [accepting]: true });
+            } else {
+                set(ref(db, `users/${accepted}/friends`), { [accepting]: true });
+            }
+        });
+};
+
+export const unFriend = (remover: string, removed: string) => {
+    return update(ref(db, `users/${remover}/friends`), { [removed]: null })
+        .then(() => update(ref(db, `users/${removed}/friends`), { [remover]: null }));
 };
