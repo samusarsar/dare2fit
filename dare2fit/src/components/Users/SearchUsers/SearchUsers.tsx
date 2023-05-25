@@ -1,33 +1,26 @@
 // eslint-disable-next-line max-len
-import { VStack, Input, HStack, Button, InputGroup, InputRightElement, RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb, Text, Tooltip, MenuButton, Menu, MenuList, MenuItem, MenuOptionGroup, Spacer, Alert, AlertIcon, Modal, ModalOverlay, ModalContent, useDisclosure, ModalBody, ModalCloseButton, ModalHeader, Heading } from '@chakra-ui/react';
+import { VStack, Input, HStack, Button, InputGroup, InputRightElement, RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb, Text, MenuButton, Menu, MenuList, MenuItem, MenuOptionGroup, Spacer, Alert, AlertIcon, Modal, ModalOverlay, ModalContent, useDisclosure, ModalBody, ModalCloseButton, ModalHeader, Heading } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import UserTable from '../UserTable/UserTable';
 import { getAllUsers } from '../../../services/user.services';
 import moment from 'moment';
+import { IUserData } from '../../../common/types';
 
 const SearchUsers = () => {
     const [input, setInput] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
-    const [foundUsers, setFoundUsers] = useState([]);
+    const [foundUsers, setFoundUsers] = useState<IUserData[] | []>([]);
     const [searching, setSearching] = useState(false);
 
     const [fromAge, setFromAge] = useState(0);
     const [toAge, setToAge] = useState(100);
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { onClose } = useDisclosure();
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const handleSearch = () => {
-        // if (!input) {
-        //     setSearchTerm('');
-        //     setSearching(true);
-        //     setFoundUsers([]);
-        //     return;
-        // }
-        console.log(searchTerm);
-
         getAllUsers()
             .then(data => Object.values(data))
             .then(users => users.filter(user => {
@@ -127,9 +120,6 @@ const SearchUsers = () => {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-            {/* <Collapse in={searching && !!foundUsers.length} animateOpacity>
-                    <UserTable users={foundUsers} />
-                </Collapse> */}
         </VStack>
     );
 };

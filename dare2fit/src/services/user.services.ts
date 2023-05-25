@@ -2,6 +2,7 @@ import { get, set, ref, query, equalTo, orderByChild } from 'firebase/database';
 import { db } from '../config/firebase-config';
 import { FriendRequestType, Roles } from '../common/enums';
 import moment from 'moment';
+import { IUserData } from '../common/types';
 
 /**
  * Retrieves a user by their handle.
@@ -64,7 +65,7 @@ export const getUserData = (uid: string) => {
  * @return {Promise<any>} A promise that resolves with the user data.
  * @throws {Error} If no users are found.
  */
-export const getAllUsers = () => {
+export const getAllUsers = (): Promise<IUserData[]> => {
     return get(ref(db, `users`))
         .then(snapshot => {
             if (!snapshot.exists()) {
@@ -92,6 +93,13 @@ export const getUserFriends = (handle: string) => {
         });
 };
 
+/**
+ * Retrieves the friend requests for a user.
+ * @param {string} handle - The handle of the user.
+ * @param {FriendRequestType} type - The type of friend request to retrieve.
+ * @return {Promise<any>} - A Promise that resolves to the friend requests data.
+ * @throws {Error} - If no friend requests are found for the user.
+ */
 export const getUserFriendRequests = (handle: string, type: FriendRequestType) => {
     return get(ref(db, `users/${handle}/${type}FriendRequests`))
         .then(snapshot => {

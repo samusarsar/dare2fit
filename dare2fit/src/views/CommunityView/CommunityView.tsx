@@ -2,7 +2,7 @@ import { FC, ReactElement } from 'react';
 import SearchUsers from '../../components/Users/SearchUsers/SearchUsers';
 import { Accordion, AccordionItem, AccordionButton, Box, AccordionIcon, AccordionPanel, VStack } from '@chakra-ui/react';
 import FriendsList from '../../components/Users/FriendsList/FriendsList';
-import FriendRequestsList from '../../components/Users/SentFriendRequests/SentFriendRequests';
+import FriendRequestsList from '../../components/Users/FriendRequests/FriendRequests';
 import { FriendRequestType } from '../../common/enums';
 
 const CommunityView: FC = (): ReactElement => {
