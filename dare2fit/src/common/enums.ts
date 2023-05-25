@@ -18,3 +18,8 @@ export enum Units {
     stamina = 'workouts',
     stretching = 'workouts',
 }
+
+export enum FriendRequestType {
+    sent = 'sent',
+    received = 'received',
+}

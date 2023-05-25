@@ -16,6 +16,7 @@ export interface IUserData {
     firstName: string,
     lastName: string,
     role: Roles,
+    avatarURL?: string,
 }
 
 export type IDuration = {
