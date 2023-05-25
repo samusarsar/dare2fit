@@ -28,19 +28,19 @@ const Sidebar: FC<{ onClose: () => void, display?: object }> = ({ onClose, ...re
                     onClick={onClose}/>
             </Flex>
 
-            <NavButton color={'brand.red'}>
+            <NavButton color={'brand.red'} onClose={onClose}>
                 Activity
             </NavButton>
 
-            <NavButton color={'brand.blue'}>
+            <NavButton color={'brand.blue'} onClose={onClose}>
                 Exercises
             </NavButton>
 
-            <NavButton color={'brand.green'}>
+            <NavButton color={'brand.green'} onClose={onClose}>
                 Goals
             </NavButton>
 
-            <NavButton color={'brand.yellow'}>
+            <NavButton color={'brand.yellow'} onClose={onClose}>
                 Community
             </NavButton>
 
