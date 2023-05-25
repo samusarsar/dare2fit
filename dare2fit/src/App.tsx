@@ -67,10 +67,7 @@ const App: React.FC = () => {
                                 <Route path='exercises' element={<ExercisesView />} />
                                 <Route path='goals' element={<GoalsView />} />
                                 <Route path='community' element={<CommunityView />} />
-                                <Route path='profile' element={<ProfileView />}>
-                                    <Route index element={<MyProfileView />} />
-                                    <Route path=':user' element={<UserView />} />
-                                </Route>
+                                <Route path='profile/:handle' element={<ProfileView />} />
                             </Route>
 
                             <Route path='*' element={<NotFound />} />

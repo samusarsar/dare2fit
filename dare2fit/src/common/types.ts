@@ -12,6 +12,7 @@ export interface IUserData {
     handle: string,
     uid: string,
     email: string | null,
+    telephone?: string,
     createdOn: string,
     firstName: string,
     lastName: string,
