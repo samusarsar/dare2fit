@@ -1,13 +1,16 @@
 // eslint-disable-next-line max-len
 import { VStack, Input, HStack, Button, InputGroup, InputRightElement, RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb, Text, MenuButton, Menu, MenuList, MenuItem, MenuOptionGroup, Spacer, Alert, AlertIcon, Modal, ModalOverlay, ModalContent, useDisclosure, ModalBody, ModalCloseButton, ModalHeader, Heading } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import UserTable from '../UserTable/UserTable';
 import { getAllUsers } from '../../../services/user.services';
 import moment from 'moment';
 import { IUserData } from '../../../common/types';
+import { AppContext } from '../../../context/AppContext/AppContext';
 
 const SearchUsers = () => {
+    const { userData } = useContext(AppContext);
+
     const [input, setInput] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [foundUsers, setFoundUsers] = useState<IUserData[] | []>([]);
@@ -23,13 +26,17 @@ const SearchUsers = () => {
     const handleSearch = () => {
         getAllUsers()
             .then(data => Object.values(data))
-            .then(users => users.filter(user => {
-                if (!searchTerm) return users;
+            .then(users => {
+                if (!input) {
+                    return users.filter(user => user.handle !== userData!.handle);
+                }
+                return users.filter(user => {
 
-                const fullName = `${user.firstName.toLowerCase()} ${user.lastName.toLowerCase()}`;
-                const formattedSearchTerm = input.trim().toLowerCase();
-                return (user.handle.toLowerCase()).includes(formattedSearchTerm) || (fullName.includes(formattedSearchTerm));
-            }))
+                    const fullName = `${user.firstName.toLowerCase()} ${user.lastName.toLowerCase()}`;
+                    const formattedSearchTerm = input.trim().toLowerCase();
+                    return ((user.handle.toLowerCase()).includes(formattedSearchTerm) || (fullName.includes(formattedSearchTerm)) && user.handle !== userData!.handle);
+                });
+            })
             .then(users => users.filter(user => {
                 const userAge = (moment().diff(moment(user.dateOfBirth, 'DD/MM/YYYY'), 'years'));
 
@@ -115,7 +122,7 @@ const SearchUsers = () => {
                         <Heading as='h3' size='md'>Users found for &apos;{searchTerm}&apos; and between {fromAge} to {toAge} years old: </Heading>
                         <ModalCloseButton/>
                     </ModalHeader>
-                    <ModalBody overflowX='auto'>
+                    <ModalBody overflowX='auto' overflowY='auto'>
                         <UserTable users={foundUsers} />
                     </ModalBody>
                 </ModalContent>

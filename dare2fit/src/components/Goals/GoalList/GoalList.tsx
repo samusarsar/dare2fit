@@ -4,7 +4,7 @@ import { IGoal } from '../../../common/types';
 import { Select } from '@chakra-ui/select';
 import moment from 'moment';
 
-const GoalList: FC<{ goals: IGoal[], heading: string, SingleGoal: FC<{ goal: IGoal }> }> = ({ goals, heading, SingleGoal }): ReactElement => {
+const GoalList: FC<{ goals: IGoal[] | null, heading: string, SingleGoal: FC<{ goal: IGoal }> }> = ({ goals, heading, SingleGoal }): ReactElement => {
     const [filter, setFilter] = useState('all');
     const [goalsToShow, setGoalsToShow] = useState(goals);
 

@@ -1,8 +1,10 @@
 import { FC, ReactElement, useContext, useEffect, useState } from 'react';
-import { getUserByHandle, getUserFriends } from '../../../services/user.services';
+import { getUserByHandle } from '../../../services/user.services';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import { IUserData } from '../../../common/types';
 import UserList from '../UserList/UserList';
+import { onValue, ref } from 'firebase/database';
+import { db } from '../../../config/firebase-config';
 
 const FriendsList: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -10,13 +12,15 @@ const FriendsList: FC = (): ReactElement => {
     const [friends, setFriends] = useState<IUserData[] | null>(null);
 
     useEffect(() => {
-        getUserFriends(userData!.handle)
-            .then(data => {
-                const promises = Object.keys(data).map(handle => getUserByHandle(handle));
+        return onValue(ref(db, `users/${userData!.handle}/friends`), (snapshot) => {
+            if (!snapshot.exists()) {
+                setFriends([]);
+            } else {
+                const promises = Object.keys(snapshot.val()).map(handle => getUserByHandle(handle));
                 Promise.all(promises)
                     .then(resultArr => setFriends(resultArr));
-            })
-            .catch(() => setFriends([]));
+            }
+        });
     }, []);
 
     return (
