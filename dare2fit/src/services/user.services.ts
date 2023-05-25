@@ -164,3 +164,10 @@ export const unFriend = (remover: string, removed: string) => {
     return update(ref(db, `users/${remover}/friends`), { [removed]: null })
         .then(() => update(ref(db, `users/${removed}/friends`), { [remover]: null }));
 };
+
+export const editUserDetails = ({ handle, propKey, propValue }:
+    { handle: string, propKey: string, propValue: string }) => {
+    return update(ref(db, `users/${handle}`), {
+        [propKey]: propValue,
+    });
+};
