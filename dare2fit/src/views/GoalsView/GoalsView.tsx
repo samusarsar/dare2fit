@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../context/AppContext/AppContext';
 import { getGoalsByHandle } from '../../services/goal.services';
 import { HStack } from '@chakra-ui/layout';
@@ -7,24 +7,22 @@ import GoalList from '../../components/Goals/GoalList/GoalList';
 import SingleChallenge from '../../components/Goals/SingleChallenge/SingleChallenge';
 import CreateGoal from '../../components/Goals/CreateGoal/CreateGoal';
 
-const GoalsView: React.FC = () => {
+const GoalsView: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
 
     const [habits, setHabits] = useState<[] | null>(null);
     const [challenges, setChallenges] = useState<[] | null>(null);
 
     useEffect(() => {
-        if (userData) {
-            getGoalsByHandle(userData.handle)
-                .then(data => {
-                    setHabits(Object.values(data).filter(goal => goal.repeat));
-                    setChallenges(Object.values(data).filter(goal => goal.duration));
-                })
-                .catch(() => {
-                    setHabits([]);
-                    setChallenges([]);
-                });
-        }
+        getGoalsByHandle(userData.handle)
+            .then(data => {
+                setHabits(Object.values(data).filter(goal => goal.repeat));
+                setChallenges(Object.values(data).filter(goal => goal.duration));
+            })
+            .catch(() => {
+                setHabits([]);
+                setChallenges([]);
+            });
     }, [userData]);
 
     return (
