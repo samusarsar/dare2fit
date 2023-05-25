@@ -86,8 +86,8 @@ const SearchUsers = () => {
                                                     setFromAge(val[0]);
                                                     setToAge(val[1]);
                                                 }}>
-                                                <RangeSliderTrack bg='red.100'>
-                                                    <RangeSliderFilledTrack bg='tomato' />
+                                                <RangeSliderTrack bg='gray.400'>
+                                                    <RangeSliderFilledTrack bg='brand.yellow' />
                                                 </RangeSliderTrack>
                                                 <RangeSliderThumb boxSize={6} index={0} />
                                                 <RangeSliderThumb boxSize={6} index={1} />

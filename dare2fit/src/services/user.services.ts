@@ -10,7 +10,7 @@ import { IUserData } from '../common/types';
  * @return {Promise<any>} A promise that resolves with the user data.
  * @throws {Error} If the user doesn't exist.
  */
-export const getUserByHandle = (handle: string): Promise<any> => {
+export const getUserByHandle = (handle: string) => {
     return get(ref(db, `users/${handle}`))
         .then(snapshot => {
             if (!snapshot.exists()) {
