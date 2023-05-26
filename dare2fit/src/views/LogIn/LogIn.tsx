@@ -105,7 +105,7 @@ const LogIn: FC = (): ReactElement => {
                         <VStack mb={8}>
                             <HStack>
                                 <Button type='submit' colorScheme='purple' isLoading={loading}>Log In</Button>
-                                <Button>Cancel</Button>
+                                <Button onClick={() => navigate('/')}>Cancel</Button>
                             </HStack>
                             <Text fontSize='sm'>Not yet a member? Join us now!
                                 <Button colorScheme='yellow' variant='link' ml={2} onClick={() => navigate('/signup')}>Sign Up</Button>

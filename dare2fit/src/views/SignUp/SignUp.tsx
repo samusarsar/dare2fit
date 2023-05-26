@@ -163,7 +163,7 @@ const SignUp: FC = (): ReactElement => {
                         <VStack mb={8}>
                             <HStack>
                                 <Button colorScheme='yellow' type='submit' isLoading={loading} >Sign Up</Button>
-                                <Button>Cancel</Button>
+                                <Button onClick={() => navigate('/')}>Cancel</Button>
                             </HStack>
                             <Text fontSize='sm'>Already have an account?
                                 <Button colorScheme='pink' variant='link' ml={2} onClick={() => navigate('/login')}>Log In</Button>
