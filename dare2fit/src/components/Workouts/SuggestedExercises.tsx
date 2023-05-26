@@ -1,15 +1,19 @@
-import { FC } from 'react';
-import { SuggestedExercise } from '../../common/types';
+import { Dispatch, FC, SetStateAction, useRef } from 'react';
+import { IWorkoutExercises, SuggestedExercise } from '../../common/types';
 // eslint-disable-next-line max-len
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Card, CardBody, CardHeader, Flex, HStack, Heading, IconButton, Text } from '@chakra-ui/react';
-import { GrAdd } from 'react-icons/gr';
+import { Accordion, Card, CardBody, CardHeader, Heading, Text } from '@chakra-ui/react';
 
-interface SuggestedExercisesProps {
-    exercises: SuggestedExercise[] | [] | null;
+import SingleSuggestedExercise from './SingleSuggestedExercise';
+
+interface ISuggestedExercisesProps {
+    suggestedExercises: SuggestedExercise[] | [] | null,
+    workoutExercises: IWorkoutExercises[] | [],
+    setWorkoutExercises: Dispatch<SetStateAction<IWorkoutExercises[] | []>>
 }
 
-const SuggestedExercises: FC<SuggestedExercisesProps> = ({ exercises }) => {
-    if (exercises === null) {
+const SuggestedExercises: FC<ISuggestedExercisesProps> = ({ suggestedExercises, workoutExercises, setWorkoutExercises }) => {
+
+    if (suggestedExercises === null) {
         return (
             <>
                 <Heading fontSize={'xl'} fontWeight={500} fontFamily={'body'}>
@@ -19,7 +23,7 @@ const SuggestedExercises: FC<SuggestedExercisesProps> = ({ exercises }) => {
             </>
         );
     }
-    if (exercises.length === 0) {
+    if (suggestedExercises.length === 0) {
         return (
             <Text>No exercises match the searching criteria</Text>
         );
@@ -31,27 +35,12 @@ const SuggestedExercises: FC<SuggestedExercisesProps> = ({ exercises }) => {
             </CardHeader>
             <CardBody>
                 <Accordion defaultIndex={[0]} allowMultiple>
-                    {exercises.map(e => (
-                        <AccordionItem key={e.name}>
-                            <HStack>
-                                <AccordionButton>
-                                    <Box as="span" flex='1' textAlign='left'>
-                                        {e.name}
-                                    </Box>
-                                    <AccordionIcon />
-                                </AccordionButton>
-                                <IconButton size='sm' aria-label='add exercise' icon={<GrAdd />} />
-                            </HStack>
-                            <AccordionPanel pb={4}>
-                                <Flex flexDirection='row' flexWrap='wrap' justifyContent='space-evenly'>
-                                    <Text>equipment: {e.equipment}</Text>
-                                    <Text>muscle: {e.muscle}</Text>
-                                    <Text>type: {e.type}</Text>
-                                </Flex>
-                                {e.instructions}
-                            </AccordionPanel>
-                        </AccordionItem>
-
+                    {suggestedExercises.map(e => (
+                        <SingleSuggestedExercise
+                            key={e.name}
+                            exercise={e}
+                            workoutExercises={workoutExercises}
+                            setWorkoutExercises={setWorkoutExercises} />
                     ))}
                 </Accordion>
             </CardBody>
