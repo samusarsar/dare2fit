@@ -10,6 +10,7 @@ export const EXERCISE_TITLE_MAX_LENGTH = 30;
 export const GOAL_NAME_MIN_LENGTH = 4;
 export const GOAL_NAME_MAX_LENGTH = 30;
 export const PASSWORD_MIN_LENGTH = 6;
+export const TELEPHONE_LENGTH = 10;
 export const RESTRICTED_CHARS: string[] = ['.', '#', '$', '[', ']'];
 export const COLOR_BRAND_LIGHT = '#F7FAFC';
 export const COLOR_BRAND_DARK = '#1A202C';

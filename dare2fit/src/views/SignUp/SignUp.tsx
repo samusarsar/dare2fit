@@ -1,12 +1,12 @@
 // eslint-disable-next-line max-len
-import { FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH, PASSWORD_MIN_LENGTH, RESTRICTED_CHARS, USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH } from '../../common/constants';
+import { FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH, PASSWORD_MIN_LENGTH, RESTRICTED_CHARS, TELEPHONE_LENGTH, USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH } from '../../common/constants';
 import { FormControl, FormLabel, Input, FormErrorMessage, Text, Button, HStack, Divider, VStack, useToast } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
 import { FC, ReactElement, useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import AccountBase from '../../components/Base/AccountBase/AccountBase';
 import { AppContext } from '../../context/AppContext/AppContext';
-import { createUser, getUserByHandle } from '../../services/user.services';
+import { createUser, getUserByHandle, getUserByTelephone } from '../../services/user.services';
 import { registerUser } from '../../services/auth.services';
 
 const SignUp: FC = (): ReactElement => {
@@ -16,6 +16,8 @@ const SignUp: FC = (): ReactElement => {
 
     const [usernameExists, setUsernameExists] = useState(false);
     const [emailExists, setEmailExists] = useState(false);
+    const [telephoneExists, setTelephoneExists] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const toast = useToast();
 
@@ -25,6 +27,7 @@ const SignUp: FC = (): ReactElement => {
                 initialValues={{
                     username: '',
                     email: '',
+                    telephone: '',
                     password: '',
                     firstName: '',
                     lastName: '',
@@ -32,30 +35,42 @@ const SignUp: FC = (): ReactElement => {
                 validateOnChange={false}
                 validateOnBlur={false}
                 onSubmit={(values) => {
+                    setLoading(true);
                     getUserByHandle(values.username)
                         .catch(() => {
                             setUsernameExists(false);
-                            return registerUser(values.email, values.password)
-                                .then(credential => {
-                                    return createUser(values.username, credential.user.uid, credential.user.email, values.firstName, values.lastName)
-                                        .then(() =>
-                                            setContext({
-                                                user: credential.user,
-                                                userData: null,
-                                            }));
+
+                            return getUserByTelephone(values.telephone)
+                                .catch(() => {
+                                    setTelephoneExists(false);
+
+                                    return registerUser(values.email, values.password)
+                                        .then(credential => {
+                                            return createUser(values.username, credential.user.uid, values.email, values.telephone, values.firstName, values.lastName)
+                                                .then(() =>
+                                                    setContext({
+                                                        user: credential.user,
+                                                        userData: null,
+                                                    }));
+                                        })
+                                        .then(() => {
+                                            setEmailExists(false);
+                                            navigate('/activity');
+                                            toast({
+                                                title: 'Welcome to dare2fit!',
+                                                description: 'Get ready for your fitness journey!',
+                                                status: 'success',
+                                                duration: 3000,
+                                                isClosable: true,
+                                                position: 'top',
+                                                variant: 'subtle',
+                                            });
+                                        });
                                 })
-                                .then(() => {
-                                    setEmailExists(false);
-                                    navigate('/activity');
-                                    toast({
-                                        title: 'Welcome to dare2fit!',
-                                        description: 'Get ready for your fitness journey!',
-                                        status: 'success',
-                                        duration: 3000,
-                                        isClosable: true,
-                                        position: 'top',
-                                        variant: 'subtle',
-                                    });
+                                .then((result) => {
+                                    if (result) {
+                                        throw new Error(`Telephone already in use!`);
+                                    }
                                 });
                         })
                         .then(result => {
@@ -71,8 +86,12 @@ const SignUp: FC = (): ReactElement => {
                             case `Username has already been taken!`:
                                 setUsernameExists(true);
                                 break;
+                            case `Telephone already in use!`:
+                                setTelephoneExists(true);
+                                break;
                             }
-                        });
+                        })
+                        .finally(() => setLoading(false));
                 }}
             >
                 {({ handleSubmit, errors, touched }) => (
@@ -129,15 +148,25 @@ const SignUp: FC = (): ReactElement => {
                                     <Field as={Input} id='email' name='email' type='email' placeholder='johndoe@dare2fit.bg'/>
                                     <FormErrorMessage>Email is already in use.</FormErrorMessage>
                                 </FormControl>
+                                <FormControl isInvalid={!!errors.telephone || telephoneExists} isRequired={true} >
+                                    <FormLabel>Telephone</FormLabel>
+                                    <Field as={Input} id='telephone' name='telephone' type='telephone' placeholder='0881234567'
+                                        validate={(value: string) => {
+                                            return ((value.length !== TELEPHONE_LENGTH) || (value.split('').some(el => isNaN(+el)))) ?
+                                                'Telephone must be valid and 10 digits long.' :
+                                                null;
+                                        }}/>
+                                    <FormErrorMessage>{errors.telephone || 'Telephone is already in use.'}</FormErrorMessage>
+                                </FormControl>
                             </VStack>
                         </HStack>
                         <VStack mb={8}>
                             <HStack>
-                                <Button colorScheme='yellow' type='submit' >Sign Up</Button>
+                                <Button colorScheme='yellow' type='submit' isLoading={loading} >Sign Up</Button>
                                 <Button>Cancel</Button>
                             </HStack>
                             <Text fontSize='sm'>Already have an account?
-                                <Button colorScheme='pink' variant='link' ml={2} >Log In</Button>
+                                <Button colorScheme='pink' variant='link' ml={2} onClick={() => navigate('/login')}>Log In</Button>
                             </Text>
                         </VStack>
                     </form>
