@@ -1,10 +1,31 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
-import { Heading, Box, Stack, Button, useColorModeValue, VStack, FormControl, FormLabel, FormErrorMessage, Input, Grid, Select, Textarea } from '@chakra-ui/react';
-import { Formik, Form, Field } from 'formik';
+import { Heading, Box, Stack, Button, useColorModeValue, VStack, FormControl, FormLabel, FormErrorMessage, Input, Grid, Select, Textarea, Card, CardHeader, CardBody, Accordion, Text } from '@chakra-ui/react';
+import { Formik, Form, Field, FormikProps } from 'formik';
 import { WORKOUT_NAME_MAX_LENGTH, WORKOUT_NAME_MIN_LENGTH } from '../../common/constants';
+import SelectExercisesForm from './SelectExercisesForm';
+import { IWorkoutExercises, IWorkoutFormValues } from '../../common/types';
+import SingleExercise from './SigleExercise';
 
 const CreateWorkoutForm: FC = () => {
+
+    const [workoutExercises, setWorkoutExercises] = useState<IWorkoutExercises[] | []>([]);
+
+    const initialValues: IWorkoutFormValues = {
+        workoutName: '',
+        category: '',
+        duration: '',
+        difficulty: '',
+        calories: '',
+        instructions: '',
+        exercises: [],
+    };
+
+    const handleSubmit = (values: IWorkoutFormValues, { setSubmitting }) => {
+
+        console.log({ ...values, exercises: workoutExercises });
+        // setSubmitting(false);
+    };
 
     const validateWorkoutName = (value: string) => {
         let error;
@@ -39,19 +60,8 @@ const CreateWorkoutForm: FC = () => {
                     </Heading>
 
                     <Formik
-                        initialValues={{
-                            workoutName: '',
-                            category: '',
-                            duration: '',
-                            difficulty: '',
-                            calories: '',
-                            instructions: '',
-                            exercises: {},
-                        }}
-                        onSubmit={(values, { setSubmitting }) => {
-                            console.log(values);
-                            setSubmitting(false);
-                        }}
+                        initialValues={initialValues}
+                        onSubmit={handleSubmit}
                     >
                         {({
                             values,
@@ -135,7 +145,22 @@ const CreateWorkoutForm: FC = () => {
                                         )}
                                     </Field>
 
+                                    <Card>
+                                        <CardHeader>
+                                            <Heading size='md'>Added Exercises</Heading>
+                                        </CardHeader>
+                                        <CardBody>
+                                            <Accordion defaultIndex={[0]} allowMultiple>
+                                                {workoutExercises.length ? (
+                                                    workoutExercises.map(e => (<SingleExercise key={e.name} exercise={e} />))
+                                                ) : (
+                                                    <Text>To add exercises search below</Text>
+                                                )}
+                                            </Accordion>
+                                        </CardBody>
+                                    </Card >
                                 </VStack>
+
 
                                 <Button
                                     type='submit'
@@ -155,7 +180,7 @@ const CreateWorkoutForm: FC = () => {
                             </Form>
                         )}
                     </Formik>
-
+                    <SelectExercisesForm workoutExercises={workoutExercises} setWorkoutExercises={setWorkoutExercises} />
                 </Stack>
             </Box>
         </Box>
