@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useRef } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { IWorkoutExercises, SuggestedExercise } from '../../common/types';
 // eslint-disable-next-line max-len
 import { Accordion, Card, CardBody, CardHeader, Heading, Text } from '@chakra-ui/react';

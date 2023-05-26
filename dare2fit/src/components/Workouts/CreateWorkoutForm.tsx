@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 
 import { Heading, Box, Stack, Button, useColorModeValue, VStack, FormControl, FormLabel, FormErrorMessage, Input, Grid, Select, Textarea, Card, CardHeader, CardBody, Accordion, Text } from '@chakra-ui/react';
-import { Formik, Form, Field, FormikProps } from 'formik';
+import { Formik, Form, Field, FormikProps, FormikHelpers, FormikState, FieldProps } from 'formik';
 import { WORKOUT_NAME_MAX_LENGTH, WORKOUT_NAME_MIN_LENGTH } from '../../common/constants';
 import SelectExercisesForm from './SelectExercisesForm';
 import { IWorkoutExercises, IWorkoutFormValues } from '../../common/types';
@@ -21,10 +21,10 @@ const CreateWorkoutForm: FC = () => {
         exercises: [],
     };
 
-    const handleSubmit = (values: IWorkoutFormValues, { setSubmitting }) => {
+    const handleSubmit = (values: IWorkoutFormValues, { setSubmitting }: FormikHelpers<IWorkoutFormValues>) => {
 
         console.log({ ...values, exercises: workoutExercises });
-        // setSubmitting(false);
+        setSubmitting(false);
     };
 
     const validateWorkoutName = (value: string) => {
@@ -32,7 +32,7 @@ const CreateWorkoutForm: FC = () => {
         if (!value) {
             error = 'Required';
         } else if (value.length < WORKOUT_NAME_MIN_LENGTH || value.length > WORKOUT_NAME_MAX_LENGTH) {
-            error = `Workout name must be betweeen ${WORKOUT_NAME_MIN_LENGTH} and ${WORKOUT_NAME_MAX_LENGTH} symbols`;
+            error = `Workout name must be between ${WORKOUT_NAME_MIN_LENGTH} and ${WORKOUT_NAME_MAX_LENGTH} symbols`;
         }
         return error;
     };
@@ -64,31 +64,33 @@ const CreateWorkoutForm: FC = () => {
                         onSubmit={handleSubmit}
                     >
                         {({
-                            values,
-                            errors,
-                            touched,
-                            handleChange,
-                            handleBlur,
-                            handleSubmit,
+                            // values,
+                            // touched,
+                            // handleChange,
+                            // handleBlur,
+                            // handleSubmit,
                             isSubmitting,
                         }) => (
                             <Form>
                                 <VStack>
                                     <Field id='workoutName' name='workoutName' validate={validateWorkoutName} isRequired>
-                                        {({ field, form }) => (
-                                            <FormControl isRequired isInvalid={form.errors.workoutName && form.touched.workoutName}>
-                                                <FormLabel htmlFor='workoutName'>Workout Name</FormLabel>
-                                                <Input {...field} placeholder='Workout Name' />
-                                                <FormErrorMessage>{form.errors.workoutName}</FormErrorMessage>
-                                            </FormControl>
-                                        )
+                                        {({ field, form }: FieldProps<string, FormikProps<IWorkoutFormValues>>) => {
+                                            // console.log(form);
+                                            return (
+                                                <FormControl isRequired isInvalid={form.errors.workoutName && form.touched.workoutName}>
+                                                    <FormLabel htmlFor='workoutName'>Workout Name</FormLabel>
+                                                    <Input {...field} placeholder='Workout Name' />
+                                                    <FormErrorMessage>{form.errors.workoutName}</FormErrorMessage>
+                                                </FormControl>
+                                            );
+                                        }
                                         }
                                     </Field>
 
                                     <Grid templateColumns='repeat(4, 1fr)' gap={2}>
 
                                         <Field id='category' name='category' validate={validateCategory} isRequired>
-                                            {({ field, form }) => (
+                                            {({ field, form }: FieldProps<string, FormikProps<IWorkoutFormValues>>) => (
                                                 <FormControl isRequired isInvalid={form.errors.category && form.touched.category}>
                                                     <FormLabel htmlFor='category'>Category</FormLabel>
                                                     <Input placeholder='select category' as={Select} {...field}>
@@ -96,13 +98,13 @@ const CreateWorkoutForm: FC = () => {
                                                         <option value='stamina'>Stamina</option>
                                                         <option value='stretching'>Stretching</option>
                                                     </Input>
-                                                    <FormErrorMessage>{form.errors.workoutName}</FormErrorMessage>
+                                                    <FormErrorMessage>{form.errors.category}</FormErrorMessage>
                                                 </FormControl>
                                             )}
                                         </Field>
 
                                         <Field id='difficulty' name='difficulty'>
-                                            {({ field }) => (
+                                            {({ field }: FieldProps<string, FormikProps<IWorkoutFormValues>>) => (
                                                 <FormControl>
                                                     <FormLabel htmlFor='difficulty'>Difficulty</FormLabel>
                                                     <Input placeholder='select difficulty' as={Select} {...field}>
@@ -115,7 +117,7 @@ const CreateWorkoutForm: FC = () => {
                                         </Field>
 
                                         <Field id='duration' name='duration'>
-                                            {({ field }) => (
+                                            {({ field }: FieldProps<string, FormikProps<IWorkoutFormValues>>) => (
                                                 <FormControl>
                                                     <FormLabel htmlFor='duration'>Duration</FormLabel>
                                                     <Input placeholder='in minutes' {...field}>
@@ -125,7 +127,7 @@ const CreateWorkoutForm: FC = () => {
                                         </Field>
 
                                         <Field id='calories' name='calories'>
-                                            {({ field }) => (
+                                            {({ field }: FieldProps<string, FormikProps<IWorkoutFormValues>>) => (
                                                 <FormControl>
                                                     <FormLabel htmlFor='calories'>Calories</FormLabel>
                                                     <Input placeholder='in kcal' {...field}>
@@ -136,7 +138,7 @@ const CreateWorkoutForm: FC = () => {
                                     </Grid>
 
                                     <Field id='instructions' name='instructions'>
-                                        {({ field }) => (
+                                        {({ field }: FieldProps<string, FormikProps<IWorkoutFormValues>>) => (
                                             <FormControl>
                                                 <FormLabel htmlFor='instructions'>Instructions</FormLabel>
                                                 <Input as={Textarea} placeholder='additional instructions' {...field}>

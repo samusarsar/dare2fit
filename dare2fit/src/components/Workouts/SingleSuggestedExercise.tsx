@@ -1,11 +1,17 @@
-import { FC, useRef, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useRef, useState } from 'react';
 
+// eslint-disable-next-line max-len
 import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Flex, FormControl, FormLabel, HStack, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text, useDisclosure } from '@chakra-ui/react';
 import { GrAdd } from 'react-icons/gr';
-import { SuggestedExercise } from '../../common/types';
+import { IWorkoutExercises, SuggestedExercise } from '../../common/types';
 
+interface ISingleSuggestedExerciseProps {
+    exercise: SuggestedExercise,
+    workoutExercises: IWorkoutExercises[] | [],
+    setWorkoutExercises: Dispatch<SetStateAction<IWorkoutExercises[] | []>>
+}
 
-const SingleSuggestedExercise: FC = ({ exercise, workoutExercises, setWorkoutExercises }) => {
+const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, workoutExercises, setWorkoutExercises }) => {
 
     const [quantity, setQuantity] = useState(0);
     const [weight, setWeight] = useState(0);
@@ -13,11 +19,11 @@ const SingleSuggestedExercise: FC = ({ exercise, workoutExercises, setWorkoutExe
     const { isOpen, onOpen, onClose } = useDisclosure();
     const initialRef = useRef(null);
 
-    const handleAddExercise = (exercise: SuggestedExercise) => {
+    const handleAddExercise = (e: SuggestedExercise) => {
         setWorkoutExercises([
             ...workoutExercises,
             {
-                ...exercise,
+                ...e,
                 quantity: quantity,
                 weight: weight,
             },
@@ -68,7 +74,7 @@ const SingleSuggestedExercise: FC = ({ exercise, workoutExercises, setWorkoutExe
 
                             <FormControl mt={3}>
                                 <FormLabel>weight</FormLabel>
-                                <Input type='number' onChange={e => setWeight(e.target.value)} placeholder='kg' />
+                                <Input type='number' onChange={e => setWeight(+e.target.value)} placeholder='kg' />
                             </FormControl>
                         </ModalBody>
 
