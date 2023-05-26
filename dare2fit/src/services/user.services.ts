@@ -1,5 +1,6 @@
 import { get, set, ref, query, equalTo, orderByChild, update } from 'firebase/database';
-import { db } from '../config/firebase-config';
+import { db, storage } from '../config/firebase-config';
+import { getDownloadURL, ref as sRef, uploadBytes } from 'firebase/storage';
 import { FriendRequestType, Roles } from '../common/enums';
 import moment from 'moment';
 import { IUserData } from '../common/types';
@@ -170,4 +171,11 @@ export const editUserDetails = ({ handle, propKey, propValue }:
     return update(ref(db, `users/${handle}`), {
         [propKey]: propValue,
     });
+};
+
+export const changeAvatar = (handle: string, avatar: File) => {
+    const fileRef = sRef(storage, `users/${handle}/avatar`);
+    return uploadBytes(fileRef, avatar)
+        .then(() => getDownloadURL(fileRef))
+        .then((url) => editUserDetails({ handle, propKey: 'avatarURL', propValue: url }));
 };
