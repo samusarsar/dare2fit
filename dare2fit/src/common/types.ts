@@ -30,3 +30,29 @@ export interface IExercise {
     imageURL?: string
     lastEdited?: string,
 }
+
+export interface IWorkoutFormValues {
+    workoutName: string,
+    category: string,
+    duration: string,
+    difficulty: string,
+    calories: string,
+    instructions: string,
+    exercises: object, // TODO
+}
+
+export interface IExerciseFormValues {
+    exerciseName: string,
+    type: string,
+    muscle: string,
+    difficulty: string,
+}
+
+export type SuggestedExercise = {
+    difficulty: string,
+    equipment: string,
+    instructions: string,
+    muscle: string,
+    name: string,
+    type: string,
+}

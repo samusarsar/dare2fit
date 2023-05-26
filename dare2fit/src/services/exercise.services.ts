@@ -2,7 +2,8 @@ import { equalTo, get, orderByChild, push, query, ref, set, update } from 'fireb
 import { getDownloadURL, ref as sRef, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../config/firebase-config';
 import moment from 'moment';
-import { TYPES_TO_KM, TYPES_TO_M, TYPES_TO_MINS, TYPES_TO_STEPS } from '../common/constants';
+import { API_NINJAS_KEY, API_NINJAS_URL, TYPES_TO_KM, TYPES_TO_M, TYPES_TO_MINS, TYPES_TO_STEPS } from '../common/constants';
+import { IExerciseFormValues } from '../common/types';
 
 /**
  * Adds an exercise to the database.
@@ -86,5 +87,22 @@ export const getExercisesByHandle = (handle: string) => {
             }
 
             return snapshot.val();
+        });
+};
+
+
+
+
+
+export const findExercises = ({ exerciseName, type, muscle, difficulty }: IExerciseFormValues) => {
+    return fetch(`${API_NINJAS_URL}?name=${exerciseName}&muscle=${muscle}&type=${type}&difficulty=${difficulty}`, {
+        headers: {
+            'X-Api-Key': API_NINJAS_KEY,
+        } })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Can not get exercises');
+            }
+            return response.json();
         });
 };
