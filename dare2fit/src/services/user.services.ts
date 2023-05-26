@@ -23,20 +23,39 @@ export const getUserByHandle = (handle: string) => {
 };
 
 /**
+ * Retrieves a user by their telephone.
+ * @param {string} telephone - The user telephone.
+ * @return {Promise<any>} A promise that resolves with the user data.
+ * @throws {Error} If the user doesn't exist.
+ */
+export const getUserByTelephone = (telephone: string) => {
+    return get(query(ref(db, `users`), orderByChild('telephone'), equalTo(telephone)))
+        .then(snapshot => {
+            if (!snapshot.exists()) {
+                throw new Error('No such user.');
+            }
+
+            return snapshot.val();
+        });
+};
+
+/**
  * Creates a new user.
  * @param {string} handle - The user handle.
  * @param {string} uid - The user UID.
- * @param {string | null} email - The user email.
+ * @param {string} email - The user email.
+ * @param {string} telephone - The user email.
  * @param {string} firstName - The user's first name.
  * @param {string} lastName - The user's last name.
  * @return {Promise<void>} A promise that resolves when the user is created.
  */
-export const createUser = (handle: string, uid: string, email: string | null, firstName: string, lastName: string): Promise<void> => {
+export const createUser = (handle: string, uid: string, email: string, telephone: string, firstName: string, lastName: string): Promise<void> => {
     const createdOn = moment(new Date()).format('DD/MM/YYYY HH:mm:ss');
     return set(ref(db, `users/${handle}`), {
         handle,
         uid,
         email,
+        telephone,
         createdOn: createdOn,
         firstName,
         lastName,

@@ -11,8 +11,8 @@ export interface IAppContextValue {
 export interface IUserData {
     handle: string,
     uid: string,
-    email: string | null,
-    telephone?: string,
+    email: string,
+    telephone: string,
     createdOn: string,
     firstName: string,
     lastName: string,

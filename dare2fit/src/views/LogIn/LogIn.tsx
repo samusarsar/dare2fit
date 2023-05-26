@@ -13,6 +13,7 @@ const LogIn: FC = (): ReactElement => {
     const [show, setShow] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -29,6 +30,7 @@ const LogIn: FC = (): ReactElement => {
                 validateOnChange={false}
                 validateOnBlur={false}
                 onSubmit={(values) => {
+                    setLoading(true);
                     loginUser(values.email, values.password)
                         .then(credential =>
                             setContext({
@@ -60,7 +62,8 @@ const LogIn: FC = (): ReactElement => {
                                 setEmailError(false);
                                 break;
                             }
-                        });
+                        })
+                        .finally(() => setLoading(false));
                 }}
             >
                 {({ handleSubmit, errors, touched }) => (
@@ -101,11 +104,11 @@ const LogIn: FC = (): ReactElement => {
                         </VStack>
                         <VStack mb={8}>
                             <HStack>
-                                <Button type='submit' colorScheme='purple'>Log In</Button>
-                                <Button>Cancel</Button>
+                                <Button type='submit' colorScheme='purple' isLoading={loading}>Log In</Button>
+                                <Button onClick={() => navigate('/')}>Cancel</Button>
                             </HStack>
                             <Text fontSize='sm'>Not yet a member? Join us now!
-                                <Button colorScheme='yellow' variant='link' ml={2}>Sign Up</Button>
+                                <Button colorScheme='yellow' variant='link' ml={2} onClick={() => navigate('/signup')}>Sign Up</Button>
                             </Text>
                         </VStack>
                     </form>
