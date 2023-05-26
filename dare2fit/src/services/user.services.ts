@@ -201,10 +201,10 @@ export const changeAvatar = (handle: string, avatar: File) => {
 
 export const editUserHealthNumberData = ({ handle, propKey, propValue, isMetric }:
     { handle: string, propKey: string, propValue: number, isMetric: boolean }) => {
-    const coefficient = propKey === 'weight' ? 2.2 : 0.033;
+    const coeffMetricToImperial = propKey === 'weight' ? 2.2 : 0.033;
 
-    const metricValue = isMetric ? propValue.toFixed(1) : (propValue * coefficient).toFixed(1);
-    const imperialValue = isMetric ? (propValue * coefficient).toFixed(1) : propValue.toFixed(1);
+    const metricValue = isMetric ? propValue.toFixed(1) : (propValue / coeffMetricToImperial).toFixed(1);
+    const imperialValue = isMetric ? (propValue * coeffMetricToImperial).toFixed(1) : propValue.toFixed(1);
 
     return update(ref(db, `users/${handle}/health`), {
         [`${propKey}Metric`]: +metricValue,
