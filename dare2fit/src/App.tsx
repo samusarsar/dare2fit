@@ -13,8 +13,6 @@ import ExercisesView from './views/ExercisesView/ExercisesView.jsx';
 import GoalsView from './views/GoalsView/GoalsView.jsx';
 import CommunityView from './views/CommunityView/CommunityView.jsx';
 import ProfileView from './views/ProfileView/ProfileView.jsx';
-import UserView from './views/UserView/UserView.jsx';
-import MyProfileView from './views/MyProfileView/MyProfileView.jsx';
 import NotFound from './views/NotFound/NotFound.jsx';
 import LogIn from './views/LogIn/LogIn.jsx';
 import SignUp from './views/SignUp/SignUp.js';
