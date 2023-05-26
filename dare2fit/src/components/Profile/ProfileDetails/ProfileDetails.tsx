@@ -25,7 +25,7 @@ const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement =
 
     return (
         <HStack w='100%' justify='center'>
-            <Table variant='striped' colorScheme='blackAlpha' layout='fixed'>
+            <Table variant='striped' colorScheme='blackAlpha' layout={{ base: 'inherit', md: 'fixed' }}>
                 <Tbody>
                     <Tr>
                         <Td fontWeight='bold'>Username:</Td>

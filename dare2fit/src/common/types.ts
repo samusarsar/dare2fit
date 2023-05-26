@@ -8,6 +8,16 @@ export interface IAppContextValue {
     setContext: Dispatch<SetStateAction<{ user: User | null | undefined; userData: null; }>>;
 }
 
+export type IHealth = {
+    weightMetric?: number,
+    weightImperial?: number,
+    heightMetric?: number,
+    heightImperial?: number,
+    BMI?: number,
+    activityLevel?: number,
+    waterGoal?: number,
+}
+
 export interface IUserData {
     handle: string,
     uid: string,
@@ -19,6 +29,7 @@ export interface IUserData {
     role: Roles,
     avatarURL?: string,
     dateOfBirth?: string,
+    health?: IHealth,
 }
 
 export type IDuration = {

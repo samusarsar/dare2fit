@@ -198,3 +198,28 @@ export const changeAvatar = (handle: string, avatar: File) => {
         .then(() => getDownloadURL(fileRef))
         .then((url) => editUserDetails({ handle, propKey: 'avatarURL', propValue: url }));
 };
+
+export const editUserHealthNumberData = ({ handle, propKey, propValue, isMetric }:
+    { handle: string, propKey: string, propValue: number, isMetric: boolean }) => {
+    const coefficient = propKey === 'weight' ? 2.2 : 0.033;
+
+    const metricValue = isMetric ? propValue.toFixed(1) : (propValue * coefficient).toFixed(1);
+    const imperialValue = isMetric ? (propValue * coefficient).toFixed(1) : propValue.toFixed(1);
+
+    return update(ref(db, `users/${handle}/health`), {
+        [`${propKey}Metric`]: +metricValue,
+        [`${propKey}Imperial`]: +imperialValue,
+    })
+        .then(() => get(ref(db, `users/${handle}/health`)))
+        .then(snapshot => {
+            const data = snapshot.val();
+            if (Object.keys(data).includes('weightMetric') && Object.keys(data).includes('heightMetric')) {
+                const BMI = (data.weightMetric / ((data.heightMetric / 100) ** 2)).toFixed(1);
+
+                update(ref(db, `users/${handle}/health`), {
+                    BMI: +BMI,
+                });
+            }
+        });
+};
+
