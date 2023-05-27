@@ -38,7 +38,7 @@ export interface IWorkoutFormValues {
     difficulty: string,
     calories: string,
     instructions: string,
-    exercises: IWorkoutExercises[] | [], // TODO
+    exercises: IWorkoutExercise[] | [], // TODO
 }
 
 export interface IExerciseFormValues {
@@ -57,7 +57,7 @@ export interface ISuggestedExercise { // TODO
     type: string,
 }
 
-export interface IWorkoutExercises extends ISuggestedExercise {
+export interface IWorkoutExercise extends ISuggestedExercise {
     quantity: number,
     weight?: number,
 }

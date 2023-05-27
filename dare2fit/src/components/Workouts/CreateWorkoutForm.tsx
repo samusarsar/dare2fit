@@ -1,16 +1,17 @@
 import { FC, useState } from 'react';
 
 // eslint-disable-next-line max-len
-import { Heading, Box, Stack, Button, useColorModeValue, VStack, FormControl, FormLabel, FormErrorMessage, Input, Grid, Select, Textarea, Card, CardHeader, CardBody, Accordion, Text } from '@chakra-ui/react';
+import { Heading, Box, Stack, Button, useColorModeValue, VStack, FormControl, FormLabel, FormErrorMessage, Input, Grid, Select, Textarea, Card, CardHeader, CardBody, Accordion, Text, IconButton, Badge } from '@chakra-ui/react';
+import { IoMdRemove } from 'react-icons/io';
 import { Formik, Form, Field, FormikProps, FormikHelpers, FormikState, FieldProps } from 'formik';
 import { WORKOUT_NAME_MAX_LENGTH, WORKOUT_NAME_MIN_LENGTH } from '../../common/constants';
 import SelectExercisesForm from './SelectExercisesForm';
-import { IWorkoutExercises, IWorkoutFormValues } from '../../common/types';
+import { IWorkoutExercise, IWorkoutFormValues } from '../../common/types';
 import SingleExercise from './SigleExercise';
 
 const CreateWorkoutForm: FC = () => {
 
-    const [workoutExercises, setWorkoutExercises] = useState<IWorkoutExercises[] | []>([]);
+    const [workoutExercises, setWorkoutExercises] = useState<IWorkoutExercise[] | []>([]);
 
     const initialValues: IWorkoutFormValues = {
         workoutName: '',
@@ -20,6 +21,10 @@ const CreateWorkoutForm: FC = () => {
         calories: '',
         instructions: '',
         exercises: [],
+    };
+
+    const handleRemoveExercise = (exercise: IWorkoutExercise) => {
+        setWorkoutExercises(workoutExercises.filter(ex => ex.name !== exercise.name));
     };
 
     const handleSubmit = (values: IWorkoutFormValues, { setSubmitting }: FormikHelpers<IWorkoutFormValues>) => {
@@ -155,7 +160,20 @@ const CreateWorkoutForm: FC = () => {
                                         <CardBody>
                                             <Accordion defaultIndex={[0]} allowMultiple>
                                                 {workoutExercises.length ? (
-                                                    workoutExercises.map(e => (<SingleExercise key={e.name} exercise={e} />))
+                                                    workoutExercises.map(e => (
+                                                        <SingleExercise key={e.name} exercise={e}>
+                                                            <>
+                                                                <Badge>{e.quantity} {e.quantity === 1 ? 'rep' : 'reps'}</Badge>
+                                                                <IconButton
+                                                                    onClick={() => handleRemoveExercise(e)}
+                                                                    size='sm'
+                                                                    colorScheme='red'
+                                                                    aria-label='remove exercise'
+                                                                    icon={<IoMdRemove />} />
+
+                                                            </>
+                                                        </SingleExercise>
+                                                    ))
                                                 ) : (
                                                     <Text>To add exercises search below</Text>
                                                 )}

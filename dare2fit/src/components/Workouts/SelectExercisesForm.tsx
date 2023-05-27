@@ -3,13 +3,13 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { Box, Button, FormLabel, Grid, GridItem, Input, Select, Stack, VStack } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import { ExerciseDifficulty, ExerciseMuscle, ExerciseTypes } from '../../common/constants';
-import { IExerciseFormValues, IWorkoutExercises, ISuggestedExercise } from '../../common/types';
+import { IExerciseFormValues, IWorkoutExercise, ISuggestedExercise } from '../../common/types';
 import { findExercises } from '../../services/exercise.services';
 import SuggestedExercises from './SuggestedExercises';
 
 interface ISelectExercisesFormProps {
-    workoutExercises: IWorkoutExercises[] | [],
-    setWorkoutExercises: Dispatch<SetStateAction<IWorkoutExercises[] | []>>
+    workoutExercises: IWorkoutExercise[] | [],
+    setWorkoutExercises: Dispatch<SetStateAction<IWorkoutExercise[] | []>>
 }
 
 const SelectExercisesForm: FC<ISelectExercisesFormProps> = ( { workoutExercises, setWorkoutExercises }) => {

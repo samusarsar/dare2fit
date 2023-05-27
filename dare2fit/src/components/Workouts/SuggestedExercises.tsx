@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import { IWorkoutExercises, ISuggestedExercise } from '../../common/types';
+import { IWorkoutExercise, ISuggestedExercise } from '../../common/types';
 // eslint-disable-next-line max-len
 import { Accordion, Card, CardBody, CardHeader, Heading, Text } from '@chakra-ui/react';
 
@@ -7,8 +7,8 @@ import SingleSuggestedExercise from './SingleSuggestedExercise';
 
 interface ISuggestedExercisesProps {
     suggestedExercises: ISuggestedExercise[] | [] | null,
-    workoutExercises: IWorkoutExercises[] | [],
-    setWorkoutExercises: Dispatch<SetStateAction<IWorkoutExercises[] | []>>
+    workoutExercises: IWorkoutExercise[] | [],
+    setWorkoutExercises: Dispatch<SetStateAction<IWorkoutExercise[] | []>>
 }
 
 const SuggestedExercises: FC<ISuggestedExercisesProps> = ({ suggestedExercises, workoutExercises, setWorkoutExercises }) => {

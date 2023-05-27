@@ -3,13 +3,13 @@ import { Dispatch, FC, SetStateAction, useRef, useState } from 'react';
 // eslint-disable-next-line max-len
 import { Button, FormControl, FormLabel, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useDisclosure } from '@chakra-ui/react';
 import { GrAdd } from 'react-icons/gr';
-import { IWorkoutExercises, ISuggestedExercise } from '../../common/types';
+import { IWorkoutExercise, ISuggestedExercise } from '../../common/types';
 import SingleExercise from './SigleExercise';
 
 interface ISingleSuggestedExerciseProps {
     exercise: ISuggestedExercise,
-    workoutExercises: IWorkoutExercises[] | [],
-    setWorkoutExercises: Dispatch<SetStateAction<IWorkoutExercises[] | []>>
+    workoutExercises: IWorkoutExercise[] | [],
+    setWorkoutExercises: Dispatch<SetStateAction<IWorkoutExercise[] | []>>
 }
 
 const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, workoutExercises, setWorkoutExercises }) => {
@@ -41,6 +41,7 @@ const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, 
                     isDisabled={workoutExercises.some(e => e.name === exercise.name)}
                     onClick={onOpen}
                     size='sm'
+                    colorScheme='green'
                     aria-label='add exercise'
                     icon={<GrAdd />} />
 

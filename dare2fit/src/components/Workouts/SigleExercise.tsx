@@ -1,9 +1,9 @@
 import { FC, ReactElement } from 'react';
 
 import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, HStack, Text } from '@chakra-ui/react';
-import { IWorkoutExercises, ISuggestedExercise } from '../../common/types';
+import { IWorkoutExercise, ISuggestedExercise } from '../../common/types';
 
-const SingleExercise: FC<{ exercise: IWorkoutExercises | ISuggestedExercise, children?: ReactElement}> = ({ exercise, children }) => {
+const SingleExercise: FC<{ exercise: IWorkoutExercise | ISuggestedExercise, children?: ReactElement}> = ({ exercise, children }) => {
 
     return (
 
