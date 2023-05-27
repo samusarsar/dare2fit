@@ -1,11 +1,9 @@
-import { FC, ReactElement, useRef } from 'react';
+import { FC, ReactElement } from 'react';
 
-import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, HStack, Text, useDisclosure } from '@chakra-ui/react';
-import { IWorkoutExercises } from '../../common/types';
+import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, HStack, Text } from '@chakra-ui/react';
+import { IWorkoutExercises, ISuggestedExercise } from '../../common/types';
 
-const SingleExercise: FC<{ exercise: IWorkoutExercises, children?: ReactElement}> = ({ exercise, children }) => {
-
-
+const SingleExercise: FC<{ exercise: IWorkoutExercises | ISuggestedExercise, children?: ReactElement}> = ({ exercise, children }) => {
 
     return (
 

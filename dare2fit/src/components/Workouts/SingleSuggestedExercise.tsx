@@ -1,12 +1,13 @@
 import { Dispatch, FC, SetStateAction, useRef, useState } from 'react';
 
 // eslint-disable-next-line max-len
-import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Flex, FormControl, FormLabel, HStack, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text, useDisclosure } from '@chakra-ui/react';
+import { Button, FormControl, FormLabel, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useDisclosure } from '@chakra-ui/react';
 import { GrAdd } from 'react-icons/gr';
-import { IWorkoutExercises, SuggestedExercise } from '../../common/types';
+import { IWorkoutExercises, ISuggestedExercise } from '../../common/types';
+import SingleExercise from './SigleExercise';
 
 interface ISingleSuggestedExerciseProps {
-    exercise: SuggestedExercise,
+    exercise: ISuggestedExercise,
     workoutExercises: IWorkoutExercises[] | [],
     setWorkoutExercises: Dispatch<SetStateAction<IWorkoutExercises[] | []>>
 }
@@ -19,7 +20,7 @@ const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const initialRef = useRef(null);
 
-    const handleAddExercise = (e: SuggestedExercise) => {
+    const handleAddExercise = (e: ISuggestedExercise) => {
         setWorkoutExercises([
             ...workoutExercises,
             {
@@ -34,15 +35,8 @@ const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, 
     };
 
     return (
-        <AccordionItem key={exercise.name}>
-            <HStack>
-                <AccordionButton>
-                    <Box as="span" flex='1' textAlign='left'>
-                        {exercise.name}
-                    </Box>
-                    <AccordionIcon />
-                </AccordionButton>
-
+        <SingleExercise exercise={exercise} key={exercise.name}>
+            <>
                 <IconButton
                     isDisabled={workoutExercises.some(e => e.name === exercise.name)}
                     onClick={onOpen}
@@ -86,17 +80,8 @@ const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, 
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
-
-            </HStack>
-            <AccordionPanel pb={4}>
-                <Flex flexDirection='row' flexWrap='wrap' justifyContent='space-evenly'>
-                    <Text>equipment: {exercise.equipment}</Text>
-                    <Text>muscle: {exercise.muscle}</Text>
-                    <Text>type: {exercise.type}</Text>
-                </Flex>
-                {exercise.instructions}
-            </AccordionPanel>
-        </AccordionItem>
+            </>
+        </SingleExercise>
     );
 };
 

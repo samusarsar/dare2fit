@@ -48,7 +48,7 @@ export interface IExerciseFormValues {
     difficulty: string,
 }
 
-export type SuggestedExercise = {
+export interface ISuggestedExercise { // TODO
     difficulty: string,
     equipment: string,
     instructions: string,
@@ -57,7 +57,7 @@ export type SuggestedExercise = {
     type: string,
 }
 
-export interface IWorkoutExercises extends SuggestedExercise {
+export interface IWorkoutExercises extends ISuggestedExercise {
     quantity: number,
     weight?: number,
 }

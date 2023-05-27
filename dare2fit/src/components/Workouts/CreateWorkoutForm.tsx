@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 
+// eslint-disable-next-line max-len
 import { Heading, Box, Stack, Button, useColorModeValue, VStack, FormControl, FormLabel, FormErrorMessage, Input, Grid, Select, Textarea, Card, CardHeader, CardBody, Accordion, Text } from '@chakra-ui/react';
 import { Formik, Form, Field, FormikProps, FormikHelpers, FormikState, FieldProps } from 'formik';
 import { WORKOUT_NAME_MAX_LENGTH, WORKOUT_NAME_MIN_LENGTH } from '../../common/constants';

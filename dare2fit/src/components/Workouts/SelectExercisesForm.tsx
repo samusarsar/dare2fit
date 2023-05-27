@@ -3,7 +3,7 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { Box, Button, FormLabel, Grid, GridItem, Input, Select, Stack, VStack } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import { ExerciseDifficulty, ExerciseMuscle, ExerciseTypes } from '../../common/constants';
-import { IExerciseFormValues, IWorkoutExercises, SuggestedExercise } from '../../common/types';
+import { IExerciseFormValues, IWorkoutExercises, ISuggestedExercise } from '../../common/types';
 import { findExercises } from '../../services/exercise.services';
 import SuggestedExercises from './SuggestedExercises';
 
@@ -13,7 +13,7 @@ interface ISelectExercisesFormProps {
 }
 
 const SelectExercisesForm: FC<ISelectExercisesFormProps> = ( { workoutExercises, setWorkoutExercises }) => {
-    const [suggestedExercises, setSuggestedExercises] = useState<SuggestedExercise[] | [] | null>(null);
+    const [suggestedExercises, setSuggestedExercises] = useState<ISuggestedExercise[] | [] | null>(null);
 
     const initialValues: IExerciseFormValues = {
         exerciseName: '',
