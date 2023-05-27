@@ -18,7 +18,7 @@ import { changeUserRole, makeFriends, resolveRequestByRecipient, resolveRequestB
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../../config/firebase-config';
 import { useParams } from 'react-router';
-import { Roles } from '../../../common/enums';
+import { UserRoles } from '../../../common/enums';
 
 const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -66,7 +66,7 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
             .then(() => setLoadingBtn(false));
     };
 
-    const handleRoleChange = (role: Roles) => {
+    const handleRoleChange = (role: UserRoles) => {
         changeUserRole(user.handle, role);
     };
 
@@ -147,23 +147,23 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
                         </VStack>) :
                         <Spinner />}
                 </Td>) :
-                currUser.role !== Roles.Admin &&
+                currUser.role !== UserRoles.Admin &&
                 (<>
                     <Td>
                         <VStack>
-                            {(currUser.role !== Roles.Blocked && currUser.role !== Roles.WantAdmin) &&
+                            {(currUser.role !== UserRoles.Blocked && currUser.role !== UserRoles.WantAdmin) &&
                             (<Button w='100%' variant='ghost' colorScheme='teal' isLoading={loadingBtn}
-                                onClick={() => handleRoleChange(Roles.Admin)}>
+                                onClick={() => handleRoleChange(UserRoles.Admin)}>
                                 Make Admin
                             </Button>)}
-                            {(currUser.role === Roles.WantAdmin) &&
+                            {(currUser.role === UserRoles.WantAdmin) &&
                             (<>
                                 <Button w='100%' variant='ghost' colorScheme='teal' isLoading={loadingBtn}
-                                    onClick={() => handleRoleChange(Roles.Admin)}>
+                                    onClick={() => handleRoleChange(UserRoles.Admin)}>
                                     Accept Admin
                                 </Button>
                                 <Button w='100%' variant='ghost' colorScheme='gray' isLoading={loadingBtn}
-                                    onClick={() => handleRoleChange(Roles.Base)}>
+                                    onClick={() => handleRoleChange(UserRoles.Base)}>
                                     Reject Admin
                                 </Button>
                             </>)}
@@ -171,13 +171,13 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
                     </Td>
                     <Td>
                         <VStack>
-                            {currUser.role !== Roles.Blocked ?
+                            {currUser.role !== UserRoles.Blocked ?
                                 <Button w='100%' variant='solid' colorScheme='red' isLoading={loadingBtn}
-                                    onClick={() => handleRoleChange(Roles.Blocked)}>
+                                    onClick={() => handleRoleChange(UserRoles.Blocked)}>
                                     Block
                                 </Button> :
                                 <Button w='100%' variant='solid' colorScheme='twitter' isLoading={loadingBtn}
-                                    onClick={() => handleRoleChange(Roles.Base)}>
+                                    onClick={() => handleRoleChange(UserRoles.Base)}>
                                     Unblock
                                 </Button>}
                             {/* <Button w='100%' variant='outline' colorScheme='red' isLoading={loadingBtn}>

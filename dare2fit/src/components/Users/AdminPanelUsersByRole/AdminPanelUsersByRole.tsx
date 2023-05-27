@@ -3,12 +3,12 @@ import { IUserData } from '../../../common/types';
 import UserList from '../UserList/UserList';
 import { equalTo, onValue, orderByChild, query, ref } from 'firebase/database';
 import { db } from '../../../config/firebase-config';
-import { Roles } from '../../../common/enums';
+import { UserRoles } from '../../../common/enums';
 
-const AdminPanelUsersByRole: FC<{ role: Roles }> = ({ role }): ReactElement => {
+const AdminPanelUsersByRole: FC<{ role: UserRoles }> = ({ role }): ReactElement => {
     const [users, setUsers] = useState<IUserData[] | null>(null);
 
-    const roleData = role === Roles.WantAdmin ?
+    const roleData = role === UserRoles.WantAdmin ?
         { heading: 'Admin Applicants:', color: 'brand.blue' } :
         { heading: 'Blocked Users:', color: 'brand.red' };
 

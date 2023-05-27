@@ -1,7 +1,7 @@
 import { get, set, ref, query, equalTo, orderByChild, update } from 'firebase/database';
 import { db, storage } from '../config/firebase-config';
 import { getDownloadURL, ref as sRef, uploadBytes } from 'firebase/storage';
-import { FriendRequestType, Roles } from '../common/enums';
+import { FriendRequestType, UserRoles } from '../common/enums';
 import moment from 'moment';
 import { IUserData } from '../common/types';
 
@@ -59,7 +59,7 @@ export const createUser = (handle: string, uid: string, email: string, telephone
         createdOn: createdOn,
         firstName,
         lastName,
-        role: Roles.Base,
+        role: UserRoles.Base,
     });
 };
 
@@ -223,7 +223,7 @@ export const editUserHealthNumberData = ({ handle, propKey, propValue, isMetric 
         });
 };
 
-export const changeUserRole = (handle: string, role: Roles) => {
+export const changeUserRole = (handle: string, role: UserRoles) => {
     return update(ref(db, `users/${handle}`), {
         role,
     });
