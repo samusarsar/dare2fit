@@ -3,9 +3,12 @@ import { Avatar, HStack, Icon, Text, Tooltip, VStack } from '@chakra-ui/react';
 import { BiTargetLock } from 'react-icons/bi';
 import { IGoal } from '../../../common/types';
 import { AppContext } from '../../../context/AppContext/AppContext';
+import { useNavigate } from 'react-router';
 
 const ChallengeLabels: FC<{ goal: IGoal }> = ({ goal }): ReactElement => {
     const { userData } = useContext(AppContext);
+
+    const navigate = useNavigate();
 
     const participantsList = !goal.competingWith ?
         [goal.author] :
@@ -22,7 +25,7 @@ const ChallengeLabels: FC<{ goal: IGoal }> = ({ goal }): ReactElement => {
                     {participantsList.map((p) => (
                         <HStack key={p} w='100%'>
                             <Tooltip label={p}>
-                                <Avatar name={p} size='xs' />
+                                <Avatar name={p} size='xs' _hover={{ cursor: 'pointer' }} onClick={() => navigate(`../../profile/${p}`)}/>
                             </Tooltip>
                             <Text align='center'>{goal[p as string]?.toString()} {goal.units?.toString()}</Text>
                         </HStack>

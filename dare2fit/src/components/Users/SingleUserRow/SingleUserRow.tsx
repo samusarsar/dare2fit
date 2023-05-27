@@ -17,7 +17,7 @@ import { AppContext } from '../../../context/AppContext/AppContext';
 import { changeUserRole, makeFriends, resolveRequestByRecipient, resolveRequestBySender, sendFriendRequest, unFriend } from '../../../services/user.services';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../../config/firebase-config';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { UserRoles } from '../../../common/enums';
 
 const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
@@ -32,6 +32,7 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
     const [loadingBtn, setLoadingBtn] = useState(false);
 
     const { handle } = useParams();
+    const navigate = useNavigate();
 
     const textColor = useColorModeValue('gray.700', 'white');
 
@@ -91,13 +92,16 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
         <Tr>
             <Td>
                 <Flex align="center" minWidth='100%' flexWrap="nowrap">
-                    <Avatar name={user.handle} w="80px" h='80px' borderRadius="12px" me="18px" p={2} />
+                    <Avatar name={user.handle} w="80px" h='80px' borderRadius="12px" me="18px" p={2} _hover={{ cursor: 'pointer' }}
+                        onClick={() => navigate(`../../profile/${user.handle}`)} />
                     <Flex direction="column" gap={1}>
                         <Text
                             fontSize="md"
                             color={textColor}
                             fontWeight="bold"
                             minWidth="100%"
+                            _hover={{ cursor: 'pointer' }}
+                            onClick={() => navigate(`../../profile/${user.handle}`)}
                         >
                             {currUser.firstName} {currUser.lastName}
                         </Text>
