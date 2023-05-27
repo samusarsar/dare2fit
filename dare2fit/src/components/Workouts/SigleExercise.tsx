@@ -1,17 +1,21 @@
 import { FC, ReactElement } from 'react';
 
-import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, HStack, Text } from '@chakra-ui/react';
+import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, Box, Flex, HStack, Heading, Text, VStack } from '@chakra-ui/react';
+import { BiDumbbell } from 'react-icons/bi';
+import { GiBiceps } from 'react-icons/gi';
+import { MdSportsGymnastics } from 'react-icons/md';
+
 import { IWorkoutExercise, ISuggestedExercise } from '../../common/types';
 
-const SingleExercise: FC<{ exercise: IWorkoutExercise | ISuggestedExercise, children?: ReactElement}> = ({ exercise, children }) => {
+const SingleExercise: FC<{ exercise: IWorkoutExercise | ISuggestedExercise, children?: ReactElement }> = ({ exercise, children }) => {
 
     return (
 
         <AccordionItem key={exercise.name}>
             <HStack>
                 <AccordionButton>
-                    <Box as="span" flex='1' textAlign='left'>
-                        {exercise.name}
+                    <Box flex='1' textAlign='left'>
+                        <Heading size='xs'>{exercise.name}</Heading>
                     </Box>
                     <AccordionIcon />
                 </AccordionButton>
@@ -19,11 +23,23 @@ const SingleExercise: FC<{ exercise: IWorkoutExercise | ISuggestedExercise, chil
             </HStack>
             <AccordionPanel pb={4}>
                 <Flex flexDirection='row' flexWrap='wrap' justifyContent='space-evenly'>
-                    <Text>equipment: {exercise.equipment}</Text>
-                    <Text>muscle: {exercise.muscle}</Text>
-                    <Text>type: {exercise.type}</Text>
+                    <VStack>
+                        <BiDumbbell />
+                        <Badge colorScheme='purple'>{exercise.equipment}</Badge>
+                    </VStack>
+
+                    <VStack>
+                        <GiBiceps />
+                        <Badge colorScheme='green'>{exercise.muscle}</Badge>
+                    </VStack>
+
+                    <VStack>
+                        <MdSportsGymnastics />
+                        <Badge colorScheme='red'>{exercise.type}</Badge>
+                    </VStack>
                 </Flex>
-                {exercise.instructions}
+                <Text mt={5}>{exercise.instructions}</Text>
+
             </AccordionPanel>
         </AccordionItem>
 

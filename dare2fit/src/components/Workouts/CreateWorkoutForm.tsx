@@ -153,7 +153,7 @@ const CreateWorkoutForm: FC = () => {
                                         )}
                                     </Field>
 
-                                    <Card maxW='sm'>
+                                    <Card width='lg'>
                                         <CardHeader>
                                             <Heading size='md'>Added Exercises</Heading>
                                         </CardHeader>
