@@ -5,7 +5,7 @@ import { Button, FormControl, FormLabel, IconButton, Input, Modal, ModalBody, Mo
 import { GrAdd } from 'react-icons/gr';
 import { IWorkoutExercise, ISuggestedExercise } from '../../common/types';
 import SingleExercise from './SigleExercise';
-import { ExerciseUnits } from '../../common/constants';
+import { ExerciseUnits } from '../../common/enums';
 
 interface ISingleSuggestedExerciseProps {
     exercise: ISuggestedExercise,
