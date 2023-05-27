@@ -91,9 +91,11 @@ export const getExercisesByHandle = (handle: string) => {
 };
 
 
-
-
-
+/**
+ * Retrieves all exercises from API Ninjas, that match the search criteria.
+ * @param {object} searchParams The search parameters.
+ * @return {Promise<object>} A Promise that resolves to array of exercise objects.
+ */
 export const findExercises = ({ exerciseName, type, muscle, difficulty }: IExerciseFormValues) => {
     return fetch(`${API_NINJAS_URL}?name=${exerciseName}&muscle=${muscle}&type=${type}&difficulty=${difficulty}`, {
         headers: {

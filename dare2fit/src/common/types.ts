@@ -48,7 +48,7 @@ export interface IExerciseFormValues {
     difficulty: string,
 }
 
-export interface ISuggestedExercise { // TODO
+export interface ISuggestedExercise {
     difficulty: string,
     equipment: string,
     instructions: string,
