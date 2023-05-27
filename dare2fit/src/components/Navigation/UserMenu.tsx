@@ -43,6 +43,8 @@ const UserMenu: FC = () => {
                 _focus={{ boxShadow: 'none' }}>
                 <HStack>
                     <Avatar
+                        src={userData?.avatarURL}
+                        name={userData?.firstName + ' ' + userData?.lastName}
                         size={'sm'}
                     />
                     <VStack
@@ -63,7 +65,7 @@ const UserMenu: FC = () => {
                 </HStack>
             </MenuButton>
             <MenuList>
-                <MenuItem>Profile</MenuItem>
+                <MenuItem onClick={() => navigate(`../../profile/${userData?.handle}`)}>Profile</MenuItem>
                 <MenuDivider />
                 <MenuItem color='red.500' onClick={() => handleLogout()}>Log out</MenuItem>
             </MenuList>

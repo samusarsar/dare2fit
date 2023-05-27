@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import { Flex, Link } from '@chakra-ui/react';
 
-const NavButton: FC<{ color: string, children: string }> = ({ color, children }) => {
+const NavButton: FC<{ color: string, children: string, onClose: () => void }> = ({ color, children, onClose }) => {
     return (
         <Link
             style={{ textDecoration: 'none' }}
@@ -15,6 +15,7 @@ const NavButton: FC<{ color: string, children: string }> = ({ color, children })
             fontWeight='bold'
             _activeLink={{ color: color }}
             _focus={{ boxShadow: 'none' }}
+            onClick={onClose}
         >
             <Flex
                 align="center"

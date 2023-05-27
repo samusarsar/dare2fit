@@ -12,8 +12,6 @@ import ActivityView from './views/ActivityView/ActivityView.jsx';
 import GoalsView from './views/GoalsView/GoalsView.jsx';
 import CommunityView from './views/CommunityView/CommunityView.jsx';
 import ProfileView from './views/ProfileView/ProfileView.jsx';
-import UserView from './views/UserView/UserView.jsx';
-import MyProfileView from './views/MyProfileView/MyProfileView.jsx';
 import NotFound from './views/NotFound/NotFound.jsx';
 import LogIn from './views/LogIn/LogIn.jsx';
 import SignUp from './views/SignUp/SignUp.js';
@@ -23,7 +21,6 @@ import CreateWorkoutForm from './components/Workouts/CreateWorkoutForm.js';
 
 const App: React.FC = () => {
     const [user, loading] = useAuthState(auth);
-    const [dataLoading, setDataLoading] = useState(false);
     const [appState, setAppState] = useState({
         user,
         userData: null,
@@ -41,8 +38,6 @@ const App: React.FC = () => {
             return;
         }
 
-        setDataLoading(true);
-
         getUserData(user.uid)
             .then(data => {
                 return onValue(ref(db, `users/${Object.keys(data)[0]}`), (snapshot) => {
@@ -53,11 +48,10 @@ const App: React.FC = () => {
                     });
                 });
             })
-            .catch(e => alert(e.message))
-            .finally(() => setDataLoading(false));
+            .catch(e => alert(e.message));
     }, [user]);
 
-    if (!loading && !dataLoading) {
+    if ((!loading && !user) || (!loading && user && appState.userData)) {
         return (
             <>
                 {/* {console.log(appState.userData)} */}
@@ -74,10 +68,7 @@ const App: React.FC = () => {
                                 </Route>
                                 <Route path='goals' element={<GoalsView />} />
                                 <Route path='community' element={<CommunityView />} />
-                                <Route path='profile' element={<ProfileView />}>
-                                    <Route index element={<MyProfileView />} />
-                                    <Route path=':user' element={<UserView />} />
-                                </Route>
+                                <Route path='profile/:handle' element={<ProfileView />} />
                             </Route>
 
                             <Route path='*' element={<NotFound />} />

@@ -14,18 +14,20 @@ export const WORKOUT_NAME_MAX_LENGTH = 30;
 export const GOAL_NAME_MIN_LENGTH = 4;
 export const GOAL_NAME_MAX_LENGTH = 30;
 export const PASSWORD_MIN_LENGTH = 6;
+export const TELEPHONE_LENGTH = 10;
 export const RESTRICTED_CHARS: string[] = ['.', '#', '$', '[', ']'];
-
-export const ACCEPTED_IMAGE_TYPES: string[] = ['image/jpg', 'image/jpeg', 'image/png'];
-export const TYPES_TO_STEPS = ['walking'];
-export const TYPES_TO_KM = ['running', 'cycling'];
-export const TYPES_TO_M = ['swimming'];
-export const TYPES_TO_MINS = ['stretching', 'hi-cardio', 'lo-cardio'];
-export const TYPES_TO_REPS = ['arms', 'chest', 'back', 'core', 'legs'];
+export const COLOR_BRAND_LIGHT = '#F7FAFC';
+export const COLOR_BRAND_DARK = '#1A202C';
+export const COLOR_BRAND_RED = '#F24968';
+export const COLOR_BRAND_BLUE = '#6929F2';
+export const COLOR_BRAND_PURPLE = '#9B72F2';
+export const COLOR_BRAND_GREEN = '#14D990';
+export const COLOR_BRAND_YELLOW = '#F2B807';
+export const COLOR_BRAND_WHITE = '#FFFFFF';
+export const COLOR_BRAND_GRAY = '#2D3748';
 
 export const API_NINJAS_URL = 'https://api.api-ninjas.com/v1/exercises';
 export const API_NINJAS_KEY = 'cn6dW1SAvI817LEXzpf+cg==0msk7WrGU2sy3MKb';
-
 
 export enum Roles {
     Base = 'base',
@@ -33,7 +35,6 @@ export enum Roles {
     Admin = 'admin',
     Blocked = 'blocked',
 }
-
 
 export enum ExerciseTypes {
     cardio = 'cardio',
