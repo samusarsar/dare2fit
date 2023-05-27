@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 
 // eslint-disable-next-line max-len
 import { Heading, Box, Stack, Button, useColorModeValue, VStack, FormControl, FormLabel, FormErrorMessage, Input, Grid, Select, Textarea, Card, CardHeader, CardBody, Accordion, Text, IconButton, Badge } from '@chakra-ui/react';
@@ -8,8 +8,12 @@ import { WORKOUT_NAME_MAX_LENGTH, WORKOUT_NAME_MIN_LENGTH } from '../../common/c
 import SelectExercisesForm from './SelectExercisesForm';
 import { IWorkoutExercise, IWorkoutFormValues } from '../../common/types';
 import SingleExercise from './SigleExercise';
+import { addWorkout } from '../../services/workout.services';
+import { AppContext } from '../../context/AppContext/AppContext';
 
 const CreateWorkoutForm: FC = () => {
+
+    const { userData } = useContext(AppContext);
 
     const [workoutExercises, setWorkoutExercises] = useState<IWorkoutExercise[] | []>([]);
 
@@ -28,8 +32,13 @@ const CreateWorkoutForm: FC = () => {
     };
 
     const handleSubmit = (values: IWorkoutFormValues, { setSubmitting }: FormikHelpers<IWorkoutFormValues>) => {
+        const workout = {
+            ...values,
+            exercises: workoutExercises,
+            user: userData?.handle,
+        };
 
-        console.log({ ...values, exercises: workoutExercises });
+        addWorkout(workout, userData?.handle);
         setSubmitting(false);
     };
 
