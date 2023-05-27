@@ -69,3 +69,8 @@ export enum ExerciseMuscle {
     traps = 'traps',
     triceps = 'triceps',
 }
+
+export enum ExerciseUnits {
+    reps = 'reps',
+    mins = 'mins',
+}

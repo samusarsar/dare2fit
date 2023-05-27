@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { User } from 'firebase/auth';
-import { Roles } from './constants';
+import { ExerciseUnits, Roles } from './constants';
 
 export interface IAppContextValue {
     user: User | null | undefined;
@@ -58,6 +58,7 @@ export interface ISuggestedExercise { // TODO
 }
 
 export interface IWorkoutExercise extends ISuggestedExercise {
+    units: ExerciseUnits,
     quantity: number,
     weight?: number,
 }

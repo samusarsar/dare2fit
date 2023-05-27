@@ -153,7 +153,7 @@ const CreateWorkoutForm: FC = () => {
                                         )}
                                     </Field>
 
-                                    <Card>
+                                    <Card maxW='sm'>
                                         <CardHeader>
                                             <Heading size='md'>Added Exercises</Heading>
                                         </CardHeader>
@@ -163,10 +163,10 @@ const CreateWorkoutForm: FC = () => {
                                                     workoutExercises.map(e => (
                                                         <SingleExercise key={e.name} exercise={e}>
                                                             <>
-                                                                <Badge>{e.quantity} {e.quantity === 1 ? 'rep' : 'reps'}</Badge>
+                                                                <Badge>{e.quantity} {e.quantity === 1 ? e.units.slice(0, -1) : e.units}</Badge>
                                                                 <IconButton
                                                                     onClick={() => handleRemoveExercise(e)}
-                                                                    size='sm'
+                                                                    size='xs'
                                                                     colorScheme='red'
                                                                     aria-label='remove exercise'
                                                                     icon={<IoMdRemove />} />

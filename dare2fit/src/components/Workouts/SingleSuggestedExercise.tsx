@@ -1,10 +1,11 @@
 import { Dispatch, FC, SetStateAction, useRef, useState } from 'react';
 
 // eslint-disable-next-line max-len
-import { Button, FormControl, FormLabel, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useDisclosure } from '@chakra-ui/react';
+import { Button, FormControl, FormLabel, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Radio, RadioGroup, Stack, useDisclosure } from '@chakra-ui/react';
 import { GrAdd } from 'react-icons/gr';
 import { IWorkoutExercise, ISuggestedExercise } from '../../common/types';
 import SingleExercise from './SigleExercise';
+import { ExerciseUnits } from '../../common/constants';
 
 interface ISingleSuggestedExerciseProps {
     exercise: ISuggestedExercise,
@@ -14,6 +15,7 @@ interface ISingleSuggestedExerciseProps {
 
 const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, workoutExercises, setWorkoutExercises }) => {
 
+    const [units, setUnits] =useState(ExerciseUnits.reps);
     const [quantity, setQuantity] = useState(0);
     const [weight, setWeight] = useState(0);
 
@@ -25,6 +27,7 @@ const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, 
             ...workoutExercises,
             {
                 ...e,
+                units: units,
                 quantity: quantity,
                 weight: weight,
             },
@@ -55,9 +58,17 @@ const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, 
                         <ModalCloseButton />
 
                         <ModalBody pb={3}>
+
+                            <RadioGroup onChange={(value: ExerciseUnits) => setUnits(value)} value={units}>
+                                <Stack direction='row'>
+                                    <Radio value={ExerciseUnits.reps}>{ExerciseUnits.reps}</Radio>
+                                    <Radio value={ExerciseUnits.mins}>{ExerciseUnits.mins}</Radio>
+                                </Stack>
+                            </RadioGroup>
+
                             <FormControl isRequired isInvalid={!quantity}>
-                                <FormLabel>reps</FormLabel>
-                                {/* <NumberInput onChange={e => setQuantity(e.target.value)} value={quantity} ref={initialRef}> */}
+
+                                <FormLabel>{units}</FormLabel>
                                 <NumberInput onChange={e => setQuantity(+e)} ref={initialRef} min={0} defaultValue={0}>
                                     <NumberInputField />
                                     <NumberInputStepper>
