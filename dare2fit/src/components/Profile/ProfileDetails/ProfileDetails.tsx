@@ -96,7 +96,7 @@ const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement =
                     <Tr>
                         <Td fontWeight='bold'>Date of Birth:</Td>
                         <Td>
-                            <Editable textAlign='center' defaultValue={profile.dateOfBirth} isPreviewFocusable={false} display='flex' gap={2} w='fit-content'
+                            <Editable textAlign='center' defaultValue={profile.dateOfBirth || '-'} isPreviewFocusable={false} display='flex' gap={2} w='fit-content'
                                 onSubmit={(value) => {
                                     if ((!moment(value, 'DD/MM/YYYY').isValid()) || (moment(value, 'DD/MM/YYYY').diff(moment()) > 0)) {
                                         setErrors({

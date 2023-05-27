@@ -4,6 +4,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import ProfileDetails from '../ProfileDetails/ProfileDetails';
 import ProfileHealth from '../ProfileHealth/ProfileHealth';
 import { AppContext } from '../../../context/AppContext/AppContext';
+import ProfileAdminPanel from '../ProfileAdminPanel/ProfileAdminPanel';
 
 const ProfileTabs: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -15,14 +16,20 @@ const ProfileTabs: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
             <TabList>
                 {isMe && <Tab>Health</Tab>}
                 <Tab>Details</Tab>
+                {isMe && <Tab>Admin Panel</Tab>}
             </TabList>
             <TabPanels bg='brand.600'>
+                {isMe &&
                 <TabPanel>
                     <ProfileHealth profile={profile} />
-                </TabPanel>
+                </TabPanel>}
                 <TabPanel>
                     <ProfileDetails profile={profile} />
                 </TabPanel>
+                {isMe &&
+                <TabPanel>
+                    <ProfileAdminPanel />
+                </TabPanel>}
             </TabPanels>
         </Tabs>
     );

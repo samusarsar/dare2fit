@@ -223,3 +223,8 @@ export const editUserHealthNumberData = ({ handle, propKey, propValue, isMetric 
         });
 };
 
+export const changeUserRole = (handle: string, role: Roles) => {
+    return update(ref(db, `users/${handle}`), {
+        role,
+    });
+};

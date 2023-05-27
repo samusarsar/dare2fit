@@ -14,18 +14,24 @@ import {
 } from '@chakra-ui/react';
 import { IUserData } from '../../../common/types';
 import { AppContext } from '../../../context/AppContext/AppContext';
-import { makeFriends, resolveRequestByRecipient, resolveRequestBySender, sendFriendRequest, unFriend } from '../../../services/user.services';
+import { changeUserRole, makeFriends, resolveRequestByRecipient, resolveRequestBySender, sendFriendRequest, unFriend } from '../../../services/user.services';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../../config/firebase-config';
+import { useParams } from 'react-router';
+import { Roles } from '../../../common/enums';
 
 const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
     const { userData } = useContext(AppContext);
+
+    const [currUser, setCurrUser] = useState(user);
 
     const [isFriend, setIsFriend] = useState(false);
     const [requestSent, setRequestSent] = useState(false);
     const [requestReceived, setRequestReceived] = useState(false);
     const [loadingFriendInfo, setLoadingFriendInfo] = useState(true);
     const [loadingBtn, setLoadingBtn] = useState(false);
+
+    const { handle } = useParams();
 
     const textColor = useColorModeValue('gray.700', 'white');
 
@@ -60,6 +66,10 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
             .then(() => setLoadingBtn(false));
     };
 
+    const handleRoleChange = (role: Roles) => {
+        changeUserRole(user.handle, role);
+    };
+
     useEffect(() => {
         return onValue(ref(db, `users/${userData!.handle}`), (snapshot) => {
             setLoadingFriendInfo(true);
@@ -68,6 +78,12 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
             setRequestSent(data.sentFriendRequests ? Object.keys(data.sentFriendRequests).includes(user.handle) : false);
             setRequestReceived(data.receivedFriendRequests ? Object.keys(data.receivedFriendRequests).includes(user.handle) : false);
             setLoadingFriendInfo(false);
+        });
+    }, []);
+
+    useEffect(() => {
+        return onValue(ref(db, `users/${user.handle}`), (snapshot) => {
+            setCurrUser(snapshot.val());
         });
     }, []);
 
@@ -83,7 +99,7 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
                             fontWeight="bold"
                             minWidth="100%"
                         >
-                            {user.firstName} {user.lastName}
+                            {currUser.firstName} {currUser.lastName}
                         </Text>
                         <Text fontSize="md" color='gray.400' fontWeight="bold">
                             @{user.handle}
@@ -101,35 +117,75 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
                     p="3px 10px"
                     borderRadius="8px"
                 >
-                    {user.role}
+                    {currUser.role}
                 </Badge>
             </Td>
-            <Td>
-                {!loadingFriendInfo ?
-                    (<VStack align='start'>
-                        {isFriend ?
-                            (<Button variant='ghost' colorScheme='red' isLoading={loadingBtn} onClick={handleRemoveFriend}>
+            {!handle ?
+                (<Td>
+                    {!loadingFriendInfo ?
+                        (<VStack align='start'>
+                            {isFriend ?
+                                (<Button variant='ghost' colorScheme='red' isLoading={loadingBtn} onClick={handleRemoveFriend}>
                                 Remove Friend
-                            </Button>) :
-                            requestSent ?
-                                (<Button variant='outline' colorScheme='telegram' isLoading={loadingBtn} onClick={handleWithdrawFriendRequest}>
-                                    Pending
                                 </Button>) :
-                                requestReceived ?
-                                    (<>
-                                        <Button variant='ghost' colorScheme='whatsapp' isLoading={loadingBtn} onClick={handleAcceptFriendRequest}>
+                                requestSent ?
+                                    (<Button variant='outline' colorScheme='telegram' isLoading={loadingBtn} onClick={handleWithdrawFriendRequest}>
+                                    Pending
+                                    </Button>) :
+                                    requestReceived ?
+                                        (<>
+                                            <Button variant='ghost' colorScheme='whatsapp' isLoading={loadingBtn} onClick={handleAcceptFriendRequest}>
                                             Accept
-                                        </Button>
-                                        <Button variant='ghost' colorScheme='red' isLoading={loadingBtn} onClick={handleRejectFriendRequest}>
+                                            </Button>
+                                            <Button variant='ghost' colorScheme='red' isLoading={loadingBtn} onClick={handleRejectFriendRequest}>
                                             Reject
-                                        </Button>
-                                    </>) :
-                                    (<Button variant='solid' colorScheme='whatsapp' isLoading={loadingBtn} onClick={handleAddFriend}>
+                                            </Button>
+                                        </>) :
+                                        (<Button variant='solid' colorScheme='whatsapp' isLoading={loadingBtn} onClick={handleAddFriend}>
                                         Add Friend
-                                    </Button>)}
-                    </VStack>) :
-                    <Spinner />}
-            </Td>
+                                        </Button>)}
+                        </VStack>) :
+                        <Spinner />}
+                </Td>) :
+                currUser.role !== Roles.Admin &&
+                (<>
+                    <Td>
+                        <VStack>
+                            {(currUser.role !== Roles.Blocked && currUser.role !== Roles.WantAdmin) &&
+                            (<Button w='100%' variant='ghost' colorScheme='teal' isLoading={loadingBtn}
+                                onClick={() => handleRoleChange(Roles.Admin)}>
+                                Make Admin
+                            </Button>)}
+                            {(currUser.role === Roles.WantAdmin) &&
+                            (<>
+                                <Button w='100%' variant='ghost' colorScheme='teal' isLoading={loadingBtn}
+                                    onClick={() => handleRoleChange(Roles.Admin)}>
+                                    Accept Admin
+                                </Button>
+                                <Button w='100%' variant='ghost' colorScheme='gray' isLoading={loadingBtn}
+                                    onClick={() => handleRoleChange(Roles.Base)}>
+                                    Reject Admin
+                                </Button>
+                            </>)}
+                        </VStack>
+                    </Td>
+                    <Td>
+                        <VStack>
+                            {currUser.role !== Roles.Blocked ?
+                                <Button w='100%' variant='solid' colorScheme='red' isLoading={loadingBtn}
+                                    onClick={() => handleRoleChange(Roles.Blocked)}>
+                                    Block
+                                </Button> :
+                                <Button w='100%' variant='solid' colorScheme='twitter' isLoading={loadingBtn}
+                                    onClick={() => handleRoleChange(Roles.Base)}>
+                                    Unblock
+                                </Button>}
+                            {/* <Button w='100%' variant='outline' colorScheme='red' isLoading={loadingBtn}>
+                                Delete
+                            </Button> */}
+                        </VStack>
+                    </Td>
+                </>)}
         </Tr>
     );
 };
