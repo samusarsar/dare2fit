@@ -11,6 +11,12 @@ const ProfileView: FC = () => {
     const { handle } = useParams();
 
     const [profile, setProfile] = useState<IUserData | null>(null);
+    const [trigger, setTrigger] = useState<boolean>(false);
+
+    useEffect(() => {
+        setProfile(null);
+        setTrigger(!trigger);
+    }, [handle]);
 
     useEffect(() => {
         setProfile(null);
@@ -18,7 +24,7 @@ const ProfileView: FC = () => {
             const data = snapshot.val();
             setProfile(data);
         });
-    }, [handle]);
+    }, [trigger]);
 
     if (profile) {
         return (
