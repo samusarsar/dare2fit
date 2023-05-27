@@ -1,6 +1,6 @@
 import { FC, ReactElement, useContext, useRef, useState } from 'react';
 import { IUserData } from '../../../common/types';
-import { Badge, Box, Button, Center, HStack, Icon, Input, Switch, Table, Tbody, Td, Text, Th, Thead, Tr, VStack, useNumberInput } from '@chakra-ui/react';
+import { Badge, Box, Button, Center, HStack, Icon, Input, Switch, Table, Tbody, Td, Text, Th, Thead, Tr, VStack, useColorModeValue, useNumberInput } from '@chakra-ui/react';
 import { TiFeather } from 'react-icons/ti';
 import { TbWeight } from 'react-icons/tb';
 import { BsCheck } from 'react-icons/bs';
@@ -21,6 +21,8 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                 (profile.health?.BMI >= 25 && profile.health?.BMI < 30) ?
                     { category: 'overweight', color: 'purple', icon: TbWeight } :
                     { category: 'obese', color: 'red', icon: BiHealth };
+
+    const inputColor = useColorModeValue('blackAlpha.400', 'whiteAlpha.400');
 
     const weightInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -81,10 +83,12 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                                 <VStack>
                                     <HStack>
                                         <Button {...incWeight} colorScheme='facebook'>+</Button>
-                                        <Input {...inputWeight} ref={weightInputRef} />
+                                        <Input {...inputWeight} ref={weightInputRef} bg={inputColor} />
                                         <Button {...decWeight} colorScheme='facebook'>-</Button>
                                     </HStack>
-                                    <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+weightInputRef.current!.value, 'weight')}>Update</Button>
+                                    <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+weightInputRef.current!.value, 'weight')}>
+                                        Update in {isMetric ? 'kg' : 'lbs'}
+                                    </Button>
                                 </VStack>
                             </Td>
                         </Tr>
@@ -102,10 +106,12 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                                 <VStack>
                                     <HStack>
                                         <Button {...incHeight} colorScheme='facebook'>+</Button>
-                                        <Input {...inputHeight} ref={heightInputRef} />
+                                        <Input {...inputHeight} ref={heightInputRef} bg={inputColor} />
                                         <Button {...decHeight} colorScheme='facebook'>-</Button>
                                     </HStack>
-                                    <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+heightInputRef.current!.value, 'height')}>Update</Button>
+                                    <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+heightInputRef.current!.value, 'height')}>
+                                        Update in {isMetric ? 'cm' : 'ft'}
+                                    </Button>
                                 </VStack>
                             </Td>
                         </Tr>
