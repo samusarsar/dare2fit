@@ -34,7 +34,7 @@ const SuggestedExercises: FC<ISuggestedExercisesProps> = ({ suggestedExercises, 
                 <Heading size='md'>Suggested Exercises</Heading>
             </CardHeader>
             <CardBody>
-                <Accordion defaultIndex={[0]} allowMultiple>
+                <Accordion allowMultiple>
                     {suggestedExercises.map(e => (
                         <SingleSuggestedExercise
                             key={e.name}
