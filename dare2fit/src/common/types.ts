@@ -34,10 +34,10 @@ export interface IExercise {
 export interface IWorkoutFormValues {
     workoutName: string,
     category: string,
-    duration: string,
-    difficulty: string,
-    calories: string,
-    instructions: string,
+    difficulty?: string,
+    duration?: string,
+    calories?: string,
+    instructions?: string,
     exercises: IWorkoutExercise[] | [], // TODO
 }
 

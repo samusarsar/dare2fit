@@ -23,14 +23,19 @@ const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, 
     const initialRef = useRef(null);
 
     const handleAddExercise = (e: ISuggestedExercise) => {
+        const exerciseToBeAdded: IWorkoutExercise = {
+            ...e,
+            units: units,
+            quantity: quantity,
+        };
+
+        if (weight) {
+            exerciseToBeAdded.weight = weight;
+        }
+
         setWorkoutExercises([
             ...workoutExercises,
-            {
-                ...e,
-                units: units,
-                quantity: quantity,
-                weight: weight,
-            },
+            exerciseToBeAdded,
         ]);
         setQuantity(0);
         setWeight(0);

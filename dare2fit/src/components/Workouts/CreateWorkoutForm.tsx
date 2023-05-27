@@ -38,6 +38,19 @@ const CreateWorkoutForm: FC = () => {
             user: userData?.handle,
         };
 
+        if (!workout.difficulty) {
+            delete workout.difficulty;
+        }
+        if (!workout.duration) {
+            delete workout.duration;
+        }
+        if (!workout.calories) {
+            delete workout.calories;
+        }
+        if (!workout.instructions) {
+            delete workout.instructions;
+        }
+
         addWorkout(workout, userData?.handle);
         setSubmitting(false);
     };
@@ -167,7 +180,7 @@ const CreateWorkoutForm: FC = () => {
                                             <Heading size='md'>Added Exercises</Heading>
                                         </CardHeader>
                                         <CardBody>
-                                            <Accordion defaultIndex={[0]} allowMultiple>
+                                            <Accordion allowMultiple>
                                                 {workoutExercises.length ? (
                                                     workoutExercises.map(e => (
                                                         <SingleExercise key={e.name} exercise={e}>

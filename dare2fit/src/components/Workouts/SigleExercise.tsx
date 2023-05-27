@@ -4,6 +4,7 @@ import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, B
 import { BiDumbbell } from 'react-icons/bi';
 import { GiBiceps } from 'react-icons/gi';
 import { MdSportsGymnastics } from 'react-icons/md';
+import { FaWeightHanging } from 'react-icons/fa';
 
 import { IWorkoutExercise, ISuggestedExercise } from '../../common/types';
 
@@ -35,8 +36,16 @@ const SingleExercise: FC<{ exercise: IWorkoutExercise | ISuggestedExercise, chil
 
                     <VStack>
                         <MdSportsGymnastics />
-                        <Badge colorScheme='red'>{exercise.type}</Badge>
+                        <Badge colorScheme='yellow'>{exercise.type}</Badge>
                     </VStack>
+
+                    {('weight' in exercise) && (
+                        <VStack>
+                            <FaWeightHanging />
+                            <Badge colorScheme='red'>{exercise.weight} kg</Badge>
+                        </VStack>
+                    )}
+
                 </Flex>
                 <Text mt={5}>{exercise.instructions}</Text>
 
