@@ -1,4 +1,4 @@
-import { equalTo, get, orderByChild, push, query, ref, set, update } from 'firebase/database';
+import { get, push, ref, set, update } from 'firebase/database';
 import { db } from '../config/firebase-config';
 
 /**
@@ -8,10 +8,25 @@ import { db } from '../config/firebase-config';
  * @throws {Error} - If no goals are found for the given user.
  */
 export const getGoalsByHandle = (handle: string) => {
-    return get(query(ref(db, `goals`), orderByChild('author'), equalTo(handle)))
-        .then((snapshot) => {
+    return get(ref(db, `users/${handle}/goals`))
+        .then(snapshot => {
             if (!snapshot.exists()) {
-                throw new Error('No goals by this user');
+                throw new Error('No goals for this user');
+            }
+
+            return snapshot.val();
+        })
+        .then(data => {
+            const promises = Object.keys(data).map(goalId => getGoalByID(goalId));
+            return Promise.all(promises);
+        });
+};
+
+export const getGoalByID = (goalId: string) => {
+    return get(ref(db, `goals/${goalId}`))
+        .then(snapshot => {
+            if (!snapshot.exists()) {
+                throw new Error('No such goal');
             }
 
             return snapshot.val();

@@ -5,6 +5,7 @@ import ProfileDetails from '../ProfileDetails/ProfileDetails';
 import ProfileHealth from '../ProfileHealth/ProfileHealth';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import ProfileAdminPanel from '../ProfileAdminPanel/ProfileAdminPanel';
+import ProfileGoals from '../ProfileGoals/ProfileGoals';
 
 const ProfileTabs: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -17,6 +18,8 @@ const ProfileTabs: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
                 {isMe && <Tab>Health</Tab>}
                 <Tab>Details</Tab>
                 {isMe && <Tab>Admin Panel</Tab>}
+                {!isMe && <Tab>Goals</Tab>}
+                {!isMe && <Tab>Workouts</Tab>}
             </TabList>
             <TabPanels bg='brand.600'>
                 {isMe &&
@@ -29,6 +32,13 @@ const ProfileTabs: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
                 {isMe &&
                 <TabPanel>
                     <ProfileAdminPanel />
+                </TabPanel>}
+                {!isMe &&
+                <TabPanel>
+                    <ProfileGoals profile={profile} />
+                </TabPanel>}
+                {!isMe &&
+                <TabPanel>
                 </TabPanel>}
             </TabPanels>
         </Tabs>
