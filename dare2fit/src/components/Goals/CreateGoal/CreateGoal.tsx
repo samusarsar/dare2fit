@@ -22,7 +22,7 @@ import { IoMdAdd } from 'react-icons/io';
 import HabitForm from './HabitForm/HabitForm';
 import ChallengeForm from './ChallengeForm/ChallengeForm';
 
-const CreateGoal: FC = (): ReactElement => {
+const CreateGoal: FC<{ index?: number }> = ({ index = 0 }): ReactElement => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const backgroundColor = useColorModeValue('brand.white', 'brand.grey');
 
@@ -54,7 +54,7 @@ const CreateGoal: FC = (): ReactElement => {
                     <ModalHeader>Add Goal</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
-                        <Tabs variant="solid-rounded" isFitted>
+                        <Tabs variant="solid-rounded" defaultIndex={index} isFitted>
                             <TabList>
                                 <Tab>Habit</Tab>
                                 <Tab>Challenge</Tab>
