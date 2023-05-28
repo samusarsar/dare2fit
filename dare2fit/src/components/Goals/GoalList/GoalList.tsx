@@ -74,7 +74,7 @@ const GoalList: FC<{ goals: IGoal[] | null, heading: string, SingleGoal: FC<{ go
             </HStack>
             {(goalsToShow && !goalsToShow.length) &&
                 (<HStack w='310px' h='250px' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={background}>
-                    {handle ?
+                    {!handle ?
                         <CreateGoal index={heading === 'My Habits:' ? 0 : 1} /> :
                         <>
                             <Icon as={ImFilesEmpty} fontSize='2em' />
