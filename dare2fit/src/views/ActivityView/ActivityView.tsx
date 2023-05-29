@@ -1,8 +1,12 @@
-import React from 'react';
+import { VStack } from '@chakra-ui/react';
+import { FC, ReactElement } from 'react';
+import ActivityLogger from '../../components/Activity/ActivityLogger/ActivityLogger';
 
-const ActivityView: React.FC = () => {
+const ActivityView: FC = (): ReactElement => {
     return (
-        <p>Activity View</p>
+        <VStack>
+            <ActivityLogger />
+        </VStack>
     );
 };
 
