@@ -3,9 +3,9 @@ import { Dispatch, FC, SetStateAction, useRef, useState } from 'react';
 // eslint-disable-next-line max-len
 import { Button, FormControl, FormLabel, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Radio, RadioGroup, Stack, useDisclosure } from '@chakra-ui/react';
 import { GrAdd } from 'react-icons/gr';
-import { IWorkoutExercise, ISuggestedExercise } from '../../common/types';
+import { IWorkoutExercise, ISuggestedExercise } from '../../../common/types';
 import SingleExercise from './SigleExercise';
-import { ExerciseUnits } from '../../common/enums';
+import { ExerciseUnits } from '../../../common/enums';
 
 interface ISingleSuggestedExerciseProps {
     exercise: ISuggestedExercise,

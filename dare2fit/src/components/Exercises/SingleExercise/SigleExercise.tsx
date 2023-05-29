@@ -6,7 +6,7 @@ import { GiBiceps } from 'react-icons/gi';
 import { MdSportsGymnastics } from 'react-icons/md';
 import { FaWeightHanging } from 'react-icons/fa';
 
-import { IWorkoutExercise, ISuggestedExercise } from '../../common/types';
+import { IWorkoutExercise, ISuggestedExercise } from '../../../common/types';
 
 const SingleExercise: FC<{ exercise: IWorkoutExercise | ISuggestedExercise, children?: ReactElement }> = ({ exercise, children }) => {
 

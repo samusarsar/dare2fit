@@ -7,7 +7,6 @@ import { IoMdAdd } from 'react-icons/io';
 
 const WorkoutsView: FC = (): ReactElement => {
 
-
     return (
         <VStack p={5} bg={useColorModeValue('brand.light', 'brand.dark')} gap={4}>
             <Button
