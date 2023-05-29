@@ -6,8 +6,12 @@ import { COLOR_BRAND_BLUE, COLOR_BRAND_GREEN, COLOR_BRAND_RED, COLOR_BRAND_YELLO
 import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Icon } from '@chakra-ui/icon';
 import { AiOutlineCheck } from 'react-icons/ai';
+import { Button } from '@chakra-ui/react';
 
 const HabitRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
+    const trackColor = useColorModeValue('rgba(0, 0, 0, 0.24)', 'rgba(255, 255, 255, 0.24)');
+    const tooltipColor = useColorModeValue('whiteAlpha.800', 'blackAlpha.800');
+
     let hoverText: string;
     const habitProgress = (goal[goal.author] as number) / goal.target * 100;
     const habitProgressText = `${habitProgress.toFixed(0)}%`;
@@ -17,7 +21,7 @@ const HabitRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
         habitProgress < 80 ? COLOR_BRAND_YELLOW :
             habitProgress < 100 ? COLOR_BRAND_BLUE :
                 COLOR_BRAND_GREEN;
-    const trackColor = useColorModeValue('rgba(0, 0, 0, 0.24)', 'rgba(255, 255, 255, 0.24)');
+
 
     const [circleInfo, setCircleInfo] = useState(habitProgressText);
 
@@ -40,9 +44,10 @@ const HabitRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
     }
 
     const radialData: RadialBarSerie<RadialBarDatum>[] = [{
-        'id': `${hoverText}`,
+        'id': hoverText,
         'data': [
             {
+                'x': hoverText,
                 'y': goal[goal.author] as number,
             },
         ],
@@ -64,7 +69,11 @@ const HabitRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
                 enableRadialGrid={false}
                 radialAxisStart={null}
                 circularAxisOuter={null}
-                isInteractive={false}
+                tooltip={(el) => {
+                    return (
+                        <Button bg={tooltipColor}>{el.bar.category}: {el.bar.value}</Button>
+                    );
+                }}
                 motionConfig="molasses"
                 transitionMode="startAngle"
             />

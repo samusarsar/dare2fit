@@ -7,6 +7,7 @@ import GoalList from '../../components/Goals/GoalList/GoalList';
 import SingleChallenge from '../../components/Goals/SingleChallenge/SingleChallenge';
 import CreateGoal from '../../components/Goals/CreateGoal/CreateGoal';
 import { IGoal } from '../../common/types';
+import { GoalTypes } from '../../common/enums';
 
 const GoalsView: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -29,8 +30,8 @@ const GoalsView: FC = (): ReactElement => {
     return (
         <VStack gap={2}>
             <CreateGoal />
-            <GoalList goals={habits} heading='My Habits:' SingleGoal={SingleHabit} />
-            <GoalList goals={challenges} heading='My Challenges:' SingleGoal={SingleChallenge} />
+            <GoalList goals={habits} goalType={GoalTypes.habit} heading='My Habits:' SingleGoal={SingleHabit} />
+            <GoalList goals={challenges} goalType={GoalTypes.challenge} heading='My Challenges:' SingleGoal={SingleChallenge} />
         </VStack>
     );
 };
