@@ -3,7 +3,7 @@ import { FC, useContext, useState } from 'react';
 // eslint-disable-next-line max-len
 import { Heading, Box, Stack, Button, useColorModeValue, VStack, FormControl, FormLabel, FormErrorMessage, Input, Grid, Select, Textarea, Card, CardHeader, CardBody, Accordion, Text, IconButton, Badge } from '@chakra-ui/react';
 import { IoMdRemove } from 'react-icons/io';
-import { Formik, Form, Field, FormikProps, FormikHelpers, FormikState, FieldProps } from 'formik';
+import { Formik, Field, FormikHelpers } from 'formik';
 import { WORKOUT_NAME_MAX_LENGTH, WORKOUT_NAME_MIN_LENGTH } from '../../common/constants';
 import SelectExercisesForm from './SelectExercisesForm';
 import { IWorkoutExercise, IWorkoutFormValues } from '../../common/types';
@@ -31,7 +31,7 @@ const CreateWorkoutForm: FC = () => {
         setWorkoutExercises(workoutExercises.filter(ex => ex.name !== exercise.name));
     };
 
-    const handleSubmit = (values: IWorkoutFormValues, { setSubmitting }: FormikHelpers<IWorkoutFormValues>) => {
+    const handleCreate = (values: IWorkoutFormValues, { setSubmitting }: FormikHelpers<IWorkoutFormValues>) => {
         const workout = {
             ...values,
             exercises: workoutExercises,
@@ -51,7 +51,7 @@ const CreateWorkoutForm: FC = () => {
             delete workout.instructions;
         }
 
-        addWorkout(workout, userData?.handle);
+        addWorkout(workout, userData!.handle);
         setSubmitting(false);
     };
 
@@ -73,6 +73,15 @@ const CreateWorkoutForm: FC = () => {
         return error;
     };
 
+    const validatePositiveNumber = (value: string) => {
+        let error;
+        if (value === '') return error;
+        if (!Number(value) || Number(value) <= 0) {
+            error = 'Please provide a positive number';
+        }
+        return error;
+    };
+
     return (
         <Box
             w='80%'
@@ -89,91 +98,91 @@ const CreateWorkoutForm: FC = () => {
 
                     <Formik
                         initialValues={initialValues}
-                        onSubmit={handleSubmit}
+                        onSubmit={handleCreate}
                     >
                         {({
-                            // values,
-                            // touched,
-                            // handleChange,
-                            // handleBlur,
-                            // handleSubmit,
+                            handleSubmit,
+                            errors,
+                            touched,
                             isSubmitting,
                         }) => (
-                            <Form>
+                            <form onSubmit={handleSubmit}>
                                 <VStack>
-                                    <Field id='workoutName' name='workoutName' validate={validateWorkoutName} isRequired>
-                                        {({ field, form }: FieldProps<string, FormikProps<IWorkoutFormValues>>) => {
-                                            // console.log(form);
-                                            return (
-                                                <FormControl isRequired isInvalid={form.errors.workoutName && form.touched.workoutName}>
-                                                    <FormLabel htmlFor='workoutName'>Workout Name</FormLabel>
-                                                    <Input {...field} placeholder='Workout Name' />
-                                                    <FormErrorMessage>{form.errors.workoutName}</FormErrorMessage>
-                                                </FormControl>
-                                            );
-                                        }
-                                        }
-                                    </Field>
+
+                                    <FormControl isRequired isInvalid={!!errors.workoutName && touched.workoutName}>
+                                        <FormLabel htmlFor='workoutName'>Workout Name</FormLabel>
+                                        <Field
+                                            validate={validateWorkoutName}
+                                            id='workoutName'
+                                            name="workoutName"
+                                            as={Input}
+                                            placeholder='Workout Name' />
+                                        <FormErrorMessage>{errors.workoutName}</FormErrorMessage>
+                                    </FormControl>
+
 
                                     <Grid templateColumns='repeat(4, 1fr)' gap={2}>
 
-                                        <Field id='category' name='category' validate={validateCategory} isRequired>
-                                            {({ field, form }: FieldProps<string, FormikProps<IWorkoutFormValues>>) => (
-                                                <FormControl isRequired isInvalid={form.errors.category && form.touched.category}>
-                                                    <FormLabel htmlFor='category'>Category</FormLabel>
-                                                    <Input placeholder='select category' as={Select} {...field}>
-                                                        <option value='strength'>Strength</option>
-                                                        <option value='stamina'>Stamina</option>
-                                                        <option value='stretching'>Stretching</option>
-                                                    </Input>
-                                                    <FormErrorMessage>{form.errors.category}</FormErrorMessage>
-                                                </FormControl>
-                                            )}
-                                        </Field>
+                                        <FormControl isRequired isInvalid={!!errors.category && touched.category}>
+                                            <FormLabel htmlFor='category'>Category</FormLabel>
+                                            <Field
+                                                validate={validateCategory}
+                                                id='category'
+                                                name="category"
+                                                as={Select}
+                                                placeholder='select category'>
+                                                <option value='strength'>Strength</option>
+                                                <option value='stamina'>Stamina</option>
+                                                <option value='stretching'>Stretching</option>
+                                            </Field>
+                                            <FormErrorMessage>{errors.category}</FormErrorMessage>
+                                        </FormControl>
 
-                                        <Field id='difficulty' name='difficulty'>
-                                            {({ field }: FieldProps<string, FormikProps<IWorkoutFormValues>>) => (
-                                                <FormControl>
-                                                    <FormLabel htmlFor='difficulty'>Difficulty</FormLabel>
-                                                    <Input placeholder='select difficulty' as={Select} {...field}>
-                                                        <option value='beginner'>Beginner</option>
-                                                        <option value='intermediate'>Intermediate</option>
-                                                        <option value='advanced'>Advanced</option>
-                                                    </Input>
-                                                </FormControl>
-                                            )}
-                                        </Field>
+                                        <FormControl>
+                                            <FormLabel htmlFor='difficulty'>Difficulty</FormLabel>
+                                            <Field
+                                                id='difficulty'
+                                                name="difficulty"
+                                                as={Select}
+                                                placeholder='select difficulty'>
+                                                <option value='beginner'>Beginner</option>
+                                                <option value='intermediate'>Intermediate</option>
+                                                <option value='advanced'>Advanced</option>
+                                            </Field>
+                                        </FormControl>
 
-                                        <Field id='duration' name='duration'>
-                                            {({ field }: FieldProps<string, FormikProps<IWorkoutFormValues>>) => (
-                                                <FormControl>
-                                                    <FormLabel htmlFor='duration'>Duration</FormLabel>
-                                                    <Input placeholder='in minutes' {...field}>
-                                                    </Input>
-                                                </FormControl>
-                                            )}
-                                        </Field>
+                                        <FormControl isInvalid={!!errors.duration}>
+                                            <FormLabel htmlFor='duration'>Duration</FormLabel>
+                                            <Field
+                                                validate={validatePositiveNumber}
+                                                id='duration'
+                                                name="duration"
+                                                as={Input}
+                                                placeholder='in minutes' />
+                                            <FormErrorMessage>{errors.duration}</FormErrorMessage>
+                                        </FormControl>
 
-                                        <Field id='calories' name='calories'>
-                                            {({ field }: FieldProps<string, FormikProps<IWorkoutFormValues>>) => (
-                                                <FormControl>
-                                                    <FormLabel htmlFor='calories'>Calories</FormLabel>
-                                                    <Input placeholder='in kcal' {...field}>
-                                                    </Input>
-                                                </FormControl>
-                                            )}
-                                        </Field>
+                                        <FormControl isInvalid={!!errors.calories}>
+                                            <FormLabel htmlFor='calories'>Calories</FormLabel>
+                                            <Field
+                                                validate={validatePositiveNumber}
+                                                id='calories'
+                                                name="calories"
+                                                as={Input}
+                                                placeholder='in kcal' />
+                                            <FormErrorMessage>{errors.calories}</FormErrorMessage>
+                                        </FormControl>
+
                                     </Grid>
 
-                                    <Field id='instructions' name='instructions'>
-                                        {({ field }: FieldProps<string, FormikProps<IWorkoutFormValues>>) => (
-                                            <FormControl>
-                                                <FormLabel htmlFor='instructions'>Instructions</FormLabel>
-                                                <Input as={Textarea} placeholder='additional instructions' {...field}>
-                                                </Input>
-                                            </FormControl>
-                                        )}
-                                    </Field>
+                                    <FormControl>
+                                        <FormLabel htmlFor='instructions'>Instructions</FormLabel>
+                                        <Field
+                                            id='instructions'
+                                            name="instructions"
+                                            as={Textarea}
+                                            placeholder='additional instructions' />
+                                    </FormControl>
 
                                     <Card width='lg'>
                                         <CardHeader>
@@ -220,7 +229,7 @@ const CreateWorkoutForm: FC = () => {
                                     Create Workout
                                 </Button>
 
-                            </Form>
+                            </form>
                         )}
                     </Formik>
                     <SelectExercisesForm workoutExercises={workoutExercises} setWorkoutExercises={setWorkoutExercises} />
