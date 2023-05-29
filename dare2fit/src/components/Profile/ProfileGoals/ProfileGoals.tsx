@@ -3,8 +3,6 @@ import { IGoal, IUserData } from '../../../common/types';
 import { getGoalsByHandle } from '../../../services/goal.services';
 import { VStack } from '@chakra-ui/react';
 import GoalList from '../../Goals/GoalList/GoalList';
-import SingleHabit from '../../Goals/SingleHabit/SingleHabit';
-import SingleChallenge from '../../Goals/SingleChallenge/SingleChallenge';
 import { GoalTypes } from '../../../common/enums';
 
 const ProfileGoals: FC<{ profile: IUserData }> = ({ profile }) => {
@@ -25,8 +23,8 @@ const ProfileGoals: FC<{ profile: IUserData }> = ({ profile }) => {
 
     return (
         <VStack gap={2}>
-            <GoalList goals={habits} goalType={GoalTypes.habit} heading={`${profile.handle}'s Habits:`} SingleGoal={SingleHabit} />
-            <GoalList goals={challenges} goalType={GoalTypes.challenge} heading={`${profile.handle}'s Challenges:`} SingleGoal={SingleChallenge} />
+            <GoalList goals={habits} goalType={GoalTypes.habit} heading={`${profile.handle}'s Habits:`} />
+            <GoalList goals={challenges} goalType={GoalTypes.challenge} heading={`${profile.handle}'s Challenges:`} />
         </VStack>
     );
 };

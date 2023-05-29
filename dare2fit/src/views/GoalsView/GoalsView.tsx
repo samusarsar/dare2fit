@@ -2,9 +2,7 @@ import { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../context/AppContext/AppContext';
 import { getGoalsByHandle } from '../../services/goal.services';
 import { VStack } from '@chakra-ui/layout';
-import SingleHabit from '../../components/Goals/SingleHabit/SingleHabit';
 import GoalList from '../../components/Goals/GoalList/GoalList';
-import SingleChallenge from '../../components/Goals/SingleChallenge/SingleChallenge';
 import CreateGoal from '../../components/Goals/CreateGoal/CreateGoal';
 import { IGoal } from '../../common/types';
 import { GoalTypes } from '../../common/enums';
@@ -30,8 +28,8 @@ const GoalsView: FC = (): ReactElement => {
     return (
         <VStack gap={2}>
             <CreateGoal />
-            <GoalList goals={habits} goalType={GoalTypes.habit} heading='My Habits:' SingleGoal={SingleHabit} />
-            <GoalList goals={challenges} goalType={GoalTypes.challenge} heading='My Challenges:' SingleGoal={SingleChallenge} />
+            <GoalList goals={habits} goalType={GoalTypes.habit} heading='My Habits:' />
+            <GoalList goals={challenges} goalType={GoalTypes.challenge} heading='My Challenges:' />
         </VStack>
     );
 };

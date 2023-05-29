@@ -8,8 +8,9 @@ import { ImFilesEmpty } from 'react-icons/im';
 import CreateGoal from '../CreateGoal/CreateGoal';
 import { useParams } from 'react-router';
 import { GoalTypes } from '../../../common/enums';
+import SingleGoal from '../SingleGoal/SingleGoal';
 
-const GoalList: FC<{ goals: IGoal[] | null, goalType: GoalTypes, heading: string, SingleGoal: FC<{ goal: IGoal }> }> = ({ goals, goalType, heading, SingleGoal }): ReactElement => {
+const GoalList: FC<{ goals: IGoal[] | null, goalType: GoalTypes, heading: string }> = ({ goals, goalType, heading }): ReactElement => {
     const [filter, setFilter] = useState('all');
     const [goalsToShow, setGoalsToShow] = useState(goals);
 
