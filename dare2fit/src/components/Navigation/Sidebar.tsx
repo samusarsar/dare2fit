@@ -1,11 +1,12 @@
 import { FC, ReactElement } from 'react';
-
 import { Box, CloseButton, Flex, Image, useColorModeValue } from '@chakra-ui/react';
-
+import { useNavigate } from 'react-router';
 import NavButton from './NavButton';
 
 const Sidebar: FC<{ onClose: () => void, display?: object }> = ({ onClose, ...rest }): ReactElement => {
     const bg = useColorModeValue('brand.white', 'brand.grey');
+
+    const navigate = useNavigate();
 
     return (
         <Box
@@ -21,7 +22,12 @@ const Sidebar: FC<{ onClose: () => void, display?: object }> = ({ onClose, ...re
                     mt={4}
                     w='200px'
                     // eslint-disable-next-line max-len
-                    src='https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-05.png?alt=media&token=b30b1374-884a-46c5-b544-3b4d86fe5f41' />
+                    src='https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-05.png?alt=media&token=b30b1374-884a-46c5-b544-3b4d86fe5f41'
+                    _hover={{ cursor: 'pointer' }}
+                    onClick={() => {
+                        navigate('../../');
+                        onClose();
+                    }}/>
                 <CloseButton
                     display={{ base: 'flex', md: 'none' }}
                     onClick={onClose}/>
