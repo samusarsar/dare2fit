@@ -88,6 +88,7 @@ const HabitRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
                 top='50%'
                 left='50%'
                 transform='translate(-50%, -50%)'
+                _hover={{ bg: `${trackColor}` }}
                 transition='0.2s ease-in'
                 onMouseEnter={() => setCircleInfo(habitUnitsLeftText)}
                 onMouseLeave={() => setCircleInfo(habitProgressText)}>
