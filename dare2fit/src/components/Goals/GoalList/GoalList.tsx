@@ -7,8 +7,9 @@ import { Icon, useColorModeValue } from '@chakra-ui/react';
 import { ImFilesEmpty } from 'react-icons/im';
 import CreateGoal from '../CreateGoal/CreateGoal';
 import { useParams } from 'react-router';
+import { GoalTypes } from '../../../common/enums';
 
-const GoalList: FC<{ goals: IGoal[] | null, heading: string, SingleGoal: FC<{ goal: IGoal }> }> = ({ goals, heading, SingleGoal }): ReactElement => {
+const GoalList: FC<{ goals: IGoal[] | null, goalType: GoalTypes, heading: string, SingleGoal: FC<{ goal: IGoal }> }> = ({ goals, goalType, heading, SingleGoal }): ReactElement => {
     const [filter, setFilter] = useState('all');
     const [goalsToShow, setGoalsToShow] = useState(goals);
 
@@ -51,7 +52,7 @@ const GoalList: FC<{ goals: IGoal[] | null, heading: string, SingleGoal: FC<{ go
         <VStack align='start' p={4} w='100%' rounded='lg'>
             <HStack align='space-between' gap={2} mb={2}>
                 <Heading as='h2' size='lg'>{heading}</Heading>
-                {heading === 'My Habits:' ?
+                {goalType === GoalTypes.habit ?
                     (<Select w='110px' onChange={(e) => setFilter(e.target.value)}>
                         <option value='all'>All</option>
                         <option value='daily'>Daily</option>
@@ -75,10 +76,10 @@ const GoalList: FC<{ goals: IGoal[] | null, heading: string, SingleGoal: FC<{ go
             {(goalsToShow && !goalsToShow.length) &&
                 (<HStack w='310px' h='250px' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={background}>
                     {!handle ?
-                        <CreateGoal index={heading === 'My Habits:' ? 0 : 1} /> :
+                        <CreateGoal index={goalType === GoalTypes.habit ? 0 : 1} /> :
                         <>
                             <Icon as={ImFilesEmpty} fontSize='2em' />
-                            <Text>No {heading === 'My Habits:' ? 'habits' : 'challenges'}</Text>
+                            <Text>No {goalType === GoalTypes.habit ? 'habits' : 'challenges'}</Text>
                         </>}
                 </HStack>)}
             {goalsToShow &&

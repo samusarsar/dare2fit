@@ -63,3 +63,8 @@ export enum ExerciseUnits {
     reps = 'reps',
     mins = 'mins',
 }
+
+export enum GoalTypes {
+    habit = 'habit',
+    challenge = 'challenge'
+}
