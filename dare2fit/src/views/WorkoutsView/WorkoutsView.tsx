@@ -1,9 +1,10 @@
 import { FC, ReactElement } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
-import { Button, Divider, Icon, VStack, useColorModeValue } from '@chakra-ui/react';
+import { Button, Divider, Heading, Icon, VStack, useColorModeValue } from '@chakra-ui/react';
 
 import { IoMdAdd } from 'react-icons/io';
+import MyWorkouts from '../../components/Workouts/MyWorkouts';
 
 const WorkoutsView: FC = (): ReactElement => {
 
@@ -20,9 +21,10 @@ const WorkoutsView: FC = (): ReactElement => {
             <Outlet />
 
             <Divider />
-            <h1>My workouts</h1>
+            <Heading>My workouts</Heading>
+            <MyWorkouts />
             <Divider />
-            <h1>Saved workouts</h1>
+            <Heading>Saved workouts</Heading>
 
         </VStack>
     );

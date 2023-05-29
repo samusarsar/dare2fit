@@ -7,7 +7,7 @@ import { Formik, Field, FormikHelpers } from 'formik';
 import { WORKOUT_NAME_MAX_LENGTH, WORKOUT_NAME_MIN_LENGTH } from '../../common/constants';
 import SelectExercisesForm from '../Exercises/SelectExercisesForm/SelectExercisesForm';
 import { IWorkoutExercise, IWorkoutFormValues } from '../../common/types';
-import SingleExercise from '../Exercises/SingleExercise/SigleExercise';
+import SingleExercise from '../Exercises/SingleExercise/SingleExercise';
 import { addWorkout } from '../../services/workout.services';
 import { AppContext } from '../../context/AppContext/AppContext';
 

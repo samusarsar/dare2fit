@@ -4,7 +4,7 @@ import { Dispatch, FC, SetStateAction, useRef, useState } from 'react';
 import { Button, FormControl, FormLabel, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Radio, RadioGroup, Stack, useDisclosure } from '@chakra-ui/react';
 import { GrAdd } from 'react-icons/gr';
 import { IWorkoutExercise, ISuggestedExercise } from '../../../common/types';
-import SingleExercise from './SigleExercise';
+import SingleExercise from './SingleExercise';
 import { ExerciseUnits } from '../../../common/enums';
 
 interface ISingleSuggestedExerciseProps {
