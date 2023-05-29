@@ -5,8 +5,11 @@ import { onValue, ref } from 'firebase/database';
 import { db } from '../../../config/firebase-config';
 import ChallengeRadialBar from '../ChallengeRadialBar/ChallengeRadialBar';
 import ChallengeLabels from '../ChallengeLabels/ChallengeLabels';
+import HabitRadialBar from '../HabitRadialBar/HabitRadialBar';
+import HabitLabels from '../HabitLabels/HabitLabels';
+import { GoalTypes } from '../../../common/enums';
 
-const SingleChallenge: FC<{ goal: IGoal }> = ({ goal }): ReactElement => {
+const SingleGoal: FC<{ goal: IGoal }> = ({ goal }): ReactElement => {
     const [currGoal, setCurrGoal] = useState<IGoal>(goal);
 
     const background = useColorModeValue('brand.white', 'brand.grey');
@@ -20,11 +23,15 @@ const SingleChallenge: FC<{ goal: IGoal }> = ({ goal }): ReactElement => {
     return (
         <Box bg={background} rounded='lg' boxShadow='lg' h='100%' p={4}>
             <Box h='200px'>
-                <ChallengeRadialBar goal={currGoal}/>
+                {goal.category === GoalTypes.habit ?
+                    <HabitRadialBar goal={currGoal}/> :
+                    <ChallengeRadialBar goal={currGoal}/>}
             </Box>
-            <ChallengeLabels goal={currGoal} />
+            {goal.category === GoalTypes.habit ?
+                <HabitLabels goal={currGoal} /> :
+                <ChallengeLabels goal={currGoal} />}
         </Box>
     );
 };
 
-export default SingleChallenge;
+export default SingleGoal;

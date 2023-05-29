@@ -1,12 +1,11 @@
 import { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../context/AppContext/AppContext';
 import { getGoalsByHandle } from '../../services/goal.services';
-import { HStack } from '@chakra-ui/layout';
-import SingleHabit from '../../components/Goals/SingleHabit/SingleHabit';
+import { VStack } from '@chakra-ui/layout';
 import GoalList from '../../components/Goals/GoalList/GoalList';
-import SingleChallenge from '../../components/Goals/SingleChallenge/SingleChallenge';
 import CreateGoal from '../../components/Goals/CreateGoal/CreateGoal';
 import { IGoal } from '../../common/types';
+import { GoalTypes } from '../../common/enums';
 
 const GoalsView: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -27,11 +26,11 @@ const GoalsView: FC = (): ReactElement => {
     }, [userData]);
 
     return (
-        <HStack gap={2} flexWrap='wrap'>
+        <VStack gap={2}>
             <CreateGoal />
-            <GoalList goals={habits} heading='My Habits:' SingleGoal={SingleHabit} />
-            <GoalList goals={challenges} heading='My Challenges:' SingleGoal={SingleChallenge} />
-        </HStack>
+            <GoalList goals={habits} goalType={GoalTypes.habit} heading='My Habits:' />
+            <GoalList goals={challenges} goalType={GoalTypes.challenge} heading='My Challenges:' />
+        </VStack>
     );
 };
 
