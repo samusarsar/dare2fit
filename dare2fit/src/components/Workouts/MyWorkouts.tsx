@@ -25,7 +25,7 @@ const MyWorkouts: FC = () => {
     }
 
     return (
-        < Flex gap = { 2} >
+        <Flex width='100%' gap={2} overflowX='auto' >
             { myWorkouts.map(workout => (<WorkoutDetails key={workout.workoutId} workout={workout} />)) }
         </Flex >
     );

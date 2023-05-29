@@ -14,7 +14,7 @@ const SingleExercise: FC<{ exercise: IWorkoutExercise | ISuggestedExercise, chil
 
         <AccordionItem key={exercise.name}>
             <HStack>
-                <AccordionButton>
+                <AccordionButton px={1}>
                     <Box flex='1' textAlign='left'>
                         <Heading size='xs'>{exercise.name}</Heading>
                     </Box>
@@ -23,7 +23,7 @@ const SingleExercise: FC<{ exercise: IWorkoutExercise | ISuggestedExercise, chil
                 {children}
             </HStack>
             <AccordionPanel pb={4}>
-                <Flex flexDirection='row' flexWrap='wrap' justifyContent='space-evenly'>
+                <Flex gap={2} flexDirection='row' flexWrap='wrap' justifyContent='space-evenly'>
                     <VStack>
                         <BiDumbbell />
                         <Badge colorScheme='purple'>{exercise.equipment}</Badge>
