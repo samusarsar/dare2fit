@@ -4,7 +4,7 @@ import { HStack, Heading, Select, Text } from '@chakra-ui/react';
 
 import { AppContext } from '../../../context/AppContext/AppContext';
 import { IWorkout } from '../../../common/types';
-import { getWorkoutsByUser } from '../../../services/workout.services';
+import { getWorkoutsByHandle } from '../../../services/workout.services';
 import ActivityCarousel from './ActivityCarousel';
 import WorkoutDetails from '../../Workouts/WorkoutDetails';
 
@@ -15,7 +15,7 @@ const WorkoutsCarousel: FC = () => {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
-        getWorkoutsByUser(userData!.handle)
+        getWorkoutsByHandle(userData!.handle)
             .then(setMyWorkouts)
             .catch(() => setMyWorkouts([]));
     }, [userData]);
