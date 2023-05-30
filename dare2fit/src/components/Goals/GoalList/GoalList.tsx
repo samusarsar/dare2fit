@@ -1,5 +1,5 @@
 import { FC, ReactElement, useEffect, useState } from 'react';
-import { Box, HStack, Heading, VStack, Text } from '@chakra-ui/layout';
+import { Box, HStack, Heading, VStack, Text, Grid } from '@chakra-ui/layout';
 import { IGoal } from '../../../common/types';
 import { Select } from '@chakra-ui/select';
 import moment from 'moment';
@@ -85,11 +85,11 @@ const GoalList: FC<{ goals: IGoal[] | null, goalType: GoalTypes, heading: string
                 </HStack>)}
             {goalsToShow &&
                 (<Box w='100%' overflowX='auto' pb={8}>
-                    <HStack gap={2} h='100%' align='start'>
+                    <Grid gap={2} templateColumns='repeat(auto-fill, 1fr)' h='100%' display='flex'>
 
                         {goalsToShow.map(goal =>
                             <SingleGoal key={goal.goalId} goal={goal} />)}
-                    </HStack>
+                    </Grid>
                 </Box>)}
         </VStack>
     );
