@@ -1,6 +1,6 @@
 import { push, ref, get, update, set } from 'firebase/database';
 import { db } from '../config/firebase-config';
-import { IWorkoutFormValues } from '../common/types';
+import { IWorkout, IWorkoutFormValues } from '../common/types';
 import moment from 'moment';
 
 /**
@@ -64,7 +64,7 @@ export const getWorkoutById = (workoutId: string) => {
  * @return {Promise<IWorkout>[]} - An array of promises, that resolves to array of IWorkout objects.
  * @throws {Error} - If no workouts are found for the given user.
  */
-export const getWorkoutsByUser = (handle: string) => {
+export const getWorkoutsByHandle = (handle: string) => {
     return get(ref(db, `users/${handle}/workouts`))
         .then(snapshot => {
             if (!snapshot.exists()) {
@@ -75,4 +75,13 @@ export const getWorkoutsByUser = (handle: string) => {
         .then(workouts => {
             return Promise.all(Object.keys(workouts).map(workoutId => getWorkoutById(workoutId)));
         });
+};
+
+/**
+ * Sorts an array of workouts by date in descending order.
+ * @param {IWorkout[]} workouts - The array of workouts to sort.
+ * @return {IWorkout[]} - The sorted array of workouts.
+ */
+export const sortWorkoutsByDate = (workouts: IWorkout[] | []) => {
+    return [...workouts].sort((a, b) => moment(b.createdOn, 'DD/MM/YYYY HH;mm;ss').diff(moment(a.createdOn, 'DD/MM/YYYY HH;mm;ss')));
 };
