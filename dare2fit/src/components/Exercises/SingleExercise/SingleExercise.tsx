@@ -1,123 +1,58 @@
 import { FC, ReactElement } from 'react';
 
-import {
-    Avatar,
-    Badge,
-    Button,
-    Flex,
-    Td,
-    Text,
-    Tr,
-    VStack,
-    useColorModeValue,
-} from '@chakra-ui/react';
-import { IExercise } from '../../../common/types';
+import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, Box, Flex, HStack, Heading, Text, VStack } from '@chakra-ui/react';
+import { BiDumbbell } from 'react-icons/bi';
+import { GiBiceps } from 'react-icons/gi';
+import { MdSportsGymnastics } from 'react-icons/md';
+import { FaWeightHanging } from 'react-icons/fa';
 
-const SingleExerciseRow: FC<{ exercise: IExercise }> = ({ exercise }): ReactElement => {
-    const textColor = useColorModeValue('gray.700', 'white');
+import { IWorkoutExercise, ISuggestedExercise } from '../../../common/types';
 
-    let backUpImage;
-
-    switch (exercise.type) {
-    case 'walking':
-        backUpImage = 'https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Fpedestrian-man.png?alt=media&token=78c29f2a-d282-44f1-8fd7-d0308857ffd7';
-        break;
-    case 'running':
-        backUpImage = 'https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Frun.png?alt=media&token=685acae9-7433-4297-806f-e3505b9573d3';
-        break;
-    case 'cycling':
-        backUpImage = 'https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Fbicycle.png?alt=media&token=d5b2c767-3ac4-48f4-9296-7e5f441495f3';
-        break;
-    case 'swimming':
-        backUpImage = 'https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Fcardio.png?alt=media&token=7b08cdce-4577-4154-b3ee-c3499c5ef745';
-        break;
-    case 'stretching':
-    case 'lo-cardio':
-    case 'hi-cardio':
-        backUpImage = 'https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Fcardio.png?alt=media&token=7b08cdce-4577-4154-b3ee-c3499c5ef745';
-        break;
-    default:
-        backUpImage = 'https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Fweight.png?alt=media&token=04ebdb72-5335-4be8-b5ea-865a0794f0dd';
-    }
+const SingleExercise: FC<{ exercise: IWorkoutExercise | ISuggestedExercise, children?: ReactElement }> = ({ exercise, children }) => {
 
     return (
-        <Tr>
-            <Td pl="0px">
-                <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
-                    <Avatar src={exercise.imageURL || backUpImage} w="100px" h='100px' borderRadius="12px" me="18px" p={2} />
-                    <Flex direction="column">
-                        <Text
-                            fontSize="md"
-                            color={textColor}
-                            fontWeight="bold"
-                            minWidth="100%"
-                        >
-                            {exercise.exerciseName}
-                        </Text>
-                        <Text fontSize="sm" color="gray.400" fontWeight="normal">
-                            Created: {exercise.createdOn.split(' ')[0]}
-                        </Text>
-                        {exercise.lastEdited &&
-                        <Text fontSize="sm" color="gray.400" fontWeight="normal">
-                            Modified: {exercise.lastEdited.split(' ')[0]}
-                        </Text>}
-                    </Flex>
-                </Flex>
-            </Td>
 
-            <Td>
-                <Flex direction="column">
-                    <Text fontSize="md" color={textColor} fontWeight="bold">
-                        {exercise.type}
-                    </Text>
-                    <Text fontSize="sm" color="gray.400" fontWeight="normal">
-                        Units: &apos;{exercise.units}&apos;
-                    </Text>
+        <AccordionItem key={exercise.name}>
+            <HStack>
+                <AccordionButton px={1}>
+                    <Box flex='1' textAlign='left'>
+                        <Heading size='xs'>{exercise.name}</Heading>
+                    </Box>
+                    <AccordionIcon />
+                </AccordionButton>
+                {children}
+            </HStack>
+            <AccordionPanel pb={4}>
+                <Flex gap={2} flexDirection='row' flexWrap='wrap' justifyContent='space-evenly'>
+                    <VStack>
+                        <BiDumbbell />
+                        <Badge colorScheme='purple'>{exercise.equipment}</Badge>
+                    </VStack>
+
+                    <VStack>
+                        <GiBiceps />
+                        <Badge colorScheme='green'>{exercise.muscle}</Badge>
+                    </VStack>
+
+                    <VStack>
+                        <MdSportsGymnastics />
+                        <Badge colorScheme='yellow'>{exercise.type}</Badge>
+                    </VStack>
+
+                    {('weight' in exercise) && (
+                        <VStack>
+                            <FaWeightHanging />
+                            <Badge colorScheme='red'>{exercise.weight} kg</Badge>
+                        </VStack>
+                    )}
+
                 </Flex>
-            </Td>
-            <Td>
-                <Badge
-                    bg={exercise.difficulty === 'beginner' ? 'green.400' :
-                        exercise.difficulty === 'intermediate' ? 'blue.400' :
-                            'brand.purple'}
-                    color='brand.light'
-                    fontSize="14px"
-                    p="3px 10px"
-                    borderRadius="8px"
-                >
-                    {exercise.difficulty}
-                </Badge>
-            </Td>
-            <Td maxW='350px'>
-                <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-                    {exercise.instructions}
-                </Text>
-            </Td>
-            <Td>
-                <VStack align='start'>
-                    <Button bg="transparent">
-                        <Text
-                            fontSize="md"
-                            color="gray.400"
-                            fontWeight="bold"
-                            variant='ghost'
-                        >
-                            Edit
-                        </Text>
-                    </Button>
-                    <Button bg="transparent" variant='ghost' colorScheme='pink'>
-                        <Text
-                            fontSize="md"
-                            color="brand.red"
-                            fontWeight="bold"
-                        >
-                            Delete
-                        </Text>
-                    </Button>
-                </VStack>
-            </Td>
-        </Tr>
+                <Text mt={5}>{exercise.instructions}</Text>
+
+            </AccordionPanel>
+        </AccordionItem>
+
     );
 };
 
-export default SingleExerciseRow;
+export default SingleExercise;

@@ -2,9 +2,9 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 import { Box, Button, FormLabel, Grid, GridItem, Input, Select, Stack, VStack } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
-import { ExerciseDifficulty, ExerciseMuscle, ExerciseTypes } from '../../common/enums';
-import { IExerciseFormValues, IWorkoutExercise, ISuggestedExercise } from '../../common/types';
-import { findExercises } from '../../services/exercise.services';
+import { ExerciseDifficulty, ExerciseMuscle, ExerciseTypes } from '../../../common/enums';
+import { IExerciseFormValues, IWorkoutExercise, ISuggestedExercise } from '../../../common/types';
+import { findExercises } from '../../../services/exercise.services';
 import SuggestedExercises from './SuggestedExercises';
 
 interface ISelectExercisesFormProps {
