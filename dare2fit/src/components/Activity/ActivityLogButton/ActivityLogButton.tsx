@@ -5,7 +5,7 @@ import { IoIosArrowUp } from 'react-icons/io';
 import { MdArrowDropDown } from 'react-icons/md';
 import { getEnumValue } from '../../../common/helper';
 import { Units } from '../../../common/enums';
-import { getWorkoutsByUser } from '../../../services/workout.services';
+import { getWorkoutsByHandle } from '../../../services/workout.services';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import { ITodayLog, IWorkout } from '../../../common/types';
 import { logActivity } from '../../../services/activity.services';
@@ -45,7 +45,7 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): Re
     };
 
     useEffect(() => {
-        getWorkoutsByUser(userData!.handle)
+        getWorkoutsByHandle(userData!.handle)
             .then(resultArr => setUserWorkouts(resultArr))
             .catch(() => setUserWorkouts([]));
     }, []);
