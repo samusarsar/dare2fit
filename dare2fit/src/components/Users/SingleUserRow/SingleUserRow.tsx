@@ -92,7 +92,7 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
         <Tr>
             <Td>
                 <Flex align="center" minWidth='100%' flexWrap="nowrap">
-                    <Avatar name={user.handle} w="80px" h='80px' borderRadius="12px" me="18px" p={2} _hover={{ cursor: 'pointer' }}
+                    <Avatar src={user.avatarURL} name={user.handle} w="80px" h='80px' borderRadius="12px" me="18px" p={2} _hover={{ cursor: 'pointer' }}
                         onClick={() => navigate(`../../profile/${user.handle}`)} />
                     <Flex direction="column" gap={1}>
                         <Text

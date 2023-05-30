@@ -6,7 +6,7 @@ import { ExerciseUnits } from './enums';
 export interface IAppContextValue {
     user: User | null | undefined;
     userData: IUserData | null;
-    setContext: Dispatch<SetStateAction<{ user: User | null | undefined; userData: null; }>>;
+    setContext?: Dispatch<SetStateAction<{ user: User | null | undefined; userData: IUserData | null; }>>;
 }
 
 export type IHealth = {
@@ -17,6 +17,10 @@ export type IHealth = {
     BMI?: number,
     activityLevel?: number,
     waterGoal?: number,
+}
+
+export type IFriendsLists = {
+    [key: string]: true,
 }
 
 export interface IUserData {
@@ -31,6 +35,9 @@ export interface IUserData {
     avatarURL?: string,
     dateOfBirth?: string,
     health?: IHealth,
+    friends?: IFriendsLists,
+    sentFriendRequests?: IFriendsLists,
+    receivedFriendRequests?: IFriendsLists,
 }
 
 export type IDuration = {
