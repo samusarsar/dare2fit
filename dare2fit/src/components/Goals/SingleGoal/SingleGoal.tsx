@@ -28,7 +28,7 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
 
     if (currGoal) {
         return (
-            <Box bg={background} rounded='lg' boxShadow='lg' h='100%' p={4} position='relative'>
+            <Box bg={background} rounded='lg' boxShadow='lg' minH='100%' p={4} position='relative'>
                 {(authorIsMe || goal.category === GoalTypes.challenge) && <GoalOptionsButton goal={currGoal} />}
                 <Box h='200px'>
                     {goal.category === GoalTypes.habit ?
