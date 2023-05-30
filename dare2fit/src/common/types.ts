@@ -38,19 +38,24 @@ export type IDuration = {
     endDate: string,
 }
 
+export type ICompetingWith = {
+    [key: string]: string,
+}
+
 export interface IGoal {
     name?: string;
     goalId: string;
     category: string;
     type: string;
     duration?: IDuration;
+    competingWith?: ICompetingWith;
     repeat?: string;
     target: number;
     units: string;
     author: string;
     isExpired?: boolean;
     initDate?: string;
-    [key: string]: number | string | boolean | undefined | IDuration;
+    [key: string]: number | string | boolean | undefined | IDuration | ICompetingWith;
 }
 
 // export interface IExercise {

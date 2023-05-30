@@ -102,3 +102,13 @@ export const editGoal = ({ goalId, name, target } : { goalId: string, name?: str
 
     return update(ref(db, `goals/${goalId}`), updates);
 };
+
+export const competeOnGoal = (handle: string, goalId: string) => {
+    return update(ref(db, `goals/${goalId}/competingWith`), { [handle]: true })
+        .then(() => addGoalToUser(handle, goalId));
+};
+
+export const stopCompetingOnGoal = (handle: string, goalId: string) => {
+    return update(ref(db, `goals/${goalId}/competingWith`), { [handle]: null })
+        .then(() => removeGoalFromUser(handle, goalId));
+};
