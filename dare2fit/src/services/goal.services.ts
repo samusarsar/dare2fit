@@ -17,9 +17,16 @@ export const getGoalsByHandle = (handle: string) => {
             return snapshot.val();
         })
         .then(data => {
-            const promises = Object.keys(data).map(goalId => getGoalByID(goalId));
+            const promises = Object.keys(data).map(goalId => {
+                return getGoalByID(goalId)
+                    .catch(() => {
+                        removeGoalFromUser(handle, goalId);
+                        return null;
+                    });
+            });
             return Promise.all(promises);
-        });
+        })
+        .then(goals => goals.filter(goal => goal));
 };
 
 export const getGoalByID = (goalId: string) => {
