@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { onValue, ref } from 'firebase/database';
+import { equalTo, onValue, orderByChild, query, ref } from 'firebase/database';
 import { auth, db } from './config/firebase-config.js';
-import { getUserData } from './services/user.services.js';
 import { AppContext } from './context/AppContext/AppContext.js';
 
 import RootLayout from './views/RootLayout/RootLayout.jsx';
@@ -18,10 +17,11 @@ import SignUp from './views/SignUp/SignUp.js';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.js';
 import WorkoutsView from './views/WorkoutsView/WorkoutsView.js';
 import CreateWorkoutForm from './components/Workouts/CreateWorkoutForm.js';
+import { IAppContextValue } from './common/types.js';
 
 const App: React.FC = () => {
     const [user, loading] = useAuthState(auth);
-    const [appState, setAppState] = useState({
+    const [appState, setAppState] = useState<IAppContextValue>({
         user,
         userData: null,
     });
@@ -35,26 +35,25 @@ const App: React.FC = () => {
 
     useEffect(() => {
         if (!user) {
-            return;
+            return () => {
+                return;
+            };
         }
 
-        getUserData(user.uid)
-            .then(data => {
-                return onValue(ref(db, `users/${Object.keys(data)[0]}`), (snapshot) => {
-                    const userData = snapshot.val();
-                    setAppState({
-                        ...appState,
-                        userData: userData,
-                    });
+        return onValue(query(ref(db, `users`), orderByChild('uid'), equalTo(user.uid)), (snapshot) => {
+            if (snapshot.exists()) {
+                const userData = Object.values(snapshot.val())[0];
+                setAppState({
+                    ...appState,
+                    userData,
                 });
-            })
-            .catch(e => alert(e.message));
+            }
+        });
     }, [user]);
 
     if ((!loading && !user) || (!loading && user && appState.userData)) {
         return (
             <>
-                {/* {console.log(appState.userData)} */}
                 <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
                     <Routes>
                         <Route path='/' element={<RootLayout />}>

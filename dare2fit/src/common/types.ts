@@ -6,7 +6,7 @@ import { ExerciseUnits } from './enums';
 export interface IAppContextValue {
     user: User | null | undefined;
     userData: IUserData | null;
-    setContext: Dispatch<SetStateAction<{ user: User | null | undefined; userData: null; }>>;
+    setContext?: Dispatch<SetStateAction<{ user: User | null | undefined; userData: IUserData | null; }>>;
 }
 
 export type IHealth = {
@@ -17,6 +17,10 @@ export type IHealth = {
     BMI?: number,
     activityLevel?: number,
     waterGoal?: number,
+}
+
+export type IFriendsLists = {
+    [key: string]: true,
 }
 
 export interface IUserData {
@@ -31,11 +35,18 @@ export interface IUserData {
     avatarURL?: string,
     dateOfBirth?: string,
     health?: IHealth,
+    friends?: IFriendsLists,
+    sentFriendRequests?: IFriendsLists,
+    receivedFriendRequests?: IFriendsLists,
 }
 
 export type IDuration = {
     startDate: string,
     endDate: string,
+}
+
+export type ICompetingWith = {
+    [key: string]: string,
 }
 
 export interface IGoal {
@@ -44,13 +55,14 @@ export interface IGoal {
     category: string;
     type: string;
     duration?: IDuration;
+    competingWith?: ICompetingWith;
     repeat?: string;
     target: number;
     units: string;
     author: string;
     isExpired?: boolean;
     initDate?: string;
-    [key: string]: number | string | boolean | undefined | IDuration;
+    [key: string]: number | string | boolean | undefined | IDuration | ICompetingWith;
 }
 
 // export interface IExercise {
