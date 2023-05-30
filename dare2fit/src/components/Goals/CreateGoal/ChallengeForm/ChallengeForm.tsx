@@ -39,8 +39,8 @@ const ChallengeForm: FC<{ onClose: () => void }> = ({ onClose }): ReactElement =
                     .then(() => {
                         onClose();
                         toast({
-                            title: 'Exercise created successfully!',
-                            description: 'You have added a new exercise.',
+                            title: 'Challenge created successfully!',
+                            description: 'You have added a new challenge.',
                             status: 'success',
                             duration: 3000,
                             isClosable: true,
@@ -50,7 +50,7 @@ const ChallengeForm: FC<{ onClose: () => void }> = ({ onClose }): ReactElement =
                     })
                     .catch(() => {
                         toast({
-                            title: 'Error creating exercise!',
+                            title: 'Error creating challenge!',
                             description: 'Please try again later.',
                             status: 'error',
                             duration: 3000,
