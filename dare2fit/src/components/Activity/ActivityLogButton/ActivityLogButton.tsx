@@ -1,26 +1,59 @@
 // eslint-disable-next-line max-len
 import { Box, Button, ButtonGroup, Collapse, HStack, IconButton, InputGroup, InputRightAddon, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, useDisclosure } from '@chakra-ui/react';
-import { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { IoIosArrowUp } from 'react-icons/io';
 import { MdArrowDropDown } from 'react-icons/md';
 import { getEnumValue } from '../../../common/helper';
 import { Units } from '../../../common/enums';
+import { getWorkoutsByUser } from '../../../services/workout.services';
+import { AppContext } from '../../../context/AppContext/AppContext';
+import { ITodayLog, IWorkout } from '../../../common/types';
+import { logActivity } from '../../../services/activity.services';
 
-const ActivityLogButton: FC = (): ReactElement => {
+const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): ReactElement => {
+    const { userData } = useContext(AppContext);
+
     const [activityType, setActivityType] = useState<string>('');
+    const [loggedValue, setLoggedValue] = useState<string | number | null>(null);
+    const [userWorkouts, setUserWorkouts] = useState<IWorkout[] | []>([]);
 
     const { isOpen, onToggle } = useDisclosure();
 
     const units = activityType ? getEnumValue(Units, activityType) : null;
 
+    const workoutOptions = (activityType === 'workout') ?
+        userWorkouts :
+        userWorkouts.filter(workout => workout.category === activityType);
+
+    const workoutIsLogged = todayLog ?
+        Object.keys(todayLog).includes('workout') :
+        false;
+
+    const handleLog = () => {
+        if (!!activityType && !!loggedValue) {
+            logActivity({ handle: userData!.handle, activityType, loggedValue });
+            onToggle();
+            setActivityType('');
+            setLoggedValue(null);
+        }
+    };
+
+    const handleHide = () => {
+        onToggle();
+        setActivityType('');
+        setLoggedValue(null);
+    };
+
+    useEffect(() => {
+        getWorkoutsByUser(userData!.handle)
+            .then(resultArr => setUserWorkouts(resultArr))
+            .catch(() => setUserWorkouts([]));
+    }, []);
+
     return (
         <Box>
             <Collapse in={isOpen} animateOpacity>
-                <HStack
-                    rounded='md'
-                    px={1}
-                    py={3}
-                >
+                <HStack rounded='md' px={1} py={3}>
                     <Select
                         icon={<MdArrowDropDown />}
                         value={activityType}
@@ -32,34 +65,33 @@ const ActivityLogButton: FC = (): ReactElement => {
                             <option value="cycling">Cycling</option>
                             <option value="swimming">Swimming</option>
                         </optgroup>
-                        <optgroup label="Workouts">
-                            <option value="workout">Any Workout</option>
-                            <option value="strength">Strength</option>
-                            <option value="stamina">Stamina</option>
-                            <option value="stretching">Stretching</option>
-                        </optgroup>
+                        {!workoutIsLogged &&
+                            <optgroup label="Workouts">
+                                <option value="workout">Any Workout</option>
+                                <option value="strength">Strength</option>
+                                <option value="stamina">Stamina</option>
+                                <option value="stretching">Stretching</option>
+                            </optgroup>}
                     </Select>
                     {(activityType && units === 'workouts') ?
                         (<Select
                             icon={<MdArrowDropDown />}
-                            placeholder='Select workout'>
+                            placeholder='Select workout'
+                            onChange={(e) => setLoggedValue(e.target.value)}>
                             <optgroup label="My Workouts">
-                                <option value="workout">Any Workout</option>
-                                <option value="strength">Strength</option>
-                                <option value="stamina">Stamina</option>
-                                <option value="stretching">Stretching</option>
+                                {workoutOptions.map(workout =>
+                                    <option key={workout.workoutId} value={workout.workoutName}>{workout.workoutName}</option>,
+                                )}
                             </optgroup>
                             <optgroup label="Saved Workouts">
-                                <option value="workout">Any Workout</option>
-                                <option value="strength">Strength</option>
-                                <option value="stamina">Stamina</option>
-                                <option value="stretching">Stretching</option>
+                                <option value="saved1">Saved Workout 1</option>
+                                <option value="saved2">Saved Workout 2</option>
                             </optgroup>
                         </Select>) :
                         (<>
                             {units &&
                                 (<InputGroup>
-                                    <NumberInput min={1} rounded='lg'>
+                                    <NumberInput min={1} rounded='lg' onChange={(e) => setLoggedValue(+e)}>
                                         <NumberInputField />
                                         <NumberInputStepper>
                                             <NumberIncrementStepper />
@@ -76,11 +108,8 @@ const ActivityLogButton: FC = (): ReactElement => {
             {!isOpen ?
                 <Button w='100%' colorScheme='yellow' onClick={onToggle}>Log Activity</Button> :
                 (<ButtonGroup w='100%' isAttached>
-                    <Button w='100%' colorScheme='yellow' >Log Activity</Button>
-                    <IconButton icon={<IoIosArrowUp />} aria-label='hide' onClick={() => {
-                        onToggle();
-                        setActivityType('');
-                    }} />
+                    <Button w='100%' colorScheme='yellow' isDisabled={!activityType || !loggedValue} onClick={handleLog}>Log Activity</Button>
+                    <IconButton icon={<IoIosArrowUp />} aria-label='hide' onClick={handleHide} />
                 </ButtonGroup>)}
         </Box>
     );

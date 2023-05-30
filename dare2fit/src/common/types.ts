@@ -110,3 +110,17 @@ export interface IWorkoutExercise extends ISuggestedExercise {
     quantity: number,
     weight?: number,
 }
+
+export type ILoggedWorkout = {
+    name: string,
+    category: string,
+};
+
+export interface ITodayLog {
+    workout?: ILoggedWorkout;
+    walking?: number;
+    running?: number;
+    cycling?: number;
+    swimming?: number;
+    [key: string]: string | number | ILoggedWorkout | undefined;
+}
