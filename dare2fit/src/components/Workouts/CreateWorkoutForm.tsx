@@ -35,7 +35,7 @@ const CreateWorkoutForm: FC = () => {
         const workout = {
             ...values,
             exercises: workoutExercises,
-            user: userData?.handle,
+            author: userData?.handle,
         };
 
         if (!workout.difficulty) {

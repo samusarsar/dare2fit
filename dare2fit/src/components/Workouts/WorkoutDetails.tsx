@@ -1,16 +1,21 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 
 import { Accordion, Badge, Card, CardBody, CardHeader, Flex, Heading, Text } from '@chakra-ui/react';
 import SingleExercise from '../Exercises/SingleExercise/SingleExercise';
 import { IWorkout } from '../../common/types';
+import { AppContext } from '../../context/AppContext/AppContext';
 
 
 const WorkoutDetails: FC<{ workout: IWorkout }> = ({ workout }) => {
+    const { userData } = useContext(AppContext);
 
     return (
         <Card width='sm' minW='3xs'>
             <CardHeader>
                 <Heading size='md'>{workout.workoutName}</Heading>
+                {workout.author !== userData!.handle && (
+                    <Text> by {workout.author}</Text>
+                )}
 
                 <Flex gap={2} my={1} wrap='wrap'>
                     {workout.category && (<Badge colorScheme='red'>{workout.category}</Badge>)}

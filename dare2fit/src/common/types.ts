@@ -68,7 +68,7 @@ export interface IGoal {
 
 export interface IWorkout {
     workoutId: string | null,
-    user: string,
+    author: string,
     createdOn: string,
     workoutName: string,
     category: string,
