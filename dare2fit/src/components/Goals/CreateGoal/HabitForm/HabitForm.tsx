@@ -31,8 +31,8 @@ const HabitForm: FC<{ onClose: () => void }> = ({ onClose }): ReactElement => {
                     .then(() => {
                         onClose();
                         toast({
-                            title: 'Exercise created successfully!',
-                            description: 'You have added a new exercise.',
+                            title: 'Habit created successfully!',
+                            description: 'You have added a new habit.',
                             status: 'success',
                             duration: 3000,
                             isClosable: true,
@@ -42,7 +42,7 @@ const HabitForm: FC<{ onClose: () => void }> = ({ onClose }): ReactElement => {
                     })
                     .catch(() => {
                         toast({
-                            title: 'Error creating exercise!',
+                            title: 'Error creating habit!',
                             description: 'Please try again later.',
                             status: 'error',
                             duration: 3000,

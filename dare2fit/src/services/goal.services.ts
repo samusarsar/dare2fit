@@ -1,4 +1,4 @@
-import { get, push, ref, set, update } from 'firebase/database';
+import { get, push, ref, remove, set, update } from 'firebase/database';
 import { db } from '../config/firebase-config';
 
 /**
@@ -82,4 +82,23 @@ const addGoalToUser = (handle: string, goalId: string) => {
                 });
             }
         });
+};
+
+export const deleteGoal = (handle: string, goalId: string) => {
+    return remove(ref(db, `goals/${goalId}`))
+        .then(() => removeGoalFromUser(handle, goalId));
+};
+
+export const removeGoalFromUser = (handle: string, goalId: string) => {
+    return remove(ref(db, `users/${handle}/goals/${goalId}`));
+};
+
+export const editGoal = ({ goalId, name, target } : { goalId: string, name?: string, target?: number }) => {
+    const updates = name && target ?
+        { name, target } :
+        name ?
+            { name } :
+            { target };
+
+    return update(ref(db, `goals/${goalId}`), updates);
 };
