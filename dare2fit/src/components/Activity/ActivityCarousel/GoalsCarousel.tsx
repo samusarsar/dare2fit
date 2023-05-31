@@ -1,6 +1,6 @@
 import { FC, useContext, useEffect, useState } from 'react';
 
-import { Box, Flex, HStack, Heading, Select, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Select, VStack } from '@chakra-ui/react';
 
 import { AppContext } from '../../../context/AppContext/AppContext';
 import { IGoal } from '../../../common/types';
@@ -18,6 +18,7 @@ const GoalsCarousel: FC = () => {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
+        setIndex(0);
         getGoalsByHandle(userData!.handle)
             .then((data: IGoal[]) => {
                 setHabits(Object.values(data).filter(goal => goal.repeat));
@@ -29,40 +30,37 @@ const GoalsCarousel: FC = () => {
             });
     }, [userData]);
 
+
     return (
-        <VStack px={1} align='start' rounded='lg'>
-            <HStack align='space-between' gap={2} mb={2}>
-                <Select
-                    onChange={(e) => setGoalsView(e.target.value)}>
-                    <option value={GoalTypes.habit}>Habits</option>
-                    <option value={GoalTypes.challenge}>Challenges</option>
-                </Select>
-            </HStack>
+        <Flex justifyContent='flex-start'>
+            <Box p={2} borderRadius='lg' bg='brand.yellow' width='fit'>
+                <Flex justifyContent='space-between' alignItems='center' color='brand.dark' gap={2} mb={2}>
+                    <Select variant='unstyled' width='50%'
+                        onChange={(e) => {
+                            setGoalsView(e.target.value);
+                            setIndex(0);
+                        } }>
+                        <option value={GoalTypes.habit}>Habits</option>
+                        <option value={GoalTypes.challenge}>Challenges</option>
+                    </Select>
+                    <ActivityCarousel setIndex={setIndex} index={index} length={goalsView === GoalTypes.habit ? habits.length : challenges.length}></ActivityCarousel>
+                </Flex>
 
-            <VStack align='start' rounded='lg'>
-                <Box height='300px' overflow='auto'>
-                    {goalsView === GoalTypes.habit && !habits.length ? (
-                        <Text>You don&apos;t have habits, yet...</Text>
-                    ) : goalsView === GoalTypes.habit ? (
-                        <>
-                            <ActivityCarousel setIndex={setIndex} index={index} length={habits.length}></ActivityCarousel>
+                <VStack align='start' rounded='lg'>
+                    <Box height='320px' width={{ base: '2xs', md: 'xs' }}>
+                        {goalsView === GoalTypes.habit && !habits.length ? (
+                            <Box width={{ base: 'fit', md: 'sm' }} minW='3xs' bg='brand.yellow' margin='auto'>You don&apos;t have habits, yet...</Box>
+                        ) : goalsView === GoalTypes.habit ? (
                             <SingleGoal goal={habits[index]} />
-
-                        </>
-
-                    ) : goalsView === GoalTypes.challenge && !challenges.length ? (
-                        <Flex><Text>You don&apos;t have challenges, yet...</Text></Flex>
-                    ) : (
-                        <>
-                            <ActivityCarousel setIndex={setIndex} index={index} length={challenges.length}></ActivityCarousel>
+                        ) : goalsView === GoalTypes.challenge && !challenges.length ? (
+                            <Box width={{ base: 'fit', md: 'sm' }} minW='3xs' bg='brand.yellow' margin='auto'>You don&apos;t have challenges, yet...</Box>
+                        ) : (
                             <SingleGoal goal={challenges[index]} />
-
-                        </>
-
-                    )}
-                </Box>
-            </VStack>
-        </VStack >
+                        )}
+                    </Box>
+                </VStack>
+            </Box>
+        </Flex >
     );
 };
 

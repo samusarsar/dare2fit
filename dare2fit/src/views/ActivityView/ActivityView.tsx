@@ -9,7 +9,7 @@ import GoalsCarousel from '../../components/Activity/ActivityCarousel/GoalsCarou
 const ActivityView: FC = (): ReactElement => {
     return (
         <Grid gap={5}>
-            <Flex justifyContent='flex-start' wrap='wrap' >
+            <Flex justifyContent={{ base: 'center', md: 'flex-start' }} wrap='wrap' gap={2} >
                 <WorkoutsCarousel />
                 <GoalsCarousel />
             </Flex>

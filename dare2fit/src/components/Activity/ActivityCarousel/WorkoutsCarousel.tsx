@@ -20,6 +20,7 @@ const WorkoutsCarousel: FC = () => {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
+        setIndex(0);
         getWorkoutsByHandle(userData!.handle)
             .then(workouts => {
                 const myWo = sortWorkoutsByDate(workouts.filter(w => w.author === userData!.handle));
@@ -46,7 +47,7 @@ const WorkoutsCarousel: FC = () => {
                 </Flex>
 
                 <VStack align='start' rounded='lg'>
-                    <Box height='300px' overflow='auto'>
+                    <Box height='320px' overflow='auto' width={{ base: '2xs', md: 'sm' }}>
                         {workoutsView === WorkoutTypes.my && !myWorkouts.length ? (
                             <Box width={{ base: 'fit', md: 'sm' }} minW='3xs' bg='brand.green' margin='auto'>You don&apos;t have workouts, yet...</Box>
                         ) : workoutsView === WorkoutTypes.my ? (
