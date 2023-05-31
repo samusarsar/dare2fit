@@ -1,5 +1,7 @@
-import { get, push, ref, remove, set, update } from 'firebase/database';
+import { endAt, get, orderByKey, push, query, ref, remove, set, startAt, update } from 'firebase/database';
 import { db } from '../config/firebase-config';
+import moment from 'moment';
+import { ITodayLog } from '../common/types';
 
 /**
  * Retrieves goals by handle from the database.
@@ -118,4 +120,59 @@ export const competeOnGoal = (handle: string, goalId: string) => {
 export const stopCompetingOnGoal = (handle: string, goalId: string) => {
     return update(ref(db, `goals/${goalId}/competingWith`), { [handle]: null })
         .then(() => removeGoalFromUser(handle, goalId));
+};
+
+/**
+ * Returns the activity logs within the current challenge period.
+ * @param {string} handle - The handle of the user.
+ * @param {string} startDate - The start date of the period.
+ * @param {string} endDate - The end date of the period.
+ * @return {Promise<ITodayLog[]>} - A promise that resolves with an array of daily activity logs.
+ * @throws {Error} - If no activity logs are found for these dates for this user.
+ */
+export const getChallengeLogByHandle = (handle: string, startDate: string, endDate: string): Promise<ITodayLog[]> => {
+    return get(query(ref(db, `logs/${handle}`), orderByKey(), startAt(startDate), endAt(endDate)))
+        .then(snapshot => {
+            if (!snapshot.exists()) {
+                throw new Error('No logs for these dates.');
+            }
+
+            return Object.values(snapshot.val());
+        });
+};
+
+/**
+ * Returns the activity logs within the current habit repeat period.
+ * @param {string} handle - The handle of the user.
+ * @param {string} repeat - The repeat period.
+ * @return {Promise<ITodayLog[]>} - A promise that resolves with an array of daily activity logs.
+ * @throws {Error} - If no activity logs are found for these dates for this user.
+ */
+export const getHabitLogByHandle = (handle: string, repeat: string): Promise<ITodayLog[]> => {
+    let startDate: string;
+    let endDate: string;
+
+    switch (repeat) {
+    case 'daily':
+        startDate = moment().format('YYYY-MM-DD');
+        endDate = moment().format('YYYY-MM-DD');
+        break;
+    case 'weekly':
+        startDate = moment().day(1).format('YYYY-MM-DD');
+        endDate = moment().format('YYYY-MM-DD');
+        break;
+    default:
+        startDate = moment().date(1).format('YYYY-MM-DD');
+        endDate = moment().format('YYYY-MM-DD');
+        break;
+    }
+
+    return get(query(ref(db, `logs/${handle}`), orderByKey(), startAt(startDate), endAt(endDate)))
+        .then(snapshot => {
+            if (!snapshot.exists()) {
+                throw new Error('No logs for these dates.');
+            }
+
+            return Object.values(snapshot.val());
+        });
 };

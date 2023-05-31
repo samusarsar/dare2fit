@@ -1,13 +1,13 @@
 import { Box, HStack, Heading, Text, VStack } from '@chakra-ui/layout';
 import { RadialBarDatum, RadialBarSerie, ResponsiveRadialBar } from '@nivo/radial-bar';
 import { FC } from 'react';
-import { IGoal } from '../../../common/types';
+import { IGoal, IGoalProgresses } from '../../../common/types';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Icon } from '@chakra-ui/icon';
 import { Button } from '@chakra-ui/button';
 import { AiFillCalendar } from 'react-icons/ai';
 
-const ChallengeRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
+const ChallengeRadialBar: FC<{ goal: IGoal, progress: IGoalProgresses }> = ({ goal, progress }) => {
     const trackColor = useColorModeValue('rgba(0, 0, 0, 0.24)', 'rgba(255, 255, 255, 0.24)');
     const tooltipColor = useColorModeValue('whiteAlpha.800', 'blackAlpha.800');
 
@@ -15,7 +15,7 @@ const ChallengeRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
         'id': goal.author,
         'data': [{
             'x': goal.author,
-            'y': (goal[goal.author] as number),
+            'y': progress[goal.author],
         }],
     };
 
@@ -26,7 +26,7 @@ const ChallengeRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
             'id': handle,
             'data': [{
                 'x': handle,
-                'y': (goal[handle] as number),
+                'y': progress[handle],
             }],
         }));
     }

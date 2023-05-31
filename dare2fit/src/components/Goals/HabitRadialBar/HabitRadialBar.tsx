@@ -1,21 +1,21 @@
 import { Box, Text, VStack } from '@chakra-ui/layout';
 import { RadialBarDatum, RadialBarSerie, ResponsiveRadialBar } from '@nivo/radial-bar';
-import { FC, useState } from 'react';
-import { IGoal } from '../../../common/types';
+import { FC, useEffect, useState } from 'react';
+import { IGoal, IGoalProgresses } from '../../../common/types';
 import { COLOR_BRAND_BLUE, COLOR_BRAND_GREEN, COLOR_BRAND_RED, COLOR_BRAND_YELLOW } from '../../../common/constants';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Icon } from '@chakra-ui/icon';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { Button } from '@chakra-ui/react';
 
-const HabitRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
+const HabitRadialBar: FC<{ goal: IGoal, progress: IGoalProgresses }> = ({ goal, progress }) => {
     const trackColor = useColorModeValue('rgba(0, 0, 0, 0.24)', 'rgba(255, 255, 255, 0.24)');
     const tooltipColor = useColorModeValue('whiteAlpha.800', 'blackAlpha.800');
 
     let hoverText: string;
-    const habitProgress = (goal[goal.author] as number) / goal.target * 100;
+    const habitProgress = (progress[goal.author] as number) / goal.target * 100;
     const habitProgressText = `${habitProgress.toFixed(0)}%`;
-    const habitUnitsLeft = goal.target - (goal[goal.author] as number);
+    const habitUnitsLeft = goal.target - (progress[goal.author] as number);
     const habitUnitsLeftText = `${habitUnitsLeft.toFixed(0)} ${goal.units} left`;
     const circleInfoColor = habitProgress < 50 ? COLOR_BRAND_RED :
         habitProgress < 80 ? COLOR_BRAND_YELLOW :
@@ -48,10 +48,14 @@ const HabitRadialBar: FC<{ goal: IGoal }> = ({ goal }) => {
         'data': [
             {
                 'x': hoverText,
-                'y': goal[goal.author] as number,
+                'y': progress[goal.author] as number,
             },
         ],
     }];
+
+    useEffect(() => {
+        setCircleInfo(habitProgressText);
+    }, [progress]);
 
     return (
         <Box h='100%' w='280px' position='relative'>
