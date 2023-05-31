@@ -4,16 +4,19 @@ import { Box, HStack, Heading, Select, Text, VStack } from '@chakra-ui/react';
 
 import { AppContext } from '../../../context/AppContext/AppContext';
 import { IWorkout } from '../../../common/types';
+
 import { getWorkoutsByHandle, sortWorkoutsByDate } from '../../../services/workout.services';
 import ActivityCarousel from './ActivityCarousel';
 import WorkoutDetails from '../../Workouts/WorkoutDetails';
+import { WorkoutTypes } from '../../../common/enums';
+
 
 const WorkoutsCarousel: FC = () => {
     const { userData } = useContext(AppContext);
 
     const [myWorkouts, setMyWorkouts] = useState<IWorkout[] | []>([]);
     const [savedWorkouts, setSavedWorkouts] = useState<IWorkout[] | []>([]);
-    const [workoutsView, setWorkoutsView] = useState('my');
+    const [workoutsView, setWorkoutsView] = useState<string>(WorkoutTypes.my);
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
@@ -30,26 +33,25 @@ const WorkoutsCarousel: FC = () => {
     return (
         <VStack px={1} align='start' rounded='lg'>
             <HStack align='space-between' gap={2} mb={2}>
-                <Heading as='h2' size='lg'>Workouts</Heading>
+                {/* <Heading as='h2' size='lg'>Workouts</Heading> */}
                 <Select
                     onChange={(e) => setWorkoutsView(e.target.value)}>
-                    <option value='my'>My Workouts</option>
-                    <option value='saved'>Saved Workouts</option>
+                    <option value={WorkoutTypes.my}>My Workouts</option>
+                    <option value={WorkoutTypes.saved}>Saved Workouts</option>
                 </Select>
+                <ActivityCarousel setIndex={setIndex} index={index} length={myWorkouts.length}></ActivityCarousel>
             </HStack>
 
             <VStack align='start' rounded='lg'>
                 <Box height='300px' overflow='auto'>
-                    {workoutsView === 'my' && !myWorkouts.length ? (
+                    {workoutsView === WorkoutTypes.my && !myWorkouts.length ? (
                         <Text>You don&apos;t have workouts, yet...</Text>
-                    ) : workoutsView === 'my' ? (
+                    ) : workoutsView === WorkoutTypes.my ? (
                         <>
-                            <ActivityCarousel setIndex={setIndex} index={index} length={myWorkouts.length}></ActivityCarousel>
                             <WorkoutDetails workout={myWorkouts[index]} />
-
                         </>
 
-                    ) : workoutsView === 'saved' && !savedWorkouts.length ? (
+                    ) : workoutsView === WorkoutTypes.saved && !savedWorkouts.length ? (
                         <Text>You don&apos;t have saved workouts, yet...</Text>
                     ) : (
                         <>

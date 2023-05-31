@@ -68,3 +68,8 @@ export enum GoalTypes {
     habit = 'habit',
     challenge = 'challenge'
 }
+
+export enum WorkoutTypes {
+    my = 'my',
+    saved = 'saved',
+}
