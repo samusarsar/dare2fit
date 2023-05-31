@@ -46,7 +46,8 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
         return getLogFn()
             .then(activities => {
                 let progressCalc = 0;
-                const relevantActivities = activities.filter(a => a[goal.type]);
+                const relevantActivities = activities.filter(a => a[typeIsWorkoutCategory ? 'workout' : goal.type]);
+
                 if (!relevantActivities.length) {
                     setProgress({
                         ...progress,
@@ -56,7 +57,7 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
 
                 relevantActivities.forEach(a => {
                     if (typeIsWorkoutCategory) {
-                        if (a.workout![goal.type]) {
+                        if (a.workout!.category === goal.type) {
                             progressCalc++;
                         }
                     } else if (goal.type === 'workout') {
