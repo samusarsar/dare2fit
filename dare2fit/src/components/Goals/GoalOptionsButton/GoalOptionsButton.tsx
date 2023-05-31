@@ -16,13 +16,27 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FiEdit2, FiDelete } from 'react-icons/fi';
 import { IGoal } from '../../../common/types';
 import { AppContext } from '../../../context/AppContext/AppContext';
-import { deleteGoal } from '../../../services/goal.services';
+import { competeOnGoal, deleteGoal, stopCompetingOnGoal } from '../../../services/goal.services';
 import EditGoal from '../EditGoal/EditGoal';
+import { GoalTypes } from '../../../common/enums';
+import { FaFlag } from 'react-icons/fa';
+import { IoMdReturnLeft } from 'react-icons/io';
 
 const GoalOptionsButton: FC<{ goal: IGoal }> = ({ goal }): ReactElement => {
     const { userData } = useContext(AppContext);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const authorIsMe = userData!.handle === goal.author;
+    const amCompeting = goal.competingWith ? Object.keys(goal.competingWith).includes(userData!.handle) : false;
+
+    const handleCompete = () => {
+        competeOnGoal(userData!.handle, goal.goalId);
+    };
+
+    const handleStopCompeting = () => {
+        stopCompetingOnGoal(userData!.handle, goal.goalId);
+    };
 
     const handleEdit = () => {
         onOpen();
@@ -48,27 +62,52 @@ const GoalOptionsButton: FC<{ goal: IGoal }> = ({ goal }): ReactElement => {
                     <PopoverArrow />
                     <PopoverBody>
                         <Stack>
-                            <Button
-                                w="194px"
-                                variant="ghost"
-                                rightIcon={<FiEdit2 />}
-                                justifyContent="space-between"
-                                fontWeight="normal"
-                                fontSize="sm"
-                                onClick={handleEdit}>
-                                Edit Goal
-                            </Button>
-                            <Button
-                                w="194px"
-                                variant="ghost"
-                                rightIcon={<FiDelete />}
-                                justifyContent="space-between"
-                                fontWeight="normal"
-                                colorScheme="red"
-                                fontSize="sm"
-                                onClick={handleDelete}>
-                                Delete Goal
-                            </Button>
+                            {(!authorIsMe && (goal.category === GoalTypes.challenge)) &&
+                                (!amCompeting ?
+                                    <Button
+                                        w="194px"
+                                        variant="ghost"
+                                        rightIcon={<FaFlag />}
+                                        justifyContent="space-between"
+                                        fontWeight="normal"
+                                        fontSize="sm"
+                                        onClick={handleCompete}>
+                                        Compete
+                                    </Button> :
+                                    <Button
+                                        w="194px"
+                                        variant="ghost"
+                                        rightIcon={<IoMdReturnLeft />}
+                                        justifyContent="space-between"
+                                        fontWeight="normal"
+                                        fontSize="sm"
+                                        onClick={handleStopCompeting}>
+                                        Exit Competition
+                                    </Button> )}
+                            {authorIsMe &&
+                            <>
+                                <Button
+                                    w="194px"
+                                    variant="ghost"
+                                    rightIcon={<FiEdit2 />}
+                                    justifyContent="space-between"
+                                    fontWeight="normal"
+                                    fontSize="sm"
+                                    onClick={handleEdit}>
+                                    Edit Goal
+                                </Button>
+                                <Button
+                                    w="194px"
+                                    variant="ghost"
+                                    rightIcon={<FiDelete />}
+                                    justifyContent="space-between"
+                                    fontWeight="normal"
+                                    colorScheme="red"
+                                    fontSize="sm"
+                                    onClick={handleDelete}>
+                                    Delete Goal
+                                </Button>
+                            </>}
                         </Stack>
                     </PopoverBody>
                 </PopoverContent>
