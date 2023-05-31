@@ -40,7 +40,7 @@ const GoalList: FC<{ goals: IGoal[] | null, goalType: GoalTypes, heading: string
                 setGoalsToShow(goals.filter(goal => goal.competingWith));
                 break;
             case 'active':
-                setGoalsToShow(goals.filter(goal => moment(new Date().toLocaleDateString(), 'DD/MM/YYYY') < moment(goal.duration?.endDate, 'DD/MM/YYYY')));
+                setGoalsToShow(goals.filter(goal => moment(new Date().toLocaleDateString(), 'DD/MM/YYYY') <= moment(goal.duration?.endDate, 'DD/MM/YYYY')));
                 break;
             case 'expired':
                 setGoalsToShow(goals.filter(goal => moment(new Date().toLocaleDateString(), 'DD/MM/YYYY') > moment(goal.duration?.endDate, 'DD/MM/YYYY')));
@@ -86,7 +86,6 @@ const GoalList: FC<{ goals: IGoal[] | null, goalType: GoalTypes, heading: string
             {goalsToShow &&
                 (<Box w='100%' overflowX='auto' pb={8}>
                     <Grid gap={2} templateColumns='repeat(auto-fill, 1fr)' h='100%' display='flex'>
-
                         {goalsToShow.map(goal =>
                             <SingleGoal key={goal.goalId} goal={goal} />)}
                     </Grid>

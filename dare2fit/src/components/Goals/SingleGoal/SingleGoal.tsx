@@ -24,11 +24,12 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
 
     const typeIsWorkoutCategory = goal.type === 'strength' || goal.type === 'stamina' || goal.type === 'stretching';
     const authorIsMe = userData!.handle === goal.author;
+    const amCompeting = currGoal.competingWith ? Object.keys(currGoal.competingWith).includes(userData!.handle) : false;
 
     let allProgressesLoaded: boolean;
-    if (goal.competingWith) {
+    if (currGoal.competingWith) {
         allProgressesLoaded = progress ?
-            Object.keys(progress).length === (Object.keys(goal.competingWith).length + 1) :
+            Object.keys(progress).length === (Object.keys(currGoal.competingWith).length + 1) :
             false;
     } else {
         allProgressesLoaded = !!progress;
@@ -50,10 +51,7 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
                 const relevantActivities = activities.filter(a => a[typeIsWorkoutCategory ? 'workout' : goal.type]);
 
                 if (!relevantActivities.length) {
-                    setProgress({
-                        ...progress,
-                        [handle]: 0,
-                    });
+                    return [handle, 0];
                 }
 
                 relevantActivities.forEach(a => {
@@ -68,16 +66,10 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
                     } else {
                         progressCalc += (a[(goal.type)] as number);
                     }
-                    setProgress({
-                        ...progress,
-                        [handle]: progressCalc,
-                    });
                 });
+                return [handle, progressCalc];
             })
-            .catch(() => setProgress({
-                ...progress,
-                [handle]: 0,
-            }));
+            .catch(() => [handle, 0]);
     };
 
     useEffect(() => {
@@ -88,30 +80,46 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
 
     useEffect(() => {
         const todayDate = moment().format('YYYY-MM-DD');
-        return onValue(ref(db, `logs/${goal.author}/${todayDate}`), () => {
-            return calculateProgressByHandle(goal.author);
+
+        return onValue(ref(db, `logs/${(!authorIsMe && amCompeting) ? userData!.handle : goal.author}/${todayDate}`), () => {
+            if (currGoal.competingWith) {
+                const competitors = Object.keys(currGoal.competingWith);
+                competitors.push(goal.author);
+
+                Promise.all(competitors.map(handle => calculateProgressByHandle(handle)))
+                    .then(resultArr => {
+                        const progressObj: IGoalProgresses = {};
+                        resultArr.forEach(resEl => {
+                            const [handleEl, progressEl] = resEl;
+                            progressObj[handleEl] = +progressEl;
+                        });
+
+                        setProgress(progressObj);
+                    });
+            } else {
+                calculateProgressByHandle(goal.author)
+                    .then(result => {
+                        const progressObj: IGoalProgresses = {};
+
+                        const [handleEl, progressEl] = result;
+                        progressObj[handleEl] = +progressEl;
+
+                        setProgress(progressObj);
+                    });
+            }
         });
-    }, [currGoal]);
-
-    useEffect(() => {
-        if (goal.competingWith) {
-            const competitors = Object.keys(goal.competingWith);
-
-            Promise.all(competitors.map(handle => calculateProgressByHandle(handle)));
-        }
-    }, []);
-
+    }, [currGoal, goal]);
 
     if (currGoal && progress && allProgressesLoaded) {
         return (
             <Box bg={background} rounded='lg' boxShadow='lg' minH='100%' p={4} position='relative'>
-                {(authorIsMe || goal.category === GoalTypes.challenge) && <GoalOptionsButton goal={currGoal} />}
+                {(authorIsMe || currGoal.category === GoalTypes.challenge) && <GoalOptionsButton goal={currGoal} />}
                 <Box h='200px'>
-                    {goal.category === GoalTypes.habit ?
+                    {currGoal.category === GoalTypes.habit ?
                         <HabitRadialBar goal={currGoal} progress={progress} /> :
                         <ChallengeRadialBar goal={currGoal} progress={progress} />}
                 </Box>
-                {goal.category === GoalTypes.habit ?
+                {currGoal.category === GoalTypes.habit ?
                     <HabitLabels goal={currGoal} progress={progress} /> :
                     <ChallengeLabels goal={currGoal} progress={progress} />}
             </Box>
