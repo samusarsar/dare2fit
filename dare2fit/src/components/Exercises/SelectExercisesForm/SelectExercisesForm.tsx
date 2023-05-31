@@ -14,6 +14,7 @@ interface ISelectExercisesFormProps {
 
 const SelectExercisesForm: FC<ISelectExercisesFormProps> = ( { workoutExercises, setWorkoutExercises }) => {
     const [suggestedExercises, setSuggestedExercises] = useState<ISuggestedExercise[] | [] | null>(null);
+    console.log(suggestedExercises);
 
     const initialValues: IExerciseFormValues = {
         exerciseName: '',
@@ -25,7 +26,7 @@ const SelectExercisesForm: FC<ISelectExercisesFormProps> = ( { workoutExercises,
     const handelSubmit = (values: IExerciseFormValues) => {
         findExercises(values)
             .then(data => setSuggestedExercises(data))
-            .catch( ); // TODO
+            .catch(); // TODO
     };
 
 
