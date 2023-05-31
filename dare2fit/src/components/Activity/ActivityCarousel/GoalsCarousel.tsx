@@ -47,7 +47,7 @@ const GoalsCarousel: FC = () => {
                 </Flex>
 
                 <VStack align='start' rounded='lg'>
-                    <Box height='320px' width={{ base: '2xs', md: 'xs' }}>
+                    <Box height='320px' overflow='auto' width={{ base: '2xs', md: 'xs' }}>
                         {goalsView === GoalTypes.habit && !habits.length ? (
                             <Box width={{ base: 'fit', md: 'sm' }} minW='3xs' bg='brand.yellow' margin='auto'>You don&apos;t have habits, yet...</Box>
                         ) : goalsView === GoalTypes.habit ? (

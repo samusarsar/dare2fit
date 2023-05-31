@@ -7,8 +7,14 @@ import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Icon } from '@chakra-ui/icon';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { Button } from '@chakra-ui/react';
+import { useLocation } from 'react-router';
 
 const HabitRadialBar: FC<{ goal: IGoal, progress: IGoalProgresses }> = ({ goal, progress }) => {
+    const { pathname } = useLocation();
+    const widthSpecs = (pathname === '/activity') ?
+        { base: '', sm: '280px' } :
+        { base: '280px' };
+
     const trackColor = useColorModeValue('rgba(0, 0, 0, 0.24)', 'rgba(255, 255, 255, 0.24)');
     const tooltipColor = useColorModeValue('whiteAlpha.800', 'blackAlpha.800');
 
@@ -58,7 +64,7 @@ const HabitRadialBar: FC<{ goal: IGoal, progress: IGoalProgresses }> = ({ goal, 
     }, [progress]);
 
     return (
-        <Box h='100%' w='280px' position='relative'>
+        <Box h='100%' w={widthSpecs} position='relative'>
             <ResponsiveRadialBar
                 data={radialData}
                 maxValue={goal.target}

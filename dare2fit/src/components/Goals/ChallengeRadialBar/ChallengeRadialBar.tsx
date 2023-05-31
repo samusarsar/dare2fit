@@ -6,8 +6,14 @@ import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Icon } from '@chakra-ui/icon';
 import { Button } from '@chakra-ui/button';
 import { AiFillCalendar } from 'react-icons/ai';
+import { useLocation } from 'react-router';
 
 const ChallengeRadialBar: FC<{ goal: IGoal, progress: IGoalProgresses }> = ({ goal, progress }) => {
+    const { pathname } = useLocation();
+    const widthSpecs = (pathname === '/activity') ?
+        { base: '', sm: '280px' } :
+        { base: '280px' };
+
     const trackColor = useColorModeValue('rgba(0, 0, 0, 0.24)', 'rgba(255, 255, 255, 0.24)');
     const tooltipColor = useColorModeValue('whiteAlpha.800', 'blackAlpha.800');
 
@@ -34,7 +40,7 @@ const ChallengeRadialBar: FC<{ goal: IGoal, progress: IGoalProgresses }> = ({ go
     jointProgress = [authorProgress, ...jointProgress];
 
     return (
-        <Box h='100%' w='280px' position='relative'>
+        <Box h='100%' w={widthSpecs} position='relative'>
             <ResponsiveRadialBar
                 data={jointProgress}
                 maxValue={goal.target}
