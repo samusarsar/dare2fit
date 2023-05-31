@@ -60,7 +60,7 @@ export const addGoal = ({ author, name, type, repeat, startDate, endDate, target
 
     const goal = repeat ?
         { category: 'habit', author, type, repeat, target, [author]: 0, units } :
-        { category: 'challenge', author, name, type, duration: { startDate, endDate }, target, [author]: 0, units };
+        { category: 'challenge', author, name, type, duration: { startDate, endDate }, target, units };
 
     return push(ref(db, `goals`), goal)
         .then(result => {
