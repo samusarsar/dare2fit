@@ -28,6 +28,9 @@ const GoalsCarousel: FC = () => {
             });
     }, [userData]);
 
+    // console.log(habits[index]);
+    // console.log('test');
+
     return (
         <VStack px={1} align='start' rounded='lg'>
             <HStack align='space-between' gap={2} mb={2}>
@@ -42,7 +45,7 @@ const GoalsCarousel: FC = () => {
             <VStack align='start' rounded='lg'>
                 <Box height='300px' overflow='auto'>
                     {goalsView === 'habits' && !habits.length ? (
-                        <Flex><Text>You don&apos;t have habits, yet...</Text></Flex>
+                        <Text>You don&apos;t have habits, yet...</Text>
                     ) : goalsView === 'habits' ? (
                         <>
                             <ActivityCarousel setIndex={setIndex} index={index} length={habits.length}></ActivityCarousel>

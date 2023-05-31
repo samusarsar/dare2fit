@@ -12,6 +12,7 @@ import GoalOptionsButton from '../GoalOptionsButton/GoalOptionsButton';
 import { AppContext } from '../../../context/AppContext/AppContext';
 
 const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
+
     const { userData } = useContext(AppContext);
 
     const [currGoal, setCurrGoal] = useState<IGoal>(goal);
@@ -24,18 +25,18 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
         return onValue(ref(db, `goals/${goal.goalId}`), (snapshot) => {
             setCurrGoal(snapshot.val());
         });
-    }, []);
+    }, [goal]);
 
     if (currGoal) {
         return (
             <Box bg={background} rounded='lg' boxShadow='lg' h='100%' p={4} position='relative'>
-                {(authorIsMe || goal.category === GoalTypes.challenge) && <GoalOptionsButton goal={currGoal} />}
+                {(authorIsMe || currGoal.category === GoalTypes.challenge) && <GoalOptionsButton goal={currGoal} />}
                 <Box h='200px'>
-                    {goal.category === GoalTypes.habit ?
+                    {currGoal.category === GoalTypes.habit ?
                         <HabitRadialBar goal={currGoal}/> :
                         <ChallengeRadialBar goal={currGoal}/>}
                 </Box>
-                {goal.category === GoalTypes.habit ?
+                {currGoal.category === GoalTypes.habit ?
                     <HabitLabels goal={currGoal} /> :
                     <ChallengeLabels goal={currGoal} />}
             </Box>
