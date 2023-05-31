@@ -1,6 +1,6 @@
 import { FC, ReactElement } from 'react';
 
-import { Grid, VStack } from '@chakra-ui/react';
+import { Flex, Grid } from '@chakra-ui/react';
 
 import ActivityLogger from '../../components/Activity/ActivityLogger/ActivityLogger';
 import WorkoutsCarousel from '../../components/Activity/ActivityCarousel/WorkoutsCarousel';
@@ -8,14 +8,14 @@ import GoalsCarousel from '../../components/Activity/ActivityCarousel/GoalsCarou
 
 const ActivityView: FC = (): ReactElement => {
     return (
-        <VStack>
-            <Grid templateColumns='1fr 1fr 1fr' >
+        <Grid gap={5}>
+            <Flex justifyContent='flex-start' wrap='wrap' >
                 <WorkoutsCarousel />
                 <GoalsCarousel />
-            </Grid>
+            </Flex>
 
             <ActivityLogger />
-        </VStack>
+        </Grid>
     );
 };
 

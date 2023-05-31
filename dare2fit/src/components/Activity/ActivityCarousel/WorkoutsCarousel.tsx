@@ -1,6 +1,6 @@
 import { FC, useContext, useEffect, useState } from 'react';
 
-import { Box, HStack, Heading, Select, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Select, VStack } from '@chakra-ui/react';
 
 import { AppContext } from '../../../context/AppContext/AppContext';
 import { IWorkout } from '../../../common/types';
@@ -31,39 +31,35 @@ const WorkoutsCarousel: FC = () => {
     }, [userData]);
 
     return (
-        <VStack px={1} align='start' rounded='lg'>
-            <HStack align='space-between' gap={2} mb={2}>
-                {/* <Heading as='h2' size='lg'>Workouts</Heading> */}
-                <Select
-                    onChange={(e) => setWorkoutsView(e.target.value)}>
-                    <option value={WorkoutTypes.my}>My Workouts</option>
-                    <option value={WorkoutTypes.saved}>Saved Workouts</option>
-                </Select>
-                <ActivityCarousel setIndex={setIndex} index={index} length={myWorkouts.length}></ActivityCarousel>
-            </HStack>
+        <Flex justifyContent='flex-start'>
+            <Box p={2} borderRadius='lg' bg='brand.green' color='brand.dark' width='fit'>
+                <Flex justifyContent='space-between' alignItems='center' gap={2} mb={2}>
+                    <Select variant='unstyled' width='50%'
+                        onChange={(e) => {
+                            setWorkoutsView(e.target.value);
+                            setIndex(0);
+                        } }>
+                        <option value={WorkoutTypes.my}>My Workouts</option>
+                        <option value={WorkoutTypes.saved}>Saved Workouts</option>
+                    </Select>
+                    <ActivityCarousel setIndex={setIndex} index={index} length={workoutsView === WorkoutTypes.my ? myWorkouts.length : savedWorkouts.length}></ActivityCarousel>
+                </Flex>
 
-            <VStack align='start' rounded='lg'>
-                <Box height='300px' overflow='auto'>
-                    {workoutsView === WorkoutTypes.my && !myWorkouts.length ? (
-                        <Text>You don&apos;t have workouts, yet...</Text>
-                    ) : workoutsView === WorkoutTypes.my ? (
-                        <>
+                <VStack align='start' rounded='lg'>
+                    <Box height='300px' overflow='auto'>
+                        {workoutsView === WorkoutTypes.my && !myWorkouts.length ? (
+                            <Box width={{ base: 'fit', md: 'sm' }} minW='3xs' bg='brand.green' margin='auto'>You don&apos;t have workouts, yet...</Box>
+                        ) : workoutsView === WorkoutTypes.my ? (
                             <WorkoutDetails workout={myWorkouts[index]} />
-                        </>
-
-                    ) : workoutsView === WorkoutTypes.saved && !savedWorkouts.length ? (
-                        <Text>You don&apos;t have saved workouts, yet...</Text>
-                    ) : (
-                        <>
-                            <ActivityCarousel setIndex={setIndex} index={index} length={savedWorkouts.length}></ActivityCarousel>
+                        ) : workoutsView === WorkoutTypes.saved && !savedWorkouts.length ? (
+                            <Box width={{ base: 'fit', md: 'sm' }} minW='3xs' bg='brand.green' margin='auto'>You don&apos;t have saved workouts, yet...</Box>
+                        ) : (
                             <WorkoutDetails workout={savedWorkouts[index]} />
-
-                        </>
-
-                    )}
-                </Box>
-            </VStack>
-        </VStack >
+                        )}
+                    </Box>
+                </VStack>
+            </Box>
+        </Flex >
     );
 };
 

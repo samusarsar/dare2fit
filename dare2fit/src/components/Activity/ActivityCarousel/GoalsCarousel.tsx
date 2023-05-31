@@ -32,7 +32,6 @@ const GoalsCarousel: FC = () => {
     return (
         <VStack px={1} align='start' rounded='lg'>
             <HStack align='space-between' gap={2} mb={2}>
-                <Heading as='h2' size='lg'>Goals</Heading>
                 <Select
                     onChange={(e) => setGoalsView(e.target.value)}>
                     <option value={GoalTypes.habit}>Habits</option>

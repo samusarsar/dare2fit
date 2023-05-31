@@ -10,7 +10,7 @@ const WorkoutDetails: FC<{ workout: IWorkout }> = ({ workout }) => {
     const { userData } = useContext(AppContext);
 
     return (
-        <Card width='sm' minW='3xs'>
+        <Card width={{ base: 'fit', md: 'sm' }} minW='3xs'>
             <CardHeader>
                 <Heading size='md'>{workout.workoutName}</Heading>
                 {workout.author !== userData!.handle && (
