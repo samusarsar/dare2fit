@@ -15,21 +15,22 @@ export const logActivity = ({ handle, activityType, loggedValue } :
 
     const isWorkout = activityType === 'workout' || activityType === 'strength' || activityType === 'stamina' || activityType === 'stretching';
 
-    const todayDate = moment().format('DD-MM-YYYY');
+    const todayDate = moment().format('YYYY-MM-DD');
 
     if (isWorkout) {
-        return update(ref(db, `users/${handle}/log/${todayDate}/workout`), { name: loggedValue, category: activityType });
+        const [name, category] = (loggedValue as string).split('_');
+        return update(ref(db, `logs/${handle}/${todayDate}/workout`), { name: name, category: category });
     }
 
-    return get(ref(db, `users/${handle}/log/${todayDate}/${activityType}`))
+    return get(ref(db, `logs/${handle}/${todayDate}/${activityType}`))
         .then(snapshot => {
             if (!snapshot.exists()) {
-                return update(ref(db, `users/${handle}/log/${todayDate}`), { [activityType]: loggedValue });
+                return update(ref(db, `logs/${handle}/${todayDate}`), { [activityType]: loggedValue });
             }
 
             const updatedValue = snapshot.val() + loggedValue;
 
-            return update(ref(db, `users/${handle}/log/${todayDate}`), { [activityType]: updatedValue });
+            return update(ref(db, `logs/${handle}/${todayDate}`), { [activityType]: updatedValue });
         });
 };
 
@@ -44,9 +45,9 @@ export const logActivity = ({ handle, activityType, loggedValue } :
 export const unlogActivity = ({ handle, activityType } :
     { handle: string, activityType: string }) => {
 
-    const todayDate = moment().format('DD-MM-YYYY');
+    const todayDate = moment().format('YYYY-MM-DD');
 
-    return update(ref(db, `users/${handle}/log/${todayDate}`), { [activityType]: null });
+    return update(ref(db, `logs/${handle}/${todayDate}`), { [activityType]: null });
 };
 
 /**
@@ -58,7 +59,7 @@ export const unlogActivity = ({ handle, activityType } :
  * @throws {Error} Throws an error if no log exists for the specified date.
  */
 export const getUserLogByDate = (handle: string, date: string) => {
-    return get(ref(db, `users/${handle}/log/${date}`))
+    return get(ref(db, `logs/${handle}/${date}`))
         .then(snapshot => {
             if (!snapshot.exists()) {
                 throw new Error('No log for this date');

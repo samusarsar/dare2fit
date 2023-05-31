@@ -3,9 +3,10 @@ import moment from 'moment';
 import { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import ActivityLogButton from '../ActivityLogButton/ActivityLogButton';
-import { getUserLogByDate } from '../../../services/activity.services';
 import ActivityLogDisplay from '../ActivityLogDisplay/ActivityLogDisplay';
 import { ITodayLog } from '../../../common/types';
+import { onValue, ref } from 'firebase/database';
+import { db } from '../../../config/firebase-config';
 
 const ActivityLogger: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -17,10 +18,13 @@ const ActivityLogger: FC = (): ReactElement => {
     const today = moment().format('dddd, MMM Do');
 
     useEffect(() => {
-        getUserLogByDate(userData!.handle, moment().format('DD-MM-YYYY'))
-            .then(data => setTodayLog(data))
-            .catch(() => setTodayLog(null));
-    }, [userData]);
+        const todayDate = moment().format('YYYY-MM-DD');
+
+        return onValue(ref(db, `logs/${userData!.handle}/${todayDate}`), (snapshot) => {
+            const data = snapshot.val();
+            setTodayLog(data);
+        });
+    }, []);
 
     return (
         <VStack w={{ base: '100%', md: '80%' }} bg='brand.blue' p={6} align='start' rounded='2xl'>
