@@ -126,6 +126,7 @@ export interface IWorkoutExercise extends ISuggestedExercise {
 export type ILoggedWorkout = {
     name: string,
     category: string,
+    [key: string]: string,
 };
 
 export interface ITodayLog {
@@ -136,3 +137,7 @@ export interface ITodayLog {
     swimming?: number;
     [key: string]: string | number | ILoggedWorkout | undefined;
 }
+
+export type IGoalProgresses = {
+    [key: string]: number,
+};
