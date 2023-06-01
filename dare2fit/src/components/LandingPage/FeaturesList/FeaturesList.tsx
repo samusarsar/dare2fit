@@ -5,7 +5,7 @@ import Feature from '../Feature/Feature';
 
 const FeaturesList: FC = (): ReactElement => {
     return (
-        <Box p={8} pt={20} w='100%'>
+        <Box p={8} py={20} w='100%'>
             <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
                 <Heading fontSize='4xl' fontWeight={'bold'}>
                     Success come to those who <Text color='brand.green'>DARE</Text>

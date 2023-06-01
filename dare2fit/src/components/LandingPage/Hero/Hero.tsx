@@ -22,10 +22,10 @@ const Hero: FC = (): ReactElement => {
 
     return (
         <>
-            <Container maxW={'3xl'}>
+            <Container maxW='3xl'>
                 <Stack
                     as={Box}
-                    textAlign={'center'}
+                    textAlign='center'
                     spacing={{ base: 8, md: 14 }}
                     py={{ base: 5, md: 12 }}>
                     <VStack p={0} m={0} >
@@ -39,14 +39,14 @@ const Hero: FC = (): ReactElement => {
                     <Heading
                         fontWeight={600}
                         fontSize={{ base: '4xl', md: '6xl' }}
-                        lineHeight={'110%'}>
+                        lineHeight='110%'>
                         Do you really <br />
                         <Text as={'span'} color='brand.green'>
                         dare2fit
                         </Text>
                         ?
                     </Heading>
-                    <Text color={'gray.500'}>
+                    <Text color='gray.500'>
                         Join the world&apos;s leading community of ambitious, motivated, and dynamic people
                         dedicated to improving their fitness, bettering their lifestyles and challenging themselves in the process!
                     </Text>
@@ -57,8 +57,8 @@ const Hero: FC = (): ReactElement => {
                         alignSelf='center'
                         position='relative'>
                         <Button
-                            colorScheme={'purple'}
-                            rounded={'full'}
+                            colorScheme='purple'
+                            rounded='full'
                             px={6}
                             onClick={() => navigate('/signup')}>
                             Sign Up
@@ -71,17 +71,17 @@ const Hero: FC = (): ReactElement => {
                                 as={Arrow}
                                 color={useColorModeValue('gray.800', 'gray.300')}
                                 w={71}
-                                position={'absolute'}
+                                position='absolute'
                                 right={-71}
-                                top={'10px'}
+                                top='10px'
                             />
                             <Text
-                                fontSize={'lg'}
-                                fontFamily={'Caveat'}
-                                position={'absolute'}
-                                right={'-125px'}
-                                top={'-15px'}
-                                transform={'rotate(10deg)'}>
+                                fontSize='lg'
+                                fontFamily='Caveat'
+                                position='absolute'
+                                right='-125px'
+                                top='-15px'
+                                transform='rotate(10deg)'>
                                 Not yet a member?
                             </Text>
                         </Box>
