@@ -209,18 +209,7 @@ export const editUserHealthNumberData = ({ handle, propKey, propValue, isMetric 
     return update(ref(db, `users/${handle}/health`), {
         [`${propKey}Metric`]: +metricValue,
         [`${propKey}Imperial`]: +imperialValue,
-    })
-        .then(() => get(ref(db, `users/${handle}/health`)))
-        .then(snapshot => {
-            const data = snapshot.val();
-            if (Object.keys(data).includes('weightMetric') && Object.keys(data).includes('heightMetric')) {
-                const BMI = (data.weightMetric / ((data.heightMetric / 100) ** 2)).toFixed(1);
-
-                update(ref(db, `users/${handle}/health`), {
-                    BMI: +BMI,
-                });
-            }
-        });
+    });
 };
 
 export const changeUserRole = (handle: string, role: UserRoles) => {

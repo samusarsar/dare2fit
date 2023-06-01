@@ -12,13 +12,18 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
     const { userData } = useContext(AppContext);
 
     const [isMetric, setIsMetric] = useState(true);
-    const bmiData = !profile.health?.BMI ?
+
+    const profileBMI = (profile.health?.weightMetric && profile.health?.heightMetric) ?
+        (profile.health?.weightMetric / ((profile.health?.heightMetric / 100) ** 2)) :
+        null;
+
+    const bmiData = !profileBMI ?
         { category: 'none', color: 'gray' } :
-        profile.health?.BMI < 18.5 ?
+        profileBMI < 18.5 ?
             { category: 'underweight', color: 'yellow', icon: TiFeather } :
-            (profile.health?.BMI >= 18.5 && profile.health?.BMI < 25) ?
+            (profileBMI >= 18.5 && profileBMI < 25) ?
                 { category: 'healthy', color: 'teal', icon: BsCheck } :
-                (profile.health?.BMI >= 25 && profile.health?.BMI < 30) ?
+                (profileBMI >= 25 && profileBMI < 30) ?
                     { category: 'overweight', color: 'purple', icon: TbWeight } :
                     { category: 'obese', color: 'red', icon: BiHealth };
 
@@ -119,7 +124,7 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                             <Td fontWeight='bold'>BMI:</Td>
                             <Td>
                                 <HStack>
-                                    <Text>{profile.health?.BMI ? profile.health.BMI : 'Insufficient data for BMI calculation.'}</Text>
+                                    <Text>{profileBMI ? profileBMI.toFixed(1) : 'Insufficient data for BMI calculation.'}</Text>
                                     <Badge colorScheme={bmiData.color} fontSize='0.8em'>{bmiData.category}</Badge>
                                 </HStack>
                             </Td>
