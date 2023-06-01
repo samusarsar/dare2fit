@@ -36,8 +36,8 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
     }
 
     const calculateProgressByHandle = (handle: string) => {
-        const startDate = moment(goal.startDate as MomentInput).format('YYYY-MM-DD');
-        const endDate = moment(goal.endDate as MomentInput).format('YYYY-MM-DD');
+        const startDate = moment(goal.duration?.startDate as MomentInput, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        const endDate = moment(goal.duration?.endDate as MomentInput, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
         const getLogFn = () =>{
             return goal.category === GoalTypes.habit ?

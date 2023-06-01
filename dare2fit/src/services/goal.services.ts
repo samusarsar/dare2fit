@@ -137,7 +137,6 @@ export const getChallengeLogByHandle = (handle: string, startDate: string, endDa
                 throw new Error('No logs for these dates.');
             }
 
-            console.log(snapshot.val())
             return Object.values(snapshot.val());
         });
 };
