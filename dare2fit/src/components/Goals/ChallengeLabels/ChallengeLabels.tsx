@@ -32,7 +32,7 @@ const ChallengeLabels: FC<{ goal: IGoal, progress: IGoalProgresses }> = ({ goal,
                 {!handle ?
                     (<>
                         {authorIsMe && (<Badge colorScheme='teal'>Host</Badge>)}
-                        {amCompeting && <Badge colorScheme='pink'>Challenger</Badge>}
+                        {amCompeting && <Badge colorScheme='purple'>Challenger</Badge>}
                     </>) :
                     (<>
                         {authorIsHim && (<Badge colorScheme='teal'>Host</Badge>)}

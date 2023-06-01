@@ -79,6 +79,7 @@ const HabitRadialBar: FC<{ goal: IGoal, progress: IGoalProgresses }> = ({ goal, 
                 enableRadialGrid={false}
                 radialAxisStart={null}
                 circularAxisOuter={null}
+                isInteractive={!(pathname === '/activity')}
                 tooltip={(el) => {
                     return (
                         <Button bg={tooltipColor}>{el.bar.category}: {el.bar.value}</Button>
