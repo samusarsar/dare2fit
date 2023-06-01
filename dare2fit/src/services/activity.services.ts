@@ -1,6 +1,7 @@
 import { get, ref, update } from 'firebase/database';
 import { db } from '../config/firebase-config';
 import moment from 'moment';
+import { ITodayLog } from '../common/types';
 
 /**
  * Logs an activity for a user.
@@ -60,6 +61,23 @@ export const unlogActivity = ({ handle, activityType } :
  */
 export const getUserLogByDate = (handle: string, date: string) => {
     return get(ref(db, `logs/${handle}/${date}`))
+        .then(snapshot => {
+            if (!snapshot.exists()) {
+                throw new Error('No log for this date');
+            }
+
+            return snapshot.val();
+        });
+};
+
+/**
+ * Retrieves all logs from database.
+ *
+ * @return {Promise} A promise that resolves with all the log data.
+ * @throws {Error} Throws an error if no logs exist.
+ */
+export const getAllLogs = (): Promise<{ [key: string]: { [key: string]: ITodayLog }, }> => {
+    return get(ref(db, 'logs'))
         .then(snapshot => {
             if (!snapshot.exists()) {
                 throw new Error('No log for this date');
