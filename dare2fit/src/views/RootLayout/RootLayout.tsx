@@ -1,15 +1,18 @@
 import React from 'react';
 import { Outlet } from 'react-router';
 
-import SidebarWithHeader from '../../components/Navigation/SidebarWithHeader.js';
-import Footer from '../../components/Base/Footer.jsx';
+import SidebarWithHeader from '../../components/Navigation/SidebarWithHeader';
+import Footer from '../../components/Base/Footer/Footer';
+import { Box } from '@chakra-ui/react';
 
 
 const RootLayout: React.FC = () => {
     return (
         <SidebarWithHeader>
             <main>
-                <Outlet />
+                <Box minH='100vh'>
+                    <Outlet />
+                </Box>
                 <Footer />
             </main>
         </SidebarWithHeader>
