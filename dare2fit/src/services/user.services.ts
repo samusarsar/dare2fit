@@ -212,6 +212,19 @@ export const editUserHealthNumberData = ({ handle, propKey, propValue, isMetric 
     });
 };
 
+/**
+ * Edits a specific property of a user's health data.
+ * @param {string} handle - The user's handle.
+ * @param {string} propKey - The key of the property to edit.
+ * @param {string} propValue - The new value for the property.
+ * @return {Promise} A Promise that resolves when the update is completed.
+ */
+export const editUserHealthData = (handle: string, propKey: string, propValue: string) => {
+    return update(ref(db, `users/${handle}/health`), {
+        [propKey]: propValue ? propValue : null,
+    });
+};
+
 export const changeUserRole = (handle: string, role: UserRoles) => {
     return update(ref(db, `users/${handle}`), {
         role,

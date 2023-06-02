@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { User } from 'firebase/auth';
-import { UserRoles } from './enums';
+import { Gender, UserRoles } from './enums';
 import { ExerciseUnits } from './enums';
 
 export interface IAppContextValue {
@@ -14,6 +14,7 @@ export type IHealth = {
     weightImperial?: number,
     heightMetric?: number,
     heightImperial?: number,
+    gender?: Gender,
     BMI?: number,
     activityLevel?: number,
     waterGoal?: number,

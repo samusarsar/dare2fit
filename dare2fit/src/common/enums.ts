@@ -73,3 +73,9 @@ export enum WorkoutTypes {
     my = 'my',
     saved = 'saved',
 }
+
+export enum Gender {
+    male = 'male',
+    female = 'female',
+    genderNeutral = 'gender neutral',
+}

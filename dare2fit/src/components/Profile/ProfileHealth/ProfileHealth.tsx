@@ -1,11 +1,14 @@
 import { FC, ReactElement, useContext, useRef, useState } from 'react';
-import { IUserData } from '../../../common/types';
-import { Badge, Box, Button, Center, HStack, Icon, Input, Switch, Table, Tbody, Td, Text, Th, Thead, Tr, VStack, useColorModeValue, useNumberInput } from '@chakra-ui/react';
+// eslint-disable-next-line max-len
+import { Badge, Box, Button, Center, HStack, Icon, Input, Select, Switch, Table, Tbody, Td, Text, Th, Thead, Tr, VStack, useColorModeValue, useNumberInput } from '@chakra-ui/react';
 import { TiFeather } from 'react-icons/ti';
 import { TbWeight } from 'react-icons/tb';
 import { BsCheck } from 'react-icons/bs';
 import { BiHealth } from 'react-icons/bi';
-import { editUserHealthNumberData } from '../../../services/user.services';
+
+import { editUserHealthData, editUserHealthNumberData } from '../../../services/user.services';
+import { IUserData } from '../../../common/types';
+import { Gender } from '../../../common/enums';
 import { AppContext } from '../../../context/AppContext/AppContext';
 
 const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
@@ -31,8 +34,15 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
 
     const weightInputRef = useRef<HTMLInputElement | null>(null);
 
+    const heightInputRef = useRef<HTMLInputElement | null>(null);
+
     const { getInputProps: getInputPropsWeight, getIncrementButtonProps: getIncrementButtonPropsWeight, getDecrementButtonProps: getDecrementButtonPropsWeight } = useNumberInput({
         step: 0.5,
+        min: 1,
+    });
+
+    const { getInputProps: getInputPropsHeight, getIncrementButtonProps: getIncrementButtonPropsHeight, getDecrementButtonProps: getDecrementButtonPropsHeight } = useNumberInput({
+        step: 0.1,
         min: 1,
     });
 
@@ -40,16 +50,20 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
     const decWeight = getDecrementButtonPropsWeight();
     const inputWeight = getInputPropsWeight();
 
-    const { getInputProps: getInputPropsHeight, getIncrementButtonProps: getIncrementButtonPropsHeight, getDecrementButtonProps: getDecrementButtonPropsHeight } = useNumberInput({
-        step: 0.1,
-        min: 1,
-    });
-
-    const heightInputRef = useRef<HTMLInputElement | null>(null);
-
     const incHeight = getIncrementButtonPropsHeight();
     const decHeight = getDecrementButtonPropsHeight();
     const inputHeight = getInputPropsHeight();
+
+    const bmiData = !profile.health?.BMI ?
+        { category: 'none', color: 'gray' } :
+        profile.health?.BMI < 18.5 ?
+            { category: 'underweight', color: 'yellow', icon: TiFeather } :
+            (profile.health?.BMI >= 18.5 && profile.health?.BMI < 25) ?
+                { category: 'healthy', color: 'teal', icon: BsCheck } :
+                (profile.health?.BMI >= 25 && profile.health?.BMI < 30) ?
+                    { category: 'overweight', color: 'purple', icon: TbWeight } :
+                    { category: 'obese', color: 'red', icon: BiHealth };
+
 
     const handleEditNumberData = (value: number, prop: string) => {
         if (!!value && !isNaN(value)) {
@@ -57,11 +71,15 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
         }
     };
 
+    const handelEditGender = (value: string) => {
+        editUserHealthData(userData!.handle, 'gender', value);
+    };
+
     return (
         <VStack w='100%' align='end'>
             <HStack m={2}>
                 <Text >Metric</Text>
-                <Switch size='lg' onChange={() => setIsMetric(!isMetric)}/>
+                <Switch size='lg' onChange={() => setIsMetric(!isMetric)} />
                 <Text>Imperial</Text>
             </HStack>
             <Box overflowX='auto' w='100%'>
@@ -74,6 +92,27 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                         </Tr>
                     </Thead>
                     <Tbody>
+                        <Tr>
+                            <Td fontWeight='bold'>Gender:</Td>
+                            <Td>{!profile.health?.gender ?
+                                ('No entry') :
+                                (<Badge fontSize='0.8em' colorScheme={profile.health.gender === Gender.male ? 'blue' : 'pink'}>{profile.health.gender}</Badge>)}
+                            </Td>
+                            <Td>
+                                <VStack>
+                                    <HStack>
+                                        <Select
+                                            bg={inputColor}
+                                            placeholder={'select gender'}
+                                            onChange={e => handelEditGender(e.target.value)}>
+                                            <option value={''}>{Gender.genderNeutral}</option>
+                                            <option value={Gender.male}>{Gender.male}</option>
+                                            <option value={Gender.female}>{Gender.female}</option>
+                                        </Select>
+                                    </HStack>
+                                </VStack>
+                            </Td>
+                        </Tr>
                         <Tr>
                             <Td fontWeight='bold'>Weight:</Td>
                             <Td>{!profile.health?.weightMetric ?
