@@ -1,10 +1,10 @@
 import { FC, ReactElement, useContext, useState } from 'react';
 import { IUserData } from '../../../common/types';
-import { Editable, EditableInput, EditablePreview, FormControl, FormErrorMessage, HStack, Input, Table, Tbody, Td, Tr, VStack } from '@chakra-ui/react';
+import { Editable, EditableInput, EditablePreview, FormControl, FormErrorMessage, HStack, Input, Table, Tbody, Td, Text, Tr, VStack } from '@chakra-ui/react';
 import EditableControls from '../../Base/EditableControls/EditableControls';
 import { editUserDetails } from '../../../services/user.services';
 import { AppContext } from '../../../context/AppContext/AppContext';
-import { FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH } from '../../../common/constants';
+import { DATE_FORMAT, FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH } from '../../../common/constants';
 import moment from 'moment';
 
 const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
@@ -94,11 +94,14 @@ const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement =
                         </Td>
                     </Tr>
                     <Tr>
-                        <Td fontWeight='bold'>Date of Birth:</Td>
+                        <Td>
+                            <Text fontWeight='bold'>Date of Birth</Text>
+                            <span>{DATE_FORMAT}</span>
+                        </Td>
                         <Td>
                             <Editable textAlign='center' defaultValue={profile.dateOfBirth || '-'} isPreviewFocusable={false} display='flex' gap={2} w='fit-content'
                                 onSubmit={(value) => {
-                                    if ((!moment(value, 'DD/MM/YYYY').isValid()) || (moment(value, 'DD/MM/YYYY').diff(moment()) > 0)) {
+                                    if ((!moment(value, DATE_FORMAT).isValid()) || (moment(value, DATE_FORMAT).diff(moment()) > 0)) {
                                         setErrors({
                                             ...errors,
                                             dateOfBirthError: true,
@@ -108,7 +111,7 @@ const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement =
                                             ...errors,
                                             dateOfBirthError: false,
                                         });
-                                        handleEdit(value, 'dateOfBirth');
+                                        handleEdit(moment(value).format(DATE_FORMAT), 'dateOfBirth');
                                     }
                                 }}>
                                 <FormControl isInvalid={errors.dateOfBirthError}>
@@ -118,7 +121,7 @@ const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement =
                                             <Input as={EditableInput} />
                                             {isMe && <EditableControls />}
                                         </HStack>
-                                        <FormErrorMessage textAlign='start'>Date of birth must be valid and in &apos;DD/MM/YYYY&apos; format.</FormErrorMessage>
+                                        <FormErrorMessage textAlign='start'>Date of birth must be valid and in &apos;{DATE_FORMAT}&apos; format.</FormErrorMessage>
                                     </VStack>
                                 </FormControl>
                             </Editable>
