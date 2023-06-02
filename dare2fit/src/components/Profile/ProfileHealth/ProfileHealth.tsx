@@ -58,16 +58,6 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
 
     const profileActivityLevel = profile.health?.activityLevel || ActivityLevel.noActivity;
 
-    const bmiData = !profile.health?.BMI ?
-        { category: 'none', color: 'gray' } :
-        profile.health?.BMI < 18.5 ?
-            { category: 'underweight', color: 'yellow', icon: TiFeather } :
-            (profile.health?.BMI >= 18.5 && profile.health?.BMI < 25) ?
-                { category: 'healthy', color: 'teal', icon: BsCheck } :
-                (profile.health?.BMI >= 25 && profile.health?.BMI < 30) ?
-                    { category: 'overweight', color: 'purple', icon: TbWeight } :
-                    { category: 'obese', color: 'red', icon: BiHealth };
-
     const calculateBmr = () => {
         if (profile.health) {
             const { weightMetric, heightMetric, gender } = profile.health;
