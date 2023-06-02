@@ -7,7 +7,7 @@ import { IWorkout } from '../../../common/types';
 
 import { getWorkoutsByHandle, sortWorkoutsByDate } from '../../../services/workout.services';
 import ActivityCarousel from './ActivityCarousel';
-import WorkoutDetails from '../../Workouts/WorkoutDetails';
+import WorkoutDetails from '../../Workouts/WorkoutDetails/WorkoutDetails';
 import { WorkoutTypes } from '../../../common/enums';
 
 

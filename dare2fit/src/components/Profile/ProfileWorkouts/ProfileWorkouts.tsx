@@ -1,8 +1,8 @@
 import { FC, ReactElement, useEffect, useState } from 'react';
-import { Divider, Heading, VStack, useColorModeValue } from '@chakra-ui/react';
+import { VStack, useColorModeValue } from '@chakra-ui/react';
 import { IWorkout } from '../../../common/types';
 import { getWorkoutsByHandle, sortWorkoutsByDate } from '../../../services/workout.services';
-import WorkoutsList from '../../../components/Workouts/WorkoutsList';
+import WorkoutsList from '../../Workouts/WorkoutsList/WorkoutsList';
 import { IUserData } from '../../../common/types';
 
 const ProfileWorkouts: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
@@ -23,12 +23,9 @@ const ProfileWorkouts: FC<{ profile: IUserData }> = ({ profile }): ReactElement 
 
 
     return (
-        <VStack p={5} bg={useColorModeValue('brand.light', 'brand.dark')} gap={4}>
-            <Heading>{profile.handle}&apos;s Workouts</Heading>
-            <WorkoutsList workouts={myWorkouts} type={'My'} />
-            <Divider />
-            <Heading>Saved Workouts</Heading>
-            <WorkoutsList workouts={savedWorkouts} type={'Saved'} />
+        <VStack bg={useColorModeValue('brand.light', 'brand.dark')} gap={2}>
+            <WorkoutsList heading={`${profile.handle}'s Workouts:`} workouts={myWorkouts} type={'My'} />
+            <WorkoutsList heading='Saved Workouts:' workouts={savedWorkouts} type={'My'} />
         </VStack>
     );
 };

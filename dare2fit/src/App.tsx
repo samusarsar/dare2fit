@@ -16,7 +16,7 @@ import LogIn from './views/LogIn/LogIn.jsx';
 import SignUp from './views/SignUp/SignUp.js';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.js';
 import WorkoutsView from './views/WorkoutsView/WorkoutsView.js';
-import CreateWorkoutForm from './components/Workouts/CreateWorkoutForm.js';
+import CreateWorkoutForm from './components/Workouts/CreateWorkoutForm/CreateWorkoutForm.js';
 import { IAppContextValue } from './common/types.js';
 
 const App: React.FC = () => {
