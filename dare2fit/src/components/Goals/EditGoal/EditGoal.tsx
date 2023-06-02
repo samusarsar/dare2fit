@@ -126,7 +126,7 @@ const EditGoal: FC<{ isOpen: boolean, onClose: () => void, goal: IGoal }> = ({ i
                                         type="submit"
                                         loadingText="Creating"
                                     >
-                                        Add Goal
+                                        Edit Goal
                                     </Button>
                                     <Button
                                         w="40%"

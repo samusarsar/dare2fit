@@ -8,10 +8,10 @@ import ChallengeLabels from '../ChallengeLabels/ChallengeLabels';
 import HabitRadialBar from '../HabitRadialBar/HabitRadialBar';
 import HabitLabels from '../HabitLabels/HabitLabels';
 import { GoalTypes } from '../../../common/enums';
-import GoalOptionsButton from '../GoalOptionsButton/GoalOptionsButton';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import moment, { MomentInput } from 'moment';
 import { getChallengeLogByHandle, getHabitLogByHandle } from '../../../services/goal.services';
+import OptionsButton from '../../Base/OptionsButton/OptionsButton';
 
 const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
 
@@ -113,7 +113,7 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
     if (currGoal && progress && allProgressesLoaded) {
         return (
             <Box bg={background} rounded='lg' boxShadow='lg' minH='100%' p={4} position='relative'>
-                {(authorIsMe || currGoal.category === GoalTypes.challenge) && <GoalOptionsButton goal={currGoal} />}
+                {(authorIsMe || currGoal.category === GoalTypes.challenge) && <OptionsButton goal={currGoal} />}
                 <Box h='200px'>
                     {currGoal.category === GoalTypes.habit ?
                         <HabitRadialBar goal={currGoal} progress={progress} /> :

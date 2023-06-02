@@ -1,6 +1,6 @@
-import { push, ref, get, update, set } from 'firebase/database';
+import { push, ref, get, update, set, remove } from 'firebase/database';
 import { db } from '../config/firebase-config';
-import { IWorkout, IWorkoutFormValues } from '../common/types';
+import { IWorkout, IWorkoutExercise, IWorkoutFormValues } from '../common/types';
 import moment from 'moment';
 
 /**
@@ -27,7 +27,7 @@ export const addWorkout = (workout: IWorkoutFormValues, handle: string) => {
  * @param {string} handle  - The user handle.
  * @return {Promise<void>} A Promise that resolves when the workout is added to the user's list.
  */
-const addWorkoutToUser = (workoutId: string, handle: string) => {
+export const addWorkoutToUser = (workoutId: string, handle: string) => {
     return get(ref(db, `users/${handle}/workouts`))
         .then(snapshot => {
             if (snapshot.exists()) {
@@ -72,9 +72,17 @@ export const getWorkoutsByHandle = (handle: string) => {
             }
             return snapshot.val();
         })
-        .then(workouts => {
-            return Promise.all(Object.keys(workouts).map(workoutId => getWorkoutById(workoutId)));
-        });
+        .then(data => {
+            const promises = Object.keys(data).map(workoutId => {
+                return getWorkoutById(workoutId)
+                    .catch(() => {
+                        removeWorkoutFromUser(workoutId, handle);
+                        return null;
+                    });
+            });
+            return Promise.all(promises);
+        })
+        .then(workouts => workouts.filter(workout => workout));
 };
 
 /**
@@ -84,4 +92,20 @@ export const getWorkoutsByHandle = (handle: string) => {
  */
 export const sortWorkoutsByDate = (workouts: IWorkout[] | []) => {
     return [...workouts].sort((a, b) => moment(b.createdOn, 'DD/MM/YYYY HH;mm;ss').diff(moment(a.createdOn, 'DD/MM/YYYY HH;mm;ss')));
+};
+
+export const removeWorkoutFromUser = (workoutId: string, handle: string) => {
+    return remove(ref(db, `users/${handle}/workouts/${workoutId}`));
+};
+
+export const deleteWorkout = (workoutId: string, handle: string) => {
+    return remove(ref(db, `workouts/${workoutId}`))
+        .then(() => removeWorkoutFromUser(workoutId, handle));
+};
+
+export const editWorkout = ({ workoutId, workoutName, difficulty, duration, exercises }:
+    { workoutId: string, workoutName?: string, difficulty?: string, duration?: string, exercises: IWorkoutExercise[] | [] }) => {
+    const updates = [workoutId, workoutName, difficulty, duration, exercises].filter(prop => prop);
+
+    return update(ref(db, `workouts/${workoutId}`), updates);
 };
