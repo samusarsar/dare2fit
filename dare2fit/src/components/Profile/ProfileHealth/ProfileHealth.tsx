@@ -8,8 +8,10 @@ import { BiHealth } from 'react-icons/bi';
 
 import { editUserHealthData, editUserHealthNumberData } from '../../../services/user.services';
 import { IUserData } from '../../../common/types';
-import { Gender } from '../../../common/enums';
+import { ActivityLevel, Gender } from '../../../common/enums';
 import { AppContext } from '../../../context/AppContext/AppContext';
+import moment from 'moment';
+import { ActivityLevelData, DATE_FORMAT } from '../../../common/constants';
 
 const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -54,6 +56,8 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
     const decHeight = getDecrementButtonPropsHeight();
     const inputHeight = getInputPropsHeight();
 
+    const profileActivityLevel = profile.health?.activityLevel || ActivityLevel.noActivity;
+
     const bmiData = !profile.health?.BMI ?
         { category: 'none', color: 'gray' } :
         profile.health?.BMI < 18.5 ?
@@ -64,6 +68,23 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                     { category: 'overweight', color: 'purple', icon: TbWeight } :
                     { category: 'obese', color: 'red', icon: BiHealth };
 
+    const calculateBmr = () => {
+        if (profile.health) {
+            const { weightMetric, heightMetric, gender } = profile.health;
+
+            if (weightMetric && heightMetric && gender && profile.dateOfBirth) {
+                const age = moment().diff(moment(profile.dateOfBirth).format(DATE_FORMAT), 'years');
+                return gender === Gender.male ? (
+                    (10 * weightMetric + 6.25 * heightMetric - 5 * age + 5) * ActivityLevelData[profileActivityLevel].index
+                ) : (
+                    (10 * weightMetric + 6.25 * heightMetric - 5 * age - 161) * ActivityLevelData[profileActivityLevel].index
+                );
+            }
+        }
+        return null;
+    };
+
+    const profileBmr = calculateBmr();
 
     const handleEditNumberData = (value: number, prop: string) => {
         if (!!value && !isNaN(value)) {
@@ -71,8 +92,12 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
         }
     };
 
-    const handelEditGender = (value: string) => {
-        editUserHealthData(userData!.handle, 'gender', value);
+    const handleEditGender = (value: string) => {
+        editUserHealthData(profile.handle, 'gender', value);
+    };
+
+    const handleEditActivityLevel = (value: string) => {
+        editUserHealthData(profile.handle, 'activityLevel', value);
     };
 
     return (
@@ -103,8 +128,8 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                                     <HStack>
                                         <Select
                                             bg={inputColor}
-                                            placeholder={'select gender'}
-                                            onChange={e => handelEditGender(e.target.value)}>
+                                            defaultValue={profile.health?.gender}
+                                            onChange={e => handleEditGender(e.target.value)}>
                                             <option value={''}>{Gender.genderNeutral}</option>
                                             <option value={Gender.male}>{Gender.male}</option>
                                             <option value={Gender.female}>{Gender.female}</option>
@@ -168,6 +193,30 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                                 </HStack>
                             </Td>
                             <Td><Center p={4}><Icon as={bmiData.icon} color={bmiData.color} fontSize='2.5em' /></Center></Td>
+                        </Tr>
+
+                        <Tr>
+                            <Td fontWeight='bold'>BMR (Basal Metabolic Rate):</Td>
+                            <Td>
+                                <HStack>
+                                    <Text>{profileBmr || 'Insufficient data for BMR calculation.'}</Text>
+                                    {profileBmr && <Badge colorScheme='red' fontSize='0.8em'>kcal/day</Badge>}
+                                </HStack>
+                            </Td>
+                            <Td>
+                                <VStack>
+                                    <HStack>
+                                        <Select
+                                            bg={inputColor}
+                                            defaultValue={profileActivityLevel}
+                                            onChange={e => handleEditActivityLevel(e.target.value)}>
+                                            {Object.values(ActivityLevel)
+                                                .map(activity => <option key={activity} value={activity}>{ActivityLevelData[activity].description}</option>)
+                                            }
+                                        </Select>
+                                    </HStack>
+                                </VStack>
+                            </Td>
                         </Tr>
                     </Tbody>
                 </Table>

@@ -79,3 +79,13 @@ export enum Gender {
     female = 'female',
     genderNeutral = 'gender neutral',
 }
+
+export enum ActivityLevel {
+    noActivity = 'noActivity',
+    sedentary = 'sedentary',
+    lightlyActive = 'lightlyActive',
+    moderately = 'moderately',
+    veryActive = 'veryActive',
+    superActive = 'superActive',
+}
+

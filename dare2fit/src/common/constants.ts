@@ -31,3 +31,29 @@ export const API_NINJAS_KEY = 'cn6dW1SAvI817LEXzpf+cg==0msk7WrGU2sy3MKb';
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
 
+export const ActivityLevelData = {
+    noActivity: {
+        description: 'No activity (while resting)',
+        index: 1,
+    },
+    sedentary: {
+        description: 'Sedentary (little or no exercise)',
+        index: 1.2,
+    },
+    lightlyActive: {
+        description: 'Lightly active (light exercise/sports 1-3 days/week)',
+        index: 1.375,
+    },
+    moderately: {
+        description: 'Moderately active (moderate exercise/sports 3-5 days/week)',
+        index: 1.55,
+    },
+    veryActive: {
+        description: 'Very active (hard exercise/sports 6-7 days a week)',
+        index: 1.725,
+    },
+    superActive: {
+        description: 'Super active (very hard exercise/physical job & exercise 2x/day)',
+        index: 1.9,
+    },
+};
