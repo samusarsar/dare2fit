@@ -50,7 +50,7 @@ const EditGoal: FC<{ isOpen: boolean, onClose: () => void, goal: IGoal }> = ({ i
                                 .then(() => {
                                     onClose();
                                     toast({
-                                        title: 'Exercise edited successfully!',
+                                        title: 'Goal edited successfully!',
                                         description: 'You have edited your goal.',
                                         status: 'success',
                                         duration: 3000,

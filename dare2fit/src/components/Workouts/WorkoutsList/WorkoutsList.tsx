@@ -5,7 +5,7 @@ import { HStack, Heading, Icon, Select, Text, VStack, useColorModeValue } from '
 import { ImFilesEmpty } from 'react-icons/im';
 
 
-const WorkoutsList: FC<{ heading: string, workouts: IWorkout[] | [], type: string}> = ({ heading, workouts, type }) => {
+const WorkoutsList: FC<{ heading: string, workouts: IWorkout[] | []}> = ({ heading, workouts }) => {
     const [filterCategory, setFilterCategory] = useState('anyCategory');
     const [filterDifficulty, setFilterDifficulty] = useState('anyDifficulty');
     const [workoutsToShow, setWorkoutsToShow] = useState(workouts);

@@ -24,8 +24,8 @@ const ProfileWorkouts: FC<{ profile: IUserData }> = ({ profile }): ReactElement 
 
     return (
         <VStack bg={useColorModeValue('brand.light', 'brand.dark')} gap={2}>
-            <WorkoutsList heading={`${profile.handle}'s Workouts:`} workouts={myWorkouts} type={'My'} />
-            <WorkoutsList heading='Saved Workouts:' workouts={savedWorkouts} type={'My'} />
+            <WorkoutsList heading={`${profile.handle}'s Workouts:`} workouts={myWorkouts} />
+            <WorkoutsList heading='Saved Workouts:' workouts={savedWorkouts} />
         </VStack>
     );
 };

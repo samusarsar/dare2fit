@@ -1,14 +1,13 @@
 import { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
-import { Box, Button, HStack, Icon, VStack, useColorModeValue } from '@chakra-ui/react';
+import { Button, HStack, Icon, VStack, useColorModeValue } from '@chakra-ui/react';
 
 import { IoMdAdd } from 'react-icons/io';
 import { AppContext } from '../../context/AppContext/AppContext';
 import { IWorkout } from '../../common/types';
 import { getWorkoutsByHandle, sortWorkoutsByDate } from '../../services/workout.services';
 import WorkoutsList from '../../components/Workouts/WorkoutsList/WorkoutsList';
-import CreateWorkoutForm from '../../components/Workouts/CreateWorkoutForm/CreateWorkoutForm';
 
 const WorkoutsView: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -47,13 +46,10 @@ const WorkoutsView: FC = (): ReactElement => {
                 </Button>
             </HStack>
 
-            {pathname === '/workouts/create' &&
-                <Box p={6} bg={useColorModeValue('brand.white', 'brand.grey')} boxShadow={'2xl'} rounded={'md'} w='100%' overflowX='auto'>
-                    <Outlet />
-                </Box>}
+            <Outlet />
 
-            <WorkoutsList heading='My Workouts:' workouts={myWorkouts} type={'My'} />
-            <WorkoutsList heading='Saved Workouts:' workouts={savedWorkouts} type={'My'} />
+            <WorkoutsList heading='My Workouts:' workouts={myWorkouts} />
+            <WorkoutsList heading='Saved Workouts:' workouts={savedWorkouts} />
         </VStack>
     );
 };

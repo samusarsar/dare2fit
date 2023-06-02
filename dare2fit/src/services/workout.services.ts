@@ -1,6 +1,6 @@
 import { push, ref, get, update, set, remove } from 'firebase/database';
 import { db } from '../config/firebase-config';
-import { IWorkout, IWorkoutExercise, IWorkoutFormValues } from '../common/types';
+import { IWorkout, IWorkoutFormValues } from '../common/types';
 import moment from 'moment';
 
 /**
@@ -103,9 +103,7 @@ export const deleteWorkout = (workoutId: string, handle: string) => {
         .then(() => removeWorkoutFromUser(workoutId, handle));
 };
 
-export const editWorkout = ({ workoutId, workoutName, difficulty, duration, exercises }:
-    { workoutId: string, workoutName?: string, difficulty?: string, duration?: string, exercises: IWorkoutExercise[] | [] }) => {
-    const updates = [workoutId, workoutName, difficulty, duration, exercises].filter(prop => prop);
+export const editWorkout = (workout: IWorkoutFormValues, workoutId: string) => {
 
-    return update(ref(db, `workouts/${workoutId}`), updates);
+    return update(ref(db, `workouts/${workoutId}`), workout);
 };

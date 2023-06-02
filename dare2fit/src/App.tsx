@@ -16,8 +16,8 @@ import LogIn from './views/LogIn/LogIn.jsx';
 import SignUp from './views/SignUp/SignUp.js';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.js';
 import WorkoutsView from './views/WorkoutsView/WorkoutsView.js';
-import CreateWorkoutForm from './components/Workouts/CreateWorkoutForm/CreateWorkoutForm.js';
-import { IAppContextValue } from './common/types.js';
+import WorkoutForm from './components/Workouts/WorkoutForm/WorkoutForm.js';
+import { IAppContextValue, IUserData } from './common/types.js';
 
 const App: React.FC = () => {
     const [user, loading] = useAuthState(auth);
@@ -63,7 +63,7 @@ const App: React.FC = () => {
                             <Route element={<ProtectedRoute />} >
                                 <Route path='activity' element={<ActivityView />} />
                                 <Route path='workouts' element={<WorkoutsView />} >
-                                    <Route path='create' element={<CreateWorkoutForm />} />
+                                    <Route path='create' element={<WorkoutForm />} />
                                 </Route>
                                 <Route path='goals' element={<GoalsView />} />
                                 <Route path='community' element={<CommunityView />} />
