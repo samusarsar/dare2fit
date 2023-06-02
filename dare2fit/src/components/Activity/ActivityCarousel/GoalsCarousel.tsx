@@ -33,7 +33,7 @@ const GoalsCarousel: FC = () => {
 
     return (
         <Flex justifyContent='flex-start'>
-            <Box p={2} borderRadius='lg' bg='brand.yellow' width='fit'>
+            <Box p={2} borderRadius='lg' bg='brand.yellow' width={{ base: 'fit-content', md: 'sm', lg: 'fit-content' }}>
                 <Flex justifyContent='space-between' alignItems='center' color='brand.dark' gap={2} mb={2}>
                     <Select variant='unstyled' width='50%'
                         onChange={(e) => {
@@ -46,7 +46,7 @@ const GoalsCarousel: FC = () => {
                     <ActivityCarousel setIndex={setIndex} index={index} length={goalsView === GoalTypes.habit ? habits.length : challenges.length}></ActivityCarousel>
                 </Flex>
 
-                <VStack align='start' rounded='lg'>
+                <VStack align='center' rounded='lg'>
                     <Box height='320px' overflow='auto' width={{ base: '2xs', md: 'xs' }}>
                         {goalsView === GoalTypes.habit && !habits.length ? (
                             <Box width={{ base: 'fit', md: 'sm' }} minW='3xs' bg='brand.yellow' margin='auto'>You don&apos;t have habits, yet...</Box>
