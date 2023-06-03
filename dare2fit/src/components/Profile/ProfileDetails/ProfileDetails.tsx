@@ -4,7 +4,7 @@ import { Editable, EditableInput, EditablePreview, FormControl, FormErrorMessage
 import EditableControls from '../../Base/EditableControls/EditableControls';
 import { editUserDetails } from '../../../services/user.services';
 import { AppContext } from '../../../context/AppContext/AppContext';
-import { DATE_FORMAT, FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH } from '../../../common/constants';
+import { FIRST_NAME_MAX_LENGTH, FIRST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH, LAST_NAME_MIN_LENGTH } from '../../../common/constants';
 import moment from 'moment';
 
 const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
@@ -100,7 +100,10 @@ const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement =
                         <Td>
                             <Editable textAlign='center' defaultValue={profile.dateOfBirth || '-'} isPreviewFocusable={false} display='flex' gap={2} w='fit-content'
                                 onSubmit={(value) => {
-                                    if ((!moment(value, 'DD/MM/YYYY').isValid()) || (moment(value, 'DD/MM/YYYY').diff(moment()) > 0)) {
+                                    const manualCheck = value.split('/');
+
+                                    if (!(moment(value, 'DD/MM/YYYY').isValid() && manualCheck[0].length === 2 && manualCheck[1].length === 2 && manualCheck[2].length === 4) ||
+                                    (moment(value, 'DD/MM/YYYY').diff(moment()) > 0)) {
                                         setErrors({
                                             ...errors,
                                             dateOfBirthError: true,
@@ -110,7 +113,7 @@ const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement =
                                             ...errors,
                                             dateOfBirthError: false,
                                         });
-                                        handleEdit(moment(value).format('DD/MM/YYYY'), 'dateOfBirth');
+                                        handleEdit(value, 'dateOfBirth');
                                     }
                                 }}>
                                 <FormControl isInvalid={errors.dateOfBirthError}>
@@ -120,7 +123,7 @@ const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement =
                                             <Input as={EditableInput} />
                                             {isMe && <EditableControls />}
                                         </HStack>
-                                        <FormErrorMessage textAlign='start'>Date of birth must be valid and in &apos;{DATE_FORMAT}&apos; format.</FormErrorMessage>
+                                        <FormErrorMessage textAlign='start'>Date of birth must be valid and in &apos;DD/MM/YYYY&apos; format.</FormErrorMessage>
                                     </VStack>
                                 </FormControl>
                             </Editable>
