@@ -7,12 +7,17 @@ import { FaFlag } from 'react-icons/fa';
 import { GoalTypes } from '../../../../common/enums';
 import { IoMdReturnLeft } from 'react-icons/io';
 import { FiDelete, FiEdit2 } from 'react-icons/fi';
+import { AiOutlineLineChart } from 'react-icons/ai';
 
-const GoalOptions: FC<{ goal: IGoal, onOpen: () => void }> = ({ goal, onOpen }) => {
+const GoalOptions: FC<{ goal: IGoal, onOpen: () => void, onOpenLog: () => void }> = ({ goal, onOpen, onOpenLog }) => {
     const { userData } = useContext(AppContext);
 
     const authorIsMe = userData!.handle === goal.author;
     const amCompeting = goal.competingWith ? Object.keys(goal.competingWith).includes(userData!.handle) : false;
+
+    const handleViewLog = () => {
+        onOpenLog();
+    };
 
     const handleCompete = () => {
         competeOnGoal(userData!.handle, goal.goalId);
@@ -32,6 +37,17 @@ const GoalOptions: FC<{ goal: IGoal, onOpen: () => void }> = ({ goal, onOpen }) 
 
     return (
         <Stack>
+            {(authorIsMe || amCompeting) &&
+            <Button
+                w="194px"
+                variant="ghost"
+                rightIcon={<AiOutlineLineChart />}
+                justifyContent="space-between"
+                fontWeight="normal"
+                fontSize="sm"
+                onClick={handleViewLog}>
+                View Log
+            </Button>}
             {(!authorIsMe && (goal.category === GoalTypes.challenge)) &&
                                 (!amCompeting ?
                                     <Button
