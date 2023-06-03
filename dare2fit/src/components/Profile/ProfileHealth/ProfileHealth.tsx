@@ -11,7 +11,7 @@ import { IUserData } from '../../../common/types';
 import { ActivityLevel, Gender } from '../../../common/enums';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import moment from 'moment';
-import { ActivityLevelData, DATE_FORMAT } from '../../../common/constants';
+import { ActivityLevelData } from '../../../common/constants';
 
 const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -63,7 +63,7 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
             const { weightMetric, heightMetric, gender } = profile.health;
 
             if (weightMetric && heightMetric && gender && profile.dateOfBirth) {
-                const age = moment().diff(moment(profile.dateOfBirth).format(DATE_FORMAT), 'years');
+                const age = moment().diff(moment(profile.dateOfBirth, 'DD/MM/YYYY'), 'years');
                 return gender === Gender.male ? (
                     (10 * weightMetric + 6.25 * heightMetric - 5 * age + 5) * ActivityLevelData[profileActivityLevel].index
                 ) : (

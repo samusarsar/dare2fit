@@ -96,12 +96,11 @@ const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement =
                     <Tr>
                         <Td>
                             <Text fontWeight='bold'>Date of Birth:</Text>
-                            <Text>{DATE_FORMAT}</Text>
                         </Td>
                         <Td>
                             <Editable textAlign='center' defaultValue={profile.dateOfBirth || '-'} isPreviewFocusable={false} display='flex' gap={2} w='fit-content'
                                 onSubmit={(value) => {
-                                    if ((!moment(value, DATE_FORMAT).isValid()) || (moment(value, DATE_FORMAT).diff(moment()) > 0)) {
+                                    if ((!moment(value, 'DD/MM/YYYY').isValid()) || (moment(value, 'DD/MM/YYYY').diff(moment()) > 0)) {
                                         setErrors({
                                             ...errors,
                                             dateOfBirthError: true,
@@ -111,7 +110,7 @@ const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement =
                                             ...errors,
                                             dateOfBirthError: false,
                                         });
-                                        handleEdit(moment(value).format(DATE_FORMAT), 'dateOfBirth');
+                                        handleEdit(moment(value).format('DD/MM/YYYY'), 'dateOfBirth');
                                     }
                                 }}>
                                 <FormControl isInvalid={errors.dateOfBirthError}>
