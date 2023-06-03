@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { getChallengeLogHistory, getHabitLogHistory } from '../../../services/goal.services';
 import { AppContext } from '../../../context/AppContext/AppContext';
-import { IGoal, ITodayLog } from '../../../common/types';
+import { IGoal } from '../../../common/types';
 import moment, { MomentInput } from 'moment';
 import { ResponsiveLine, Serie } from '@nivo/line';
 import { CalendarDatum, ResponsiveCalendar } from '@nivo/calendar';
@@ -50,7 +50,7 @@ const GoalLog: FC<{ isOpen: boolean, onClose: () => void, goal: IGoal }> = ({ is
 
                 const calendarChartDataRec: CalendarDatum[] = [];
 
-                Object.entries(data).forEach(([date, log]: [string, ITodayLog]) => {
+                Object.entries(data).forEach(([date, log]) => {
                     let value: number;
                     if (typeIsWorkoutCategory) {
                         value = log.workout ? (log.workout.category === goal.type ? 1 : 0) : 0;
@@ -223,10 +223,9 @@ const GoalLog: FC<{ isOpen: boolean, onClose: () => void, goal: IGoal }> = ({ is
                                             itemDirection: 'right-to-left',
                                         },
                                     ]}
-                                    // Error ts(2339) on line below is untrue and due to outdated props of @nivo/calendar library
                                     tooltip={(el) => {
                                         return (
-                                            <Button bg={tooltipColor}>{moment(el.date).format('dddd, MMM Do, YY')}: Workout Completed</Button>
+                                            <Button bg={tooltipColor}>{moment(el.day).format('dddd, MMM Do, YY')}: Workout Completed</Button>
                                         );
                                     }}
                                 /> :

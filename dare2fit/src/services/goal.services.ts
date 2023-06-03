@@ -183,7 +183,7 @@ export const getHabitLogByHandle = (handle: string, repeat: string): Promise<ITo
  * @return {Promise} - A promise that resolves with an object of dates as keys and the daily activity logs.
  * @throws {Error} - If no activity logs are found for these dates for this user.
  */
-export const getHabitLogHistory = (handle: string) => {
+export const getHabitLogHistory = (handle: string): Promise<({[key:string]: ITodayLog})> => {
     return get(query(ref(db, `logs/${handle}`), orderByKey(), limitToFirst(30)))
         .then(snapshot => {
             if (!snapshot.exists()) {
