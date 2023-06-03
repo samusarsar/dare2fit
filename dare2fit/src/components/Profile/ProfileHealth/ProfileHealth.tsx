@@ -7,19 +7,18 @@ import { BsCheck } from 'react-icons/bs';
 import { BiHealth } from 'react-icons/bi';
 
 import { editUserHealthData, editUserHealthNumberData } from '../../../services/user.services';
-import { IUserData } from '../../../common/types';
 import { ActivityLevel, Gender } from '../../../common/enums';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import moment from 'moment';
 import { ActivityLevelData } from '../../../common/constants';
 
-const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
+const ProfileHealth: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
 
     const [isMetric, setIsMetric] = useState(true);
 
-    const profileBMI = (profile.health?.weightMetric && profile.health?.heightMetric) ?
-        (profile.health?.weightMetric / ((profile.health?.heightMetric / 100) ** 2)) :
+    const profileBMI = (userData!.health?.weightMetric && userData!.health?.heightMetric) ?
+        (userData!.health?.weightMetric / ((userData!.health?.heightMetric / 100) ** 2)) :
         null;
 
     const bmiData = !profileBMI ?
@@ -56,14 +55,14 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
     const decHeight = getDecrementButtonPropsHeight();
     const inputHeight = getInputPropsHeight();
 
-    const profileActivityLevel = profile.health?.activityLevel || ActivityLevel.noActivity;
+    const profileActivityLevel = userData!.health?.activityLevel || ActivityLevel.noActivity;
 
     const calculateBmr = () => {
-        if (profile.health) {
-            const { weightMetric, heightMetric, gender } = profile.health;
+        if (userData!.health) {
+            const { weightMetric, heightMetric, gender } = userData!.health;
 
-            if (weightMetric && heightMetric && gender && profile.dateOfBirth) {
-                const age = moment().diff(moment(profile.dateOfBirth, 'DD/MM/YYYY'), 'years');
+            if (weightMetric && heightMetric && gender && userData!.dateOfBirth) {
+                const age = moment().diff(moment(userData!.dateOfBirth, 'DD/MM/YYYY'), 'years');
                 return gender === Gender.male ? (
                     (10 * weightMetric + 6.25 * heightMetric - 5 * age + 5) * ActivityLevelData[profileActivityLevel].index
                 ) : (
@@ -83,11 +82,11 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
     };
 
     const handleEditGender = (value: string) => {
-        editUserHealthData(profile.handle, 'gender', value);
+        editUserHealthData(userData!.handle, 'gender', value);
     };
 
     const handleEditActivityLevel = (value: string) => {
-        editUserHealthData(profile.handle, 'activityLevel', value);
+        editUserHealthData(userData!.handle, 'activityLevel', value);
     };
 
     return (
@@ -109,16 +108,16 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                     <Tbody>
                         <Tr>
                             <Td fontWeight='bold'>Gender:</Td>
-                            <Td>{!profile.health?.gender ?
+                            <Td>{!userData!.health?.gender ?
                                 ('No entry') :
-                                (<Badge fontSize='0.8em' colorScheme={profile.health.gender === Gender.male ? 'blue' : 'pink'}>{profile.health.gender}</Badge>)}
+                                (<Badge fontSize='0.8em' colorScheme={userData!.health.gender === Gender.male ? 'blue' : 'pink'}>{userData!.health.gender}</Badge>)}
                             </Td>
                             <Td>
                                 <VStack>
                                     <HStack>
                                         <Select
                                             bg={inputColor}
-                                            defaultValue={profile.health?.gender}
+                                            defaultValue={userData!.health?.gender}
                                             onChange={e => handleEditGender(e.target.value)}>
                                             <option value={''}>{Gender.genderNeutral}</option>
                                             <option value={Gender.male}>{Gender.male}</option>
@@ -130,12 +129,12 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                         </Tr>
                         <Tr>
                             <Td fontWeight='bold'>Weight:</Td>
-                            <Td>{!profile.health?.weightMetric ?
+                            <Td>{!userData!.health?.weightMetric ?
                                 ('No entry yet') :
                                 (<>
                                     {isMetric ?
-                                        profile.health?.weightMetric :
-                                        profile.health?.weightImperial} <Badge fontSize='0.8em' colorScheme={isMetric ? 'blue' : 'pink'}>{isMetric ? 'kg' : 'lbs'}</Badge>
+                                        userData!.health?.weightMetric :
+                                        userData!.health?.weightImperial} <Badge fontSize='0.8em' colorScheme={isMetric ? 'blue' : 'pink'}>{isMetric ? 'kg' : 'lbs'}</Badge>
                                 </>)}
                             </Td>
                             <Td>
@@ -153,12 +152,12 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                         </Tr>
                         <Tr>
                             <Td fontWeight='bold'>Height:</Td>
-                            <Td>{!profile.health?.heightMetric ?
+                            <Td>{!userData!.health?.heightMetric ?
                                 ('No entry yet') :
                                 (<>
                                     {isMetric ?
-                                        profile.health?.heightMetric :
-                                        profile.health?.heightImperial} <Badge fontSize='0.8em' colorScheme={isMetric ? 'blue' : 'pink'}>{isMetric ? 'cm' : 'ft'}</Badge>
+                                        userData!.health?.heightMetric :
+                                        userData!.health?.heightImperial} <Badge fontSize='0.8em' colorScheme={isMetric ? 'blue' : 'pink'}>{isMetric ? 'cm' : 'ft'}</Badge>
                                 </>)}
                             </Td>
                             <Td>

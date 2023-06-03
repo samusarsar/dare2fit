@@ -26,7 +26,7 @@ const ProfileTabs: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
             <TabPanels bg='brand.600'>
                 {isMe &&
                 <TabPanel>
-                    <ProfileHealth profile={profile} />
+                    <ProfileHealth />
                 </TabPanel>}
                 <TabPanel>
                     <ProfileDetails profile={profile} />
