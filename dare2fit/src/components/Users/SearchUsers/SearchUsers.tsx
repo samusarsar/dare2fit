@@ -1,6 +1,6 @@
 // eslint-disable-next-line max-len
 import { VStack, Input, HStack, Button, InputGroup, InputRightElement, RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb, Text, MenuButton, Menu, MenuList, MenuItem, MenuOptionGroup, Spacer, Alert, AlertIcon, Modal, ModalOverlay, ModalContent, useDisclosure, ModalBody, ModalCloseButton, ModalHeader, Heading, useColorModeValue } from '@chakra-ui/react';
-import { useContext, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import UserTable from '../UserTable/UserTable';
 import { getAllUsers } from '../../../services/user.services';
@@ -8,7 +8,7 @@ import moment from 'moment';
 import { IUserData } from '../../../common/types';
 import { AppContext } from '../../../context/AppContext/AppContext';
 
-const SearchUsers = () => {
+const SearchUsers: FC<{ hasBorder?: boolean }> = ({ hasBorder = false }) => {
     const { userData } = useContext(AppContext);
 
     const [input, setInput] = useState('');
@@ -22,6 +22,7 @@ const SearchUsers = () => {
     const { onClose } = useDisclosure();
 
     const colorInput = useColorModeValue('brand.light', 'brand.dark');
+    const colorInputAdmin = useColorModeValue('brand.white', 'brand.grey');
     const colorText = useColorModeValue('brand.dark', 'brand.light');
 
     // const navigate = useNavigate();
@@ -72,12 +73,12 @@ const SearchUsers = () => {
                 <AlertIcon color='brand.grey' />
                     No users found for these search parameters!
             </Alert>}
-            <InputGroup w={{ base: '100%', lg: '50%' }} borderColor='transparent'>
-                <Input pr='120px' size='lg' h='70px' w='100%' type='text' placeholder='Search Users' _placeholder={{ color: colorText }} focusBorderColor='transparent'
-                    bg={colorInput}
+            <InputGroup w={{ base: '100%', lg: '50%' }} borderColor={'transparent'}>
+                <Input pr='120px' size='lg' h='70px' w='100%' type='text' placeholder='Search Users' _placeholder={{ color: colorText }}
+                    focusBorderColor={hasBorder ? colorText : 'transparent'}
+                    bg={hasBorder ? colorInputAdmin : colorInput}
                     transition='0.2s ease-in'
                     color={colorText}
-                    _hover={{ borderColor: 'transparent' }}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}></Input>
                 <InputRightElement w='120px' mt={4}>

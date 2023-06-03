@@ -7,7 +7,7 @@ import { UserRoles } from '../../../common/enums';
 const ProfileAdminPanel: FC = (): ReactElement => {
     return (
         <Box>
-            <SearchUsers />
+            <SearchUsers hasBorder={true} />
             <VStack py={4} gap={3}>
                 <AdminPanelUsersByRole role={UserRoles.WantAdmin} />
                 <AdminPanelUsersByRole role={UserRoles.Blocked} />
