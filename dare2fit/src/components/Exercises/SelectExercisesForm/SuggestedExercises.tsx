@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { IWorkoutExercise, ISuggestedExercise } from '../../../common/types';
 // eslint-disable-next-line max-len
-import { Accordion, Card, CardBody, CardHeader, Heading, Text } from '@chakra-ui/react';
+import { Accordion, Box, Card, CardBody, CardHeader, Heading, Text } from '@chakra-ui/react';
 
 import SingleSuggestedExercise from '../SingleExercise/SingleSuggestedExercise';
 
@@ -15,12 +15,12 @@ const SuggestedExercises: FC<ISuggestedExercisesProps> = ({ suggestedExercises, 
 
     if (suggestedExercises === null) {
         return (
-            <>
+            <Box p={4}>
                 <Heading fontSize={'xl'} fontWeight={500} fontFamily={'body'}>
                     Search for Exercises
                 </Heading>
                 <Text fontStyle='italic' color={'gray.200'}>access a comprehensive list of thousands of exercises targeting every major muscle group</Text>
-            </>
+            </Box>
         );
     }
     if (suggestedExercises.length === 0) {

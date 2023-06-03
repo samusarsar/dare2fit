@@ -27,16 +27,16 @@ const ActivityLogger: FC = (): ReactElement => {
     }, []);
 
     return (
-        <VStack w={{ base: '100%', md: '80%' }} bg='brand.blue' p={6} align='start' rounded='2xl'>
-            <Box bg='brand.red' p={3} rounded='full'>
+        <VStack w='100%' bg='brand.blue' p={6} align='start' rounded='lg'>
+            <Box bg='brand.red' p={3} rounded='full' mb={4}>
                 <Text fontWeight='bold'>{today}</Text>
             </Box>
             <HStack w='100%' flexWrap={{ base: 'wrap', lg: 'nowrap' }} gap={5} spacing={0}>
-                <Box w='100%' bg={background} rounded='xl' boxShadow='lg' p={4} >
+                <Box w='100%' bg={background} rounded='lg' boxShadow='lg' p={4} >
                     <ActivityLogDisplay todayLog={todayLog} />
                     <ActivityLogButton todayLog={todayLog} />
                 </Box>
-                <Box w='100%' bg={background} rounded='xl' boxShadow='lg' p={4} >
+                <Box w='100%' bg={background} rounded='lg' boxShadow='lg' p={4} >
                     <ActivityLogDisplay todayLog={todayLog} />
                     <ActivityLogButton todayLog={todayLog} />
                 </Box>

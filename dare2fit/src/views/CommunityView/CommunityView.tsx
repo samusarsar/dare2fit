@@ -1,6 +1,6 @@
 import { FC, ReactElement } from 'react';
 import SearchUsers from '../../components/Users/SearchUsers/SearchUsers';
-import { Accordion, AccordionItem, AccordionButton, Box, AccordionPanel, VStack, Heading } from '@chakra-ui/react';
+import { Accordion, AccordionItem, AccordionButton, Box, AccordionPanel, VStack, Heading, HStack, AccordionIcon } from '@chakra-ui/react';
 import FriendsList from '../../components/Users/FriendsList/FriendsList';
 import FriendRequestsList from '../../components/Users/FriendRequests/FriendRequests';
 import { FriendRequestType } from '../../common/enums';
@@ -8,12 +8,26 @@ import { FriendRequestType } from '../../common/enums';
 const CommunityView: FC = (): ReactElement => {
     return (
         <Box>
-            <SearchUsers />
-            <Accordion mt={5} defaultIndex={0} allowToggle>
+            <HStack justify="center" w="100%" p={4}>
+                <VStack
+                    w={{ base: '100%', md: '80%' }}
+                    h='fit-content'
+                    minH="100px"
+                    bg='brand.yellow'
+                    rounded="xl"
+                    justify='center'
+                    p={3}>
+                    <SearchUsers />
+                </VStack>
+            </HStack>
+            <Accordion mt={2} defaultIndex={0} allowToggle>
                 <h2>
-                    <AccordionItem>
+                    <AccordionItem borderColor='transparent'>
                         <AccordionButton h='80px' _expanded={{ color: 'brand.yellow' }}>
-                            <Heading as='h2' size='lg'>My Community:</Heading>
+                            <Box as='span' flex='1' textAlign='left'>
+                                <Heading as='h2' size='lg'>My Community:</Heading>
+                            </Box>
+                            <AccordionIcon />
                         </AccordionButton>
                         <AccordionPanel pb={4}>
                             <FriendsList />
@@ -22,9 +36,12 @@ const CommunityView: FC = (): ReactElement => {
                 </h2>
 
                 <h2>
-                    <AccordionItem>
+                    <AccordionItem borderColor='transparent'>
                         <AccordionButton h='80px' _expanded={{ color: 'brand.yellow' }}>
-                            <Heading as='h2' size='lg'>Friend Requests:</Heading>
+                            <Box as='span' flex='1' textAlign='left'>
+                                <Heading as='h2' size='lg'>Friend Requests:</Heading>
+                            </Box>
+                            <AccordionIcon />
                         </AccordionButton>
                         <AccordionPanel pb={4}>
                             <VStack w='100%' gap={3}>

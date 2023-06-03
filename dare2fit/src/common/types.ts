@@ -20,7 +20,7 @@ export type IHealth = {
     waterGoal?: number,
 }
 
-export type IFriendsLists = {
+export type ICollection = {
     [key: string]: true,
 }
 
@@ -36,9 +36,11 @@ export interface IUserData {
     avatarURL?: string,
     dateOfBirth?: string,
     health?: IHealth,
-    friends?: IFriendsLists,
-    sentFriendRequests?: IFriendsLists,
-    receivedFriendRequests?: IFriendsLists,
+    friends?: ICollection,
+    sentFriendRequests?: ICollection,
+    receivedFriendRequests?: ICollection,
+    goals?: ICollection,
+    workouts?: ICollection,
 }
 
 export type IDuration = {
@@ -80,7 +82,7 @@ export interface IGoal {
 // }
 
 export interface IWorkout {
-    workoutId: string | null,
+    workoutId: string,
     author: string,
     createdOn: string,
     workoutName: string,

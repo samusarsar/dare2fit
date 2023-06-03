@@ -29,7 +29,6 @@ const CreateGoal: FC<{ index?: number }> = ({ index = 0 }): ReactElement => {
     return (
         <HStack justify="center" w="100%" p={4}>
             <Button
-                variant="ghost"
                 w='80%'
                 h="100px"
                 colorScheme="green"
