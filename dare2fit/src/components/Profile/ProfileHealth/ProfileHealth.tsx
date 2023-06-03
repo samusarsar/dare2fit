@@ -141,9 +141,9 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                             <Td>
                                 <VStack>
                                     <HStack>
-                                        <Button {...incWeight} colorScheme='facebook'>+</Button>
-                                        <Input {...inputWeight} ref={weightInputRef} bg={inputColor} />
                                         <Button {...decWeight} colorScheme='facebook'>-</Button>
+                                        <Input {...inputWeight} ref={weightInputRef} bg={inputColor} />
+                                        <Button {...incWeight} colorScheme='facebook'>+</Button>
                                     </HStack>
                                     <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+weightInputRef.current!.value, 'weight')}>
                                         Update in {isMetric ? 'kg' : 'lbs'}
@@ -164,9 +164,9 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                             <Td>
                                 <VStack>
                                     <HStack>
-                                        <Button {...incHeight} colorScheme='facebook'>+</Button>
-                                        <Input {...inputHeight} ref={heightInputRef} bg={inputColor} />
                                         <Button {...decHeight} colorScheme='facebook'>-</Button>
+                                        <Input {...inputHeight} ref={heightInputRef} bg={inputColor} />
+                                        <Button {...incHeight} colorScheme='facebook'>+</Button>
                                     </HStack>
                                     <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+heightInputRef.current!.value, 'height')}>
                                         Update in {isMetric ? 'cm' : 'ft'}
@@ -175,7 +175,10 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                             </Td>
                         </Tr>
                         <Tr>
-                            <Td fontWeight='bold'>BMI:</Td>
+                            <Td>
+                                <Text fontWeight='bold'>BMI:</Text>
+                                <Text>Body Mass Index</Text>
+                            </Td>
                             <Td>
                                 <HStack>
                                     <Text>{profileBMI ? profileBMI.toFixed(1) : 'Insufficient data for BMI calculation.'}</Text>
@@ -186,18 +189,22 @@ const ProfileHealth: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                         </Tr>
 
                         <Tr>
-                            <Td fontWeight='bold'>BMR (Basal Metabolic Rate):</Td>
+                            <Td>
+                                <Text fontWeight='bold'>BMR:</Text>
+                                <Text>Basal Metabolic Rate</Text>
+                            </Td>
                             <Td>
                                 <HStack>
                                     <Text>{profileBmr || 'Insufficient data for BMR calculation.'}</Text>
                                     {profileBmr && <Badge colorScheme='red' fontSize='0.8em'>kcal/day</Badge>}
                                 </HStack>
                             </Td>
-                            <Td>
+                            <Td pl='0'>
                                 <VStack>
                                     <HStack>
                                         <Select
                                             bg={inputColor}
+                                            size='md'
                                             defaultValue={profileActivityLevel}
                                             onChange={e => handleEditActivityLevel(e.target.value)}>
                                             {Object.values(ActivityLevel)

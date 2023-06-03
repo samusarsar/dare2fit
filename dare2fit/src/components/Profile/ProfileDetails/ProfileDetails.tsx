@@ -95,8 +95,8 @@ const ProfileDetails: FC<{ profile: IUserData }> = ({ profile }): ReactElement =
                     </Tr>
                     <Tr>
                         <Td>
-                            <Text fontWeight='bold'>Date of Birth</Text>
-                            <span>{DATE_FORMAT}</span>
+                            <Text fontWeight='bold'>Date of Birth:</Text>
+                            <Text>{DATE_FORMAT}</Text>
                         </Td>
                         <Td>
                             <Editable textAlign='center' defaultValue={profile.dateOfBirth || '-'} isPreviewFocusable={false} display='flex' gap={2} w='fit-content'
