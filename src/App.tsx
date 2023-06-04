@@ -58,9 +58,9 @@ const App: React.FC = () => {
                     <Routes>
                         <Route path='/' element={<RootLayout />}>
                             <Route index element={<LandingPage />} />
-                            <Route path='login' element={<LogIn />} />
-                            <Route path='signup' element={<SignUp />} />
                             <Route element={<ProtectedRoute />} >
+                                <Route path='login' element={<LogIn />} />
+                                <Route path='signup' element={<SignUp />} />
                                 <Route path='activity' element={<ActivityView />} />
                                 <Route path='workouts' element={<WorkoutsView />} >
                                     <Route path='create' element={<WorkoutForm />} />

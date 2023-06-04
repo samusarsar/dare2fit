@@ -4,14 +4,18 @@ import { AppContext } from '../../context/AppContext/AppContext';
 
 
 const ProtectedRoute: FC = () => {
-    const { user } = useContext(AppContext);
+    const { user, userData } = useContext(AppContext);
     const location = useLocation();
 
-    if (!user) {
-        return <Navigate to={'login'} state={location.pathname} replace={true} />;
-    }
+    const toLoginOrSignup = location.pathname === '/login' || location.pathname === '/signup';
 
-    return <Outlet />;
+    if (!user) {
+        return !toLoginOrSignup ? <Navigate to={'login'} state={location.pathname} replace={true} /> :
+            <Outlet />;
+    } else {
+        return toLoginOrSignup ? <Navigate to={`profile/${userData!.handle}`} state={location.pathname} replace={true} /> :
+            <Outlet />;
+    }
 };
 
 export default ProtectedRoute;
