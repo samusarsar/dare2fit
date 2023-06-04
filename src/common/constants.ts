@@ -31,7 +31,7 @@ export const API_NINJAS_KEY = 'cn6dW1SAvI817LEXzpf+cg==0msk7WrGU2sy3MKb';
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
 
-export const ActivityLevelData = {
+export const ACTIVITY_LEVEL_DATA = {
     noActivity: {
         description: 'No activity (while resting)',
         index: 1,
@@ -55,5 +55,37 @@ export const ActivityLevelData = {
     superActive: {
         description: 'Super active (very hard exercise/physical job & exercise 2x/day)',
         index: 1.9,
+    },
+};
+
+
+export const WEIGHT_GOAL_DATA = {
+    extremeWeightLoss: {
+        description: 'Extreme weight loss (1 kg/week)',
+        index: 0.47,
+    },
+    weightLoss: {
+        description: 'Weight loss (0.5 kg/week)',
+        index: 0.74,
+    },
+    mildWeightLoss: {
+        description: 'Mild weight loss (0.25 kg/week)',
+        index: 0.87,
+    },
+    maintainWeight: {
+        description: 'Maintain weight',
+        index: 1,
+    },
+    mildWeightGain: {
+        description: 'Mild weight gain (0.25 kg/week)',
+        index: 1.13,
+    },
+    weightGain: {
+        description: 'Weight gain (0.5 kg/week)',
+        index: 1.26,
+    },
+    fastWeightGain: {
+        description: 'Fast Weight gain (1 kg/week)',
+        index: 1.53,
     },
 };

@@ -1,10 +1,10 @@
 import { get, set, ref, query, equalTo, orderByChild, update } from 'firebase/database';
 import { db, storage } from '../config/firebase-config';
 import { getDownloadURL, ref as sRef, uploadBytes } from 'firebase/storage';
-import { ActivityLevel, FriendRequestType, Gender, UserRoles } from '../common/enums';
+import { ActivityLevel, FriendRequestType, Gender, UserRoles, WeightGoal } from '../common/enums';
 import moment from 'moment';
 import { IUserData } from '../common/types';
-import { ActivityLevelData } from '../common/constants';
+import { ACTIVITY_LEVEL_DATA, WEIGHT_GOAL_DATA } from '../common/constants';
 
 /**
  * Retrieves a user by their handle.
@@ -233,19 +233,26 @@ export const editUserHealthData = (handle: string, propKey: string, propValue: s
  */
 export const calculateBmr = (userData: IUserData) => {
     const profileActivityLevel = userData.health?.activityLevel || ActivityLevel.noActivity;
+
     if (userData.health) {
         const { weightMetric, heightMetric, gender } = userData.health;
 
         if (weightMetric && heightMetric && gender && userData.dateOfBirth) {
             const age = moment().diff(moment(userData.dateOfBirth, 'DD/MM/YYYY'), 'years');
             return gender === Gender.male ? (
-                (10 * weightMetric + 6.25 * heightMetric - 5 * age + 5) * ActivityLevelData[profileActivityLevel].index
+                Math.round((10 * weightMetric + 6.25 * heightMetric - 5 * age + 5) * ACTIVITY_LEVEL_DATA[profileActivityLevel].index)
             ) : (
-                (10 * weightMetric + 6.25 * heightMetric - 5 * age - 161) * ActivityLevelData[profileActivityLevel].index
+                Math.round((10 * weightMetric + 6.25 * heightMetric - 5 * age - 161) * ACTIVITY_LEVEL_DATA[profileActivityLevel].index)
             );
         }
     }
-    return null;
+    return 0;
+};
+
+export const calculateCalories = (userData: IUserData) => {
+    const profileWeightGoal = userData!.health?.weightGoal || WeightGoal.maintainWeight;
+
+    return Math.round(calculateBmr(userData) * WEIGHT_GOAL_DATA[profileWeightGoal].index);
 };
 
 export const changeUserRole = (handle: string, role: UserRoles) => {
