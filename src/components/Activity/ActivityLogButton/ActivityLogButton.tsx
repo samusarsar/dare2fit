@@ -16,14 +16,19 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): Re
     const [activityType, setActivityType] = useState<string>('');
     const [loggedValue, setLoggedValue] = useState<string | number | null>(null);
     const [userWorkouts, setUserWorkouts] = useState<IWorkout[] | []>([]);
+    const [savedWorkouts, setSavedWorkouts] = useState<IWorkout[] | []>([]);
 
     const { isOpen, onToggle } = useDisclosure();
 
     const units = activityType ? getEnumValue(Units, activityType) : null;
 
-    const workoutOptions = (activityType === 'workout') ?
+    const userWorkoutOptions = (activityType === 'workout') ?
         userWorkouts :
         userWorkouts.filter(workout => workout.category === activityType);
+
+    const savedWorkoutOptions = (activityType === 'workout') ?
+        savedWorkouts :
+        savedWorkouts.filter(workout => workout.category === activityType);
 
     const workoutIsLogged = todayLog ?
         Object.keys(todayLog).includes('workout') :
@@ -46,8 +51,14 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): Re
 
     useEffect(() => {
         getWorkoutsByHandle(userData!.handle)
-            .then(resultArr => setUserWorkouts(resultArr))
-            .catch(() => setUserWorkouts([]));
+            .then(resultArr => {
+                setUserWorkouts(resultArr.filter(workout => workout.author === userData!.handle));
+                setSavedWorkouts(resultArr.filter(workout => workout.author !== userData!.handle));
+            })
+            .catch(() => {
+                setUserWorkouts([]);
+                setSavedWorkouts([]);
+            });
     }, []);
 
     return (
@@ -79,13 +90,14 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): Re
                             placeholder='Select workout'
                             onChange={(e) => setLoggedValue(e.target.value)}>
                             <optgroup label="My Workouts">
-                                {workoutOptions.map(workout =>
+                                {userWorkoutOptions.map(workout =>
                                     <option key={workout.workoutId} value={`${workout.workoutName}_${workout.category}`}>{workout.workoutName}</option>,
                                 )}
                             </optgroup>
                             <optgroup label="Saved Workouts">
-                                <option value="saved1">Saved Workout 1</option>
-                                <option value="saved2">Saved Workout 2</option>
+                                {savedWorkoutOptions.map(workout =>
+                                    <option key={workout.workoutId} value={`${workout.workoutName}_${workout.category}`}>{workout.workoutName}</option>,
+                                )}
                             </optgroup>
                         </Select>) :
                         (<>
