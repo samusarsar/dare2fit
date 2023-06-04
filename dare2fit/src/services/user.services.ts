@@ -1,9 +1,10 @@
 import { get, set, ref, query, equalTo, orderByChild, update } from 'firebase/database';
 import { db, storage } from '../config/firebase-config';
 import { getDownloadURL, ref as sRef, uploadBytes } from 'firebase/storage';
-import { FriendRequestType, UserRoles } from '../common/enums';
+import { ActivityLevel, FriendRequestType, Gender, UserRoles } from '../common/enums';
 import moment from 'moment';
 import { IUserData } from '../common/types';
+import { ActivityLevelData } from '../common/constants';
 
 /**
  * Retrieves a user by their handle.
@@ -225,8 +226,31 @@ export const editUserHealthData = (handle: string, propKey: string, propValue: s
     });
 };
 
+/**
+ * Calculates the Basal Metabolic Rate (BMR) based on user data.
+ * @param {IUserData} userData - The user data object.
+ * @return {number | null} The calculated BMR value or null if the necessary data is missing.
+ */
+export const calculateBmr = (userData: IUserData) => {
+    const profileActivityLevel = userData.health?.activityLevel || ActivityLevel.noActivity;
+    if (userData.health) {
+        const { weightMetric, heightMetric, gender } = userData.health;
+
+        if (weightMetric && heightMetric && gender && userData.dateOfBirth) {
+            const age = moment().diff(moment(userData.dateOfBirth, 'DD/MM/YYYY'), 'years');
+            return gender === Gender.male ? (
+                (10 * weightMetric + 6.25 * heightMetric - 5 * age + 5) * ActivityLevelData[profileActivityLevel].index
+            ) : (
+                (10 * weightMetric + 6.25 * heightMetric - 5 * age - 161) * ActivityLevelData[profileActivityLevel].index
+            );
+        }
+    }
+    return null;
+};
+
 export const changeUserRole = (handle: string, role: UserRoles) => {
     return update(ref(db, `users/${handle}`), {
         role,
     });
 };
+

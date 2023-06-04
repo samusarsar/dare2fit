@@ -6,10 +6,10 @@ import { TbWeight } from 'react-icons/tb';
 import { BsCheck } from 'react-icons/bs';
 import { BiHealth } from 'react-icons/bi';
 
-import { editUserHealthData, editUserHealthNumberData } from '../../../services/user.services';
+import { calculateBmr, editUserHealthData, editUserHealthNumberData } from '../../../services/user.services';
+import { IUserData } from '../../../common/types';
 import { ActivityLevel, Gender } from '../../../common/enums';
 import { AppContext } from '../../../context/AppContext/AppContext';
-import moment from 'moment';
 import { ActivityLevelData } from '../../../common/constants';
 
 const ProfileHealth: FC = (): ReactElement => {
@@ -57,23 +57,7 @@ const ProfileHealth: FC = (): ReactElement => {
 
     const profileActivityLevel = userData!.health?.activityLevel || ActivityLevel.noActivity;
 
-    const calculateBmr = () => {
-        if (userData!.health) {
-            const { weightMetric, heightMetric, gender } = userData!.health;
-
-            if (weightMetric && heightMetric && gender && userData!.dateOfBirth) {
-                const age = moment().diff(moment(userData!.dateOfBirth, 'DD/MM/YYYY'), 'years');
-                return gender === Gender.male ? (
-                    (10 * weightMetric + 6.25 * heightMetric - 5 * age + 5) * ActivityLevelData[profileActivityLevel].index
-                ) : (
-                    (10 * weightMetric + 6.25 * heightMetric - 5 * age - 161) * ActivityLevelData[profileActivityLevel].index
-                );
-            }
-        }
-        return null;
-    };
-
-    const profileBmr = calculateBmr();
+    const profileBmr = calculateBmr(profile);
 
     const handleEditNumberData = (value: number, prop: string) => {
         if (!!value && !isNaN(value)) {
@@ -207,7 +191,7 @@ const ProfileHealth: FC = (): ReactElement => {
                                             defaultValue={profileActivityLevel}
                                             onChange={e => handleEditActivityLevel(e.target.value)}>
                                             {Object.values(ActivityLevel)
-                                                .map(activity => <option key={activity} value={activity}>{ActivityLevelData[activity].description}</option>)
+                                                .map(activity => (<option key={activity} value={activity}>{ActivityLevelData[activity].description}</option>))
                                             }
                                         </Select>
                                     </HStack>
