@@ -6,8 +6,9 @@ const Feature: FC<{ heading: string, description: string, icon: ReactElement }> 
         <Box
             maxW={{ base: 'full', md: '275px' }}
             w={'full'}
-            borderWidth="1px"
+            borderWidth="2px"
             borderRadius="lg"
+            borderColor={useColorModeValue('gray.400', 'gray.600')}
             overflow="hidden"
             p={5}
             transition='0.2s ease-in-out'
