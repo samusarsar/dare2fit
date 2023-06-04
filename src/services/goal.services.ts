@@ -1,4 +1,4 @@
-import { endAt, get, orderByKey, push, query, ref, remove, set, startAt, update } from 'firebase/database';
+import { endAt, get, limitToFirst, orderByKey, push, query, ref, remove, set, startAt, update } from 'firebase/database';
 import { db } from '../config/firebase-config';
 import moment from 'moment';
 import { ITodayLog } from '../common/types';
@@ -158,7 +158,11 @@ export const getHabitLogByHandle = (handle: string, repeat: string): Promise<ITo
         endDate = moment().format('YYYY-MM-DD');
         break;
     case 'weekly':
-        startDate = moment().day(1).format('YYYY-MM-DD');
+        if (moment().day() === 0) {
+            startDate = moment().day(-6).format('YYYY-MM-DD');
+        } else {
+            startDate = moment().day(1).format('YYYY-MM-DD');
+        }
         endDate = moment().format('YYYY-MM-DD');
         break;
     default:
@@ -174,5 +178,41 @@ export const getHabitLogByHandle = (handle: string, repeat: string): Promise<ITo
             }
 
             return Object.values(snapshot.val());
+        });
+};
+
+/**
+ * Returns the activity logs for a habit for the past month.
+ * @param {string} handle - The handle of the user.
+ * @return {Promise} - A promise that resolves with an object of dates as keys and the daily activity logs.
+ * @throws {Error} - If no activity logs are found for these dates for this user.
+ */
+export const getHabitLogHistory = (handle: string): Promise<({[key:string]: ITodayLog})> => {
+    return get(query(ref(db, `logs/${handle}`), orderByKey(), limitToFirst(30)))
+        .then(snapshot => {
+            if (!snapshot.exists()) {
+                throw new Error('No logs for these dates.');
+            }
+
+            return snapshot.val();
+        });
+};
+
+/**
+ * Returns the activity logs within the current challenge period.
+ * @param {string} handle - The handle of the user.
+ * @param {string} startDate - The start date of the period.
+ * @param {string} endDate - The end date of the period.
+ * @return {Promise} - A promise that resolves with an object of dates as keys and the daily activity logs.
+ * @throws {Error} - If no activity logs are found for these dates for this user.
+ */
+export const getChallengeLogHistory = (handle: string, startDate: string, endDate: string): Promise<({[key:string]: ITodayLog})> => {
+    return get(query(ref(db, `logs/${handle}`), orderByKey(), startAt(startDate), endAt(endDate)))
+        .then(snapshot => {
+            if (!snapshot.exists()) {
+                throw new Error('No logs for these dates.');
+            }
+
+            return snapshot.val();
         });
 };

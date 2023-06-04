@@ -42,7 +42,7 @@ const App: React.FC = () => {
 
         return onValue(query(ref(db, `users`), orderByChild('uid'), equalTo(user.uid)), (snapshot) => {
             if (snapshot.exists()) {
-                const userData = Object.values(snapshot.val())[0];
+                const userData = Object.values(snapshot.val())[0] as IUserData;
                 setAppState({
                     ...appState,
                     userData,

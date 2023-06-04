@@ -5,6 +5,5 @@ import react from '@vitejs/plugin-react-swc';
 export default defineConfig({
     plugins: [react()],
     optimizeDeps: {
-        exclude: ['@nivo/readial-bar'],
     },
 });
