@@ -158,7 +158,11 @@ export const getHabitLogByHandle = (handle: string, repeat: string): Promise<ITo
         endDate = moment().format('YYYY-MM-DD');
         break;
     case 'weekly':
-        startDate = moment().day(1).format('YYYY-MM-DD');
+        if (moment().day() === 0) {
+            startDate = moment().day(-6).format('YYYY-MM-DD');
+        } else {
+            startDate = moment().day(1).format('YYYY-MM-DD');
+        }
         endDate = moment().format('YYYY-MM-DD');
         break;
     default:
