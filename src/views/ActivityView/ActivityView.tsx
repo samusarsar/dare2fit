@@ -5,6 +5,7 @@ import { Flex, VStack } from '@chakra-ui/react';
 import ActivityLogger from '../../components/Activity/ActivityLogger/ActivityLogger';
 import WorkoutsCarousel from '../../components/Activity/ActivityCarousel/WorkoutsCarousel';
 import GoalsCarousel from '../../components/Activity/ActivityCarousel/GoalsCarousel';
+import CalorieIntake from '../../components/Activity/CalorieIntake/CalorieIntake';
 
 const ActivityView: FC = (): ReactElement => {
     return (
@@ -13,6 +14,7 @@ const ActivityView: FC = (): ReactElement => {
             <Flex justifyContent='center' wrap='wrap' gap={3} w='100%'>
                 <WorkoutsCarousel />
                 <GoalsCarousel />
+                <CalorieIntake />
             </Flex>
 
         </VStack>
