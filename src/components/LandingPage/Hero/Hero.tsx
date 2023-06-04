@@ -1,9 +1,12 @@
 import { Box, Heading, Container, Text, Button, Stack, Icon, useColorModeValue, createIcon, Image, VStack,
 } from '@chakra-ui/react';
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useContext } from 'react';
 import { useNavigate } from 'react-router';
+import { AppContext } from '../../../context/AppContext/AppContext';
 
 const Hero: FC = (): ReactElement => {
+    const { userData } = useContext(AppContext);
+
     const navigate = useNavigate();
 
     const Arrow = createIcon({
@@ -50,6 +53,7 @@ const Hero: FC = (): ReactElement => {
                         Join the world&apos;s leading community of ambitious, motivated, and dynamic people
                         dedicated to improving their fitness, bettering their lifestyles and challenging themselves in the process!
                     </Text>
+                    {!userData &&
                     <Stack
                         direction='column'
                         spacing={3}
@@ -85,7 +89,7 @@ const Hero: FC = (): ReactElement => {
                                 Not yet a member?
                             </Text>
                         </Box>
-                    </Stack>
+                    </Stack>}
                 </Stack>
             </Container>
         </>
