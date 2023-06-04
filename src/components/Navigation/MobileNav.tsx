@@ -51,7 +51,9 @@ const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
 
                 {(user && userData) ? (
                     <>
-                        <NotificationsList />
+                        <Flex>
+                            <NotificationsList />
+                        </Flex>
                         <Flex alignItems={'center'}>
                             <UserMenu />
                         </Flex>
