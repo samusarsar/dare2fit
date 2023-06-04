@@ -7,7 +7,6 @@ import { BsCheck } from 'react-icons/bs';
 import { BiHealth } from 'react-icons/bi';
 
 import { calculateBmr, editUserHealthData, editUserHealthNumberData } from '../../../services/user.services';
-import { IUserData } from '../../../common/types';
 import { ActivityLevel, Gender } from '../../../common/enums';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import { ActivityLevelData } from '../../../common/constants';
@@ -57,7 +56,7 @@ const ProfileHealth: FC = (): ReactElement => {
 
     const profileActivityLevel = userData!.health?.activityLevel || ActivityLevel.noActivity;
 
-    const profileBmr = calculateBmr(profile);
+    const profileBmr = calculateBmr(userData!); // TODO
 
     const handleEditNumberData = (value: number, prop: string) => {
         if (!!value && !isNaN(value)) {
