@@ -6,11 +6,10 @@ import { TbWeight } from 'react-icons/tb';
 import { BsCheck } from 'react-icons/bs';
 import { BiHealth } from 'react-icons/bi';
 
-import { editUserHealthData, editUserHealthNumberData } from '../../../services/user.services';
-import { ActivityLevel, Gender } from '../../../common/enums';
+import { calculateBmr, calculateCalories, editUserHealthData, editUserHealthNumberData } from '../../../services/user.services';
+import { ActivityLevel, Gender, WeightGoal } from '../../../common/enums';
 import { AppContext } from '../../../context/AppContext/AppContext';
-import moment from 'moment';
-import { ActivityLevelData } from '../../../common/constants';
+import { ACTIVITY_LEVEL_DATA, WEIGHT_GOAL_DATA } from '../../../common/constants';
 
 const ProfileHealth: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -56,24 +55,10 @@ const ProfileHealth: FC = (): ReactElement => {
     const inputHeight = getInputPropsHeight();
 
     const profileActivityLevel = userData!.health?.activityLevel || ActivityLevel.noActivity;
+    const profileWeightGoal = userData!.health?.weightGoal || WeightGoal.maintainWeight;
 
-    const calculateBmr = () => {
-        if (userData!.health) {
-            const { weightMetric, heightMetric, gender } = userData!.health;
-
-            if (weightMetric && heightMetric && gender && userData!.dateOfBirth) {
-                const age = moment().diff(moment(userData!.dateOfBirth, 'DD/MM/YYYY'), 'years');
-                return gender === Gender.male ? (
-                    (10 * weightMetric + 6.25 * heightMetric - 5 * age + 5) * ActivityLevelData[profileActivityLevel].index
-                ) : (
-                    (10 * weightMetric + 6.25 * heightMetric - 5 * age - 161) * ActivityLevelData[profileActivityLevel].index
-                );
-            }
-        }
-        return null;
-    };
-
-    const profileBmr = calculateBmr();
+    const profileBmr = calculateBmr(userData!); // TODO
+    const profileCalories = calculateCalories(userData!);
 
     const handleEditNumberData = (value: number, prop: string) => {
         if (!!value && !isNaN(value)) {
@@ -87,6 +72,10 @@ const ProfileHealth: FC = (): ReactElement => {
 
     const handleEditActivityLevel = (value: string) => {
         editUserHealthData(userData!.handle, 'activityLevel', value);
+    };
+
+    const handleEditWeightGoal = (value: string) => {
+        editUserHealthData(userData!.handle, 'weightGoal', value);
     };
 
     return (
@@ -207,7 +196,36 @@ const ProfileHealth: FC = (): ReactElement => {
                                             defaultValue={profileActivityLevel}
                                             onChange={e => handleEditActivityLevel(e.target.value)}>
                                             {Object.values(ActivityLevel)
-                                                .map(activity => <option key={activity} value={activity}>{ActivityLevelData[activity].description}</option>)
+                                                .map(activity => (<option key={activity} value={activity}>{ACTIVITY_LEVEL_DATA[activity].description}</option>))
+                                            }
+                                        </Select>
+                                    </HStack>
+                                </VStack>
+                            </Td>
+                        </Tr>
+
+                        <Tr>
+                            <Td>
+                                <Text fontWeight='bold'>Calorie calculator:</Text>
+                                {(profileCalories > 0 && profileCalories <= 1200) &&
+                                        <Text mt='2' color='red' fontStyle='italic'>It is not recommended to consume less than 1200 calories a day. Please consult a doctor!</Text>}
+                            </Td>
+                            <Td>
+                                <HStack>
+                                    <Text>{profileCalories || 'Insufficient data for calorie calculation.'}</Text>
+                                    {profileCalories && <Badge colorScheme='red' fontSize='0.8em'>kcal/day</Badge>}
+                                </HStack>
+                            </Td>
+                            <Td pl='0'>
+                                <VStack>
+                                    <HStack>
+                                        <Select
+                                            bg={inputColor}
+                                            size='md'
+                                            defaultValue={profileWeightGoal}
+                                            onChange={e => handleEditWeightGoal(e.target.value)}>
+                                            {Object.values(WeightGoal)
+                                                .map(wGoal => (<option key={wGoal} value={wGoal}>{WEIGHT_GOAL_DATA[wGoal].description}</option>))
                                             }
                                         </Select>
                                     </HStack>

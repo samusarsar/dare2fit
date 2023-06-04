@@ -89,3 +89,12 @@ export enum ActivityLevel {
     superActive = 'superActive',
 }
 
+export enum WeightGoal {
+    extremeWeightLoss = 'extremeWeightLoss',
+    weightLoss = 'weightLoss',
+    mildWeightLoss = 'mildWeightLoss',
+    maintainWeight = 'maintainWeight',
+    mildWeightGain = 'mildWeightGain',
+    weightGain = 'weightGain',
+    fastWeightGain = 'fastWeightGain',
+}
