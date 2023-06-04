@@ -5,6 +5,7 @@ import { ActivityLevel, FriendRequestType, Gender, UserRoles, WeightGoal } from 
 import moment from 'moment';
 import { IUserData } from '../common/types';
 import { ACTIVITY_LEVEL_DATA, WEIGHT_GOAL_DATA } from '../common/constants';
+import { addNotification } from './notification.services';
 
 /**
  * Retrieves a user by their handle.
@@ -148,7 +149,8 @@ export const sendFriendRequest = (sender: string, recipient: string) => {
             } else {
                 set(ref(db, `users/${recipient}/receivedFriendRequests`), { [sender]: true });
             }
-        });
+        })
+        .then(() => addNotification(recipient, `${sender} sent you a friend request.`));
 };
 
 export const resolveRequestBySender = (sender: string, recipient: string) => {
@@ -178,12 +180,14 @@ export const makeFriends = (accepting: string, accepted: string) => {
             } else {
                 set(ref(db, `users/${accepted}/friends`), { [accepting]: true });
             }
-        });
+        })
+        .then(() => addNotification(accepted, `${accepting} accepted your friend request!`));
 };
 
 export const unFriend = (remover: string, removed: string) => {
     return update(ref(db, `users/${remover}/friends`), { [removed]: null })
-        .then(() => update(ref(db, `users/${removed}/friends`), { [remover]: null }));
+        .then(() => update(ref(db, `users/${removed}/friends`), { [remover]: null }))
+        .then(() => addNotification(removed, `${remover} unfriended you.`));
 };
 
 export const editUserDetails = ({ handle, propKey, propValue }:
@@ -258,6 +262,14 @@ export const calculateCalories = (userData: IUserData) => {
 export const changeUserRole = (handle: string, role: UserRoles) => {
     return update(ref(db, `users/${handle}`), {
         role,
-    });
+    })
+        .then(() => {
+            if (role === UserRoles.Admin) {
+                addNotification(handle, 'You are now an admin!');
+            }
+            if (role === UserRoles.Blocked) {
+                addNotification(handle, 'You have been blocked.');
+            }
+        });
 };
 

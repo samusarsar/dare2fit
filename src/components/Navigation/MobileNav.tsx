@@ -2,11 +2,12 @@ import { FC, ReactElement, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Button, Flex, HStack, IconButton, Image, useColorMode, useColorModeValue } from '@chakra-ui/react';
-import { FiBell, FiMenu } from 'react-icons/fi';
+import { FiMenu } from 'react-icons/fi';
 import { BsMoon, BsSun } from 'react-icons/bs';
 
 import UserMenu from './UserMenu';
 import { AppContext } from '../../context/AppContext/AppContext';
+import NotificationsList from './Notifications/NotificationsList/NotificationsList';
 
 const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
     const { user, userData } = useContext(AppContext);
@@ -50,12 +51,9 @@ const MobileNav: FC<{ onOpen: () => void }> = ({ onOpen }): ReactElement => {
 
                 {(user && userData) ? (
                     <>
-                        <IconButton
-                            size='lg'
-                            variant='ghost'
-                            aria-label='open menu'
-                            icon={<FiBell />}
-                        />
+                        <Flex>
+                            <NotificationsList />
+                        </Flex>
                         <Flex alignItems={'center'}>
                             <UserMenu />
                         </Flex>

@@ -16,7 +16,7 @@ const UserMenu: FC = () => {
     const handleLogout = () => {
         logoutUser()
             .then(() => {
-                setContext({
+                setContext!({
                     user: null,
                     userData: null,
                 });
