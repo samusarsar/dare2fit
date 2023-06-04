@@ -29,7 +29,7 @@ const NotificationsList: FC = (): ReactElement => {
                     icon={<FiBell />} />
                 {notifications && <Badge colorScheme='pink' position='absolute' bottom={0} right={0}>{notifications.length}</Badge>}
             </Box>
-            <MenuList w='300px' maxH='500px' overflowY='auto'>
+            <MenuList w={{ base: '300px', lg: '450px' }} maxH='500px' overflowY='auto'>
                 {notifications ?
                     notifications.map(([timestamp, notification]) => {
                         let icon: IconType;
