@@ -24,6 +24,10 @@ export type ICollection = {
     [key: string]: true,
 }
 
+export type INotifications = {
+    [key: string]: string,
+}
+
 export interface IUserData {
     handle: string,
     uid: string,
@@ -39,6 +43,7 @@ export interface IUserData {
     friends?: ICollection,
     sentFriendRequests?: ICollection,
     receivedFriendRequests?: ICollection,
+    notifications?: INotifications,
     goals?: ICollection,
     workouts?: ICollection,
 }
