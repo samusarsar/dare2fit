@@ -8,6 +8,7 @@ import { GoalTypes } from '../../../../common/enums';
 import { IoMdReturnLeft } from 'react-icons/io';
 import { FiDelete, FiEdit2 } from 'react-icons/fi';
 import { AiOutlineLineChart } from 'react-icons/ai';
+import { addNotification } from '../../../../services/notification.services';
 
 const GoalOptions: FC<{ goal: IGoal, onOpen: () => void, onOpenLog: () => void }> = ({ goal, onOpen, onOpenLog }) => {
     const { userData } = useContext(AppContext);
@@ -21,10 +22,12 @@ const GoalOptions: FC<{ goal: IGoal, onOpen: () => void, onOpenLog: () => void }
 
     const handleCompete = () => {
         competeOnGoal(userData!.handle, goal.goalId);
+        addNotification(goal.author, `${userData!.handle} is now competing with you on your '${goal.name}' challenge!`);
     };
 
     const handleStopCompeting = () => {
         stopCompetingOnGoal(userData!.handle, goal.goalId);
+        addNotification(goal.author, `${userData!.handle} stopped competing with you on your '${goal.name}' challenge!`);
     };
 
     const handleEdit = () => {
