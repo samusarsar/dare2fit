@@ -221,7 +221,7 @@ const WorkoutForm: FC<{ workout?: IWorkout, onClose?: () => void }> = ({ workout
                                             workoutExercises.map(e => (
                                                 <SingleExercise key={e.name} exercise={e}>
                                                     <>
-                                                        <Badge>{e.quantity} {e.quantity === 1 ? e.units.slice(0, -1) : e.units}</Badge>
+                                                        <Badge>{e.sets ? `${e.sets} X` : ''} {e.quantity} {e.quantity === 1 ? e.units.slice(0, -1) : e.units}</Badge>
                                                         <IconButton
                                                             onClick={() => handleRemoveExercise(e)}
                                                             size='xs'

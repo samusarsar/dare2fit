@@ -17,6 +17,7 @@ const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, 
 
     const [units, setUnits] =useState(ExerciseUnits.reps);
     const [quantity, setQuantity] = useState(0);
+    const [sets, setSets] = useState(0);
     const [weight, setWeight] = useState(0);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,12 +33,16 @@ const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, 
         if (weight) {
             exerciseToBeAdded.weight = weight;
         }
+        if (sets) {
+            exerciseToBeAdded.sets = sets;
+        }
 
         setWorkoutExercises([
             ...workoutExercises,
             exerciseToBeAdded,
         ]);
         setQuantity(0);
+        setSets(0);
         setWeight(0);
         onClose();
     };
@@ -75,6 +80,17 @@ const SingleSuggestedExercise: FC<ISingleSuggestedExerciseProps> = ({ exercise, 
 
                                 <FormLabel>{units}</FormLabel>
                                 <NumberInput onChange={e => setQuantity(+e)} ref={initialRef} min={0} defaultValue={0}>
+                                    <NumberInputField />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                            </FormControl>
+
+                            <FormControl mt={3}>
+                                <FormLabel>sets</FormLabel>
+                                <NumberInput onChange={e => setSets(+e)} min={0} defaultValue={0}>
                                     <NumberInputField />
                                     <NumberInputStepper>
                                         <NumberIncrementStepper />

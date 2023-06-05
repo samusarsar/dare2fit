@@ -129,6 +129,7 @@ export interface ISuggestedExercise {
 export interface IWorkoutExercise extends ISuggestedExercise {
     units: ExerciseUnits,
     quantity: number,
+    sets?: number,
     weight?: number,
 }
 
