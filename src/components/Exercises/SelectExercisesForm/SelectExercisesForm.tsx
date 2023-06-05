@@ -14,6 +14,7 @@ interface ISelectExercisesFormProps {
 
 const SelectExercisesForm: FC<ISelectExercisesFormProps> = ( { workoutExercises, setWorkoutExercises }) => {
     const [suggestedExercises, setSuggestedExercises] = useState<ISuggestedExercise[] | [] | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const initialValues: IExerciseFormValues = {
         exerciseName: '',
@@ -23,9 +24,10 @@ const SelectExercisesForm: FC<ISelectExercisesFormProps> = ( { workoutExercises,
     };
 
     const handelSubmit = (values: IExerciseFormValues) => {
+        setIsLoading(true);
         findExercises(values)
             .then(data => setSuggestedExercises(data))
-            .catch(); // TODO
+            .finally(() => setIsLoading(false));
     };
 
 
@@ -100,6 +102,7 @@ const SelectExercisesForm: FC<ISelectExercisesFormProps> = ( { workoutExercises,
                         <Button
                             type='submit'
                             disabled={isSubmitting}
+                            isLoading={isLoading}
                             w={'full'}
                             mt={8}
                             bg='brand.white'

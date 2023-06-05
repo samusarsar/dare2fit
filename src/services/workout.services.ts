@@ -64,7 +64,7 @@ export const getWorkoutById = (workoutId: string) => {
  * @return {Promise<IWorkout>[]} - An array of promises, that resolves to array of IWorkout objects.
  * @throws {Error} - If no workouts are found for the given user.
  */
-export const getWorkoutsByHandle = (handle: string) => {
+export const getWorkoutsByHandle = (handle: string): Promise<IWorkout[]> => {
     return get(ref(db, `users/${handle}/workouts`))
         .then(snapshot => {
             if (!snapshot.exists()) {

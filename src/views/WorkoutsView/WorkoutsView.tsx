@@ -25,7 +25,10 @@ const WorkoutsView: FC = (): ReactElement => {
                 const savedWo = sortWorkoutsByDate(workouts.filter(w => w.author !== userData!.handle));
                 setSavedWorkouts(savedWo);
             })
-            .catch(() => setMyWorkouts([]));
+            .catch(() => {
+                setMyWorkouts([]);
+                setSavedWorkouts([]);
+            });
     }, [userData]);
 
 

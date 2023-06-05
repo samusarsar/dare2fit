@@ -1,6 +1,6 @@
 import { FC, useContext, useEffect, useState } from 'react';
 
-import { Box, Flex, Select, VStack } from '@chakra-ui/react';
+import { Box, Flex, HStack, Icon, Select, Spinner, Text, VStack, useColorModeValue } from '@chakra-ui/react';
 
 import { AppContext } from '../../../context/AppContext/AppContext';
 import { IGoal } from '../../../common/types';
@@ -8,14 +8,17 @@ import ActivityCarousel from './ActivityCarousel';
 import { getGoalsByHandle } from '../../../services/goal.services';
 import SingleGoal from '../../Goals/SingleGoal/SingleGoal';
 import { GoalTypes } from '../../../common/enums';
+import { ImFilesEmpty } from 'react-icons/im';
 
 const GoalsCarousel: FC = () => {
     const { userData } = useContext(AppContext);
 
-    const [habits, setHabits] = useState<IGoal[] | []>([]);
-    const [challenges, setChallenges] = useState<IGoal[] | []>([]);
+    const [habits, setHabits] = useState<IGoal[] | [] | null>(null);
+    const [challenges, setChallenges] = useState<IGoal[] | [] | null>(null);
     const [goalsView, setGoalsView] = useState<string>(GoalTypes.habit);
     const [index, setIndex] = useState(0);
+
+    const goalBackground = useColorModeValue('brand.white', 'brand.grey');
 
     useEffect(() => {
         setIndex(0);
@@ -43,20 +46,31 @@ const GoalsCarousel: FC = () => {
                         <option value={GoalTypes.habit}>Habits</option>
                         <option value={GoalTypes.challenge}>Challenges</option>
                     </Select>
-                    <ActivityCarousel setIndex={setIndex} index={index} length={goalsView === GoalTypes.habit ? habits.length : challenges.length}></ActivityCarousel>
+                    {(habits && challenges) &&
+                        <ActivityCarousel setIndex={setIndex} index={index} length={goalsView === GoalTypes.habit ? habits.length : challenges.length} />}
                 </Flex>
 
                 <VStack align='center' rounded='lg'>
                     <Box height='320px' overflow='auto' width={{ base: '2xs', md: 'xs' }}>
-                        {goalsView === GoalTypes.habit && !habits.length ? (
-                            <Box width={{ base: 'fit', md: 'sm' }} minW='3xs' bg='brand.yellow' margin='auto'>You don&apos;t have habits, yet...</Box>
-                        ) : goalsView === GoalTypes.habit ? (
-                            <SingleGoal goal={habits[index]} />
-                        ) : goalsView === GoalTypes.challenge && !challenges.length ? (
-                            <Box width={{ base: 'fit', md: 'sm' }} minW='3xs' bg='brand.yellow' margin='auto'>You don&apos;t have challenges, yet...</Box>
-                        ) : (
-                            <SingleGoal goal={challenges[index]} />
-                        )}
+                        {(habits && challenges) ?
+                            ((goalsView === GoalTypes.habit && !habits.length) ? (
+                                <HStack w='100%' h='100%' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={goalBackground}>
+                                    <Icon as={ImFilesEmpty} fontSize='2em' />
+                                    <Text>No habitss</Text>
+                                </HStack>
+                            ) : goalsView === GoalTypes.habit ? (
+                                <SingleGoal goal={habits[index]} />
+                            ) : goalsView === GoalTypes.challenge && !challenges.length ? (
+                                <HStack w='100%' h='100%' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={goalBackground}>
+                                    <Icon as={ImFilesEmpty} fontSize='2em' />
+                                    <Text>No challenges</Text>
+                                </HStack>
+                            ) : (
+                                <SingleGoal goal={challenges[index]} />
+                            )) :
+                            (<HStack w='100%' h='100%' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={goalBackground}>
+                                <Spinner size='xl'/>
+                            </HStack>)}
                     </Box>
                 </VStack>
             </Box>
