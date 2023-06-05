@@ -8,13 +8,16 @@ import { IFood } from '../../../common/types';
 
 const SearchFoodButton: FC<{ foodName: string }> = ({ foodName }) => {
     const [suggestedFoods, setSuggestedFoods] = useState<IFood[] | []>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const handleSearch = () => {
+        setIsLoading(true);
         findFood(foodName)
             .then(setSuggestedFoods)
-            .then(onOpen);
+            .then(onOpen)
+            .finally(() => setIsLoading(false));
     };
 
     return (
@@ -24,7 +27,8 @@ const SearchFoodButton: FC<{ foodName: string }> = ({ foodName }) => {
                 w='100%'
                 colorScheme='yellow'
                 onClick={handleSearch}
-                isDisabled={!foodName}>
+                isDisabled={!foodName}
+                isLoading={isLoading}>
                 Search Food
             </Button>
 
