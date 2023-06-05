@@ -7,11 +7,13 @@ import { AppContext } from '../../../context/AppContext/AppContext';
 import ProfileAdminPanel from '../ProfileAdminPanel/ProfileAdminPanel';
 import ProfileGoals from '../ProfileGoals/ProfileGoals';
 import ProfileWorkouts from '../ProfileWorkouts/ProfileWorkouts';
+import { UserRoles } from '../../../common/enums';
 
 const ProfileTabs: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
     const { userData } = useContext(AppContext);
 
     const isMe = profile.handle === userData!.handle;
+    const amAdmin = userData!.role === UserRoles.Admin;
     const isFriend = userData!.friends ? Object.keys(userData!.friends).includes(profile.handle) : false;
 
     return (
@@ -19,11 +21,11 @@ const ProfileTabs: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
             <TabList>
                 {isMe && <Tab>Health</Tab>}
                 <Tab>Details</Tab>
-                {isMe && <Tab>Admin Panel</Tab>}
+                {(isMe && amAdmin) && <Tab>Admin Panel</Tab>}
                 {!isMe && <Tab>Goals</Tab>}
                 {!isMe && <Tab>Workouts</Tab>}
             </TabList>
-            <TabPanels bg='brand.600'>
+            <TabPanels>
                 {isMe &&
                 <TabPanel>
                     <ProfileHealth />

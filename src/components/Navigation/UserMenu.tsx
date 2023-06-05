@@ -6,12 +6,19 @@ import { FiChevronDown } from 'react-icons/fi';
 
 import { AppContext } from '../../context/AppContext/AppContext';
 import { logoutUser } from '../../services/auth.services';
+import { UserRoles } from '../../common/enums';
 
 
 const UserMenu: FC = () => {
     const { userData, setContext } = useContext(AppContext);
     const navigate = useNavigate();
     const toast = useToast();
+
+    const userRole = userData!.role === UserRoles.Admin ?
+        'admin' :
+        userData!.role === UserRoles.Blocked ?
+            'blocked' :
+            'darer';
 
     const handleLogout = () => {
         logoutUser()
@@ -56,7 +63,7 @@ const UserMenu: FC = () => {
                             {userData?.firstName + ' ' + userData?.lastName}
                         </Text>
                         <Text fontSize='xs'>
-                            {userData?.role}
+                            {userRole}
                         </Text>
                     </VStack>
                     <Box display={{ base: 'none', md: 'flex' }}>
