@@ -1,0 +1,51 @@
+import { FC, useState } from 'react';
+
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
+
+import { findFood } from '../../../services/food.services';
+import FoodsLayout from '../FoodsLayout/FoodsLayout';
+import { IFood } from '../../../common/types';
+
+const SearchFoodButton: FC<{ foodName: string }> = ({ foodName }) => {
+    const [suggestedFoods, setSuggestedFoods] = useState<IFood[] | []>([]);
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const handleSearch = () => {
+        findFood(foodName)
+            .then(setSuggestedFoods)
+            .then(onOpen);
+    };
+
+    return (
+        <>
+            <Button
+                type='submit'
+                w='100%'
+                colorScheme='yellow'
+                onClick={handleSearch}
+                isDisabled={!foodName}>
+                Search Food
+            </Button>
+
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader></ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <FoodsLayout foods={suggestedFoods} />
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button bg='brand.red' mr={3} onClick={onClose}>
+                            Close
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+    );
+};
+
+export default SearchFoodButton;

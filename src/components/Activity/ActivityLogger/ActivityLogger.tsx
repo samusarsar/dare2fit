@@ -7,6 +7,7 @@ import ActivityLogDisplay from '../ActivityLogDisplay/ActivityLogDisplay';
 import { ITodayLog } from '../../../common/types';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../../config/firebase-config';
+import FoodLogButton from '../FoodLogButton/FoodLogButton';
 
 const ActivityLogger: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -38,7 +39,7 @@ const ActivityLogger: FC = (): ReactElement => {
                 </Box>
                 <Box w='100%' bg={background} rounded='lg' boxShadow='lg' p={4} >
                     <ActivityLogDisplay todayLog={todayLog} />
-                    <ActivityLogButton todayLog={todayLog} />
+                    <FoodLogButton />
                 </Box>
             </HStack>
         </VStack>
