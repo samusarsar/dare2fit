@@ -6,12 +6,14 @@ import { FiDelete, FiEdit2 } from 'react-icons/fi';
 import { addWorkoutToUser, deleteWorkout, removeWorkoutFromUser } from '../../../../services/workout.services';
 import { BsSave, BsSaveFill } from 'react-icons/bs';
 import { addNotification } from '../../../../services/notification.services';
+import { UserRoles } from '../../../../common/enums';
 
 const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout, onOpen }) => {
     const { userData } = useContext(AppContext);
 
     const authorIsMe = userData!.handle === workout.author;
     const isSaved = userData!.workouts ? Object.keys(userData!.workouts).includes(workout.workoutId) : false;
+    const amAdmin = userData!.role === UserRoles.Admin;
 
     const handleSave = () => {
         addWorkoutToUser(workout.workoutId, userData!.handle);
@@ -57,29 +59,28 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
                                 Unsave Workout
                         </Button>)}
                 </> :
-                <>
-                    <Button
-                        w="194px"
-                        variant="ghost"
-                        rightIcon={<FiEdit2 />}
-                        justifyContent="space-between"
-                        fontWeight="normal"
-                        fontSize="sm"
-                        onClick={handleEdit}>
-                            Edit Workout
-                    </Button>
-                    <Button
-                        w="194px"
-                        variant="ghost"
-                        rightIcon={<FiDelete />}
-                        justifyContent="space-between"
-                        fontWeight="normal"
-                        colorScheme="red"
-                        fontSize="sm"
-                        onClick={handleDelete}>
-                            Delete Workout
-                    </Button>
-                </>}
+                <Button
+                    w="194px"
+                    variant="ghost"
+                    rightIcon={<FiEdit2 />}
+                    justifyContent="space-between"
+                    fontWeight="normal"
+                    fontSize="sm"
+                    onClick={handleEdit}>
+                        Edit Workout
+                </Button>}
+            {(authorIsMe || amAdmin) &&
+            <Button
+                w="194px"
+                variant="ghost"
+                rightIcon={<FiDelete />}
+                justifyContent="space-between"
+                fontWeight="normal"
+                colorScheme="red"
+                fontSize="sm"
+                onClick={handleDelete}>
+                Delete Workout
+            </Button>}
         </Stack>
     );
 };

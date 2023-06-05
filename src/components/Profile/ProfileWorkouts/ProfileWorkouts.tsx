@@ -7,8 +7,8 @@ import { IUserData } from '../../../common/types';
 
 const ProfileWorkouts: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
 
-    const [myWorkouts, setMyWorkouts] = useState<IWorkout[] | []>([]);
-    const [savedWorkouts, setSavedWorkouts] = useState<IWorkout[] | []>([]);
+    const [myWorkouts, setMyWorkouts] = useState<IWorkout[] | [] | null>(null);
+    const [savedWorkouts, setSavedWorkouts] = useState<IWorkout[] | [] | null>(null);
 
     useEffect(() => {
         getWorkoutsByHandle(profile!.handle)
@@ -18,7 +18,10 @@ const ProfileWorkouts: FC<{ profile: IUserData }> = ({ profile }): ReactElement 
                 const savedWo = sortWorkoutsByDate(workouts.filter(w => w.author !== profile.handle));
                 setSavedWorkouts(savedWo);
             })
-            .catch(() => setMyWorkouts([]));
+            .catch(() => {
+                setMyWorkouts([]);
+                setSavedWorkouts([]);
+            });
     }, [profile]);
 
 

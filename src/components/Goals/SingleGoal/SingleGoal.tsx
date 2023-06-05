@@ -7,7 +7,7 @@ import ChallengeRadialBar from '../ChallengeRadialBar/ChallengeRadialBar';
 import ChallengeLabels from '../ChallengeLabels/ChallengeLabels';
 import HabitRadialBar from '../HabitRadialBar/HabitRadialBar';
 import HabitLabels from '../HabitLabels/HabitLabels';
-import { GoalTypes } from '../../../common/enums';
+import { GoalTypes, UserRoles } from '../../../common/enums';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import moment, { MomentInput } from 'moment';
 import { getChallengeLogByHandle, getHabitLogByHandle } from '../../../services/goal.services';
@@ -25,6 +25,7 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
     const typeIsWorkoutCategory = goal.type === 'strength' || goal.type === 'stamina' || goal.type === 'stretching';
     const authorIsMe = userData!.handle === goal.author;
     const amCompeting = currGoal.competingWith ? Object.keys(currGoal.competingWith).includes(userData!.handle) : false;
+    const amAdmin = userData!.role === UserRoles.Admin;
 
     let allProgressesLoaded: boolean;
     if (currGoal.competingWith) {
@@ -113,7 +114,7 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
     if (currGoal && progress && allProgressesLoaded) {
         return (
             <Box bg={background} rounded='lg' boxShadow='lg' minH='100%' p={4} position='relative'>
-                {(authorIsMe || currGoal.category === GoalTypes.challenge) && <OptionsButton goal={currGoal} />}
+                {(authorIsMe || currGoal.category === GoalTypes.challenge || amAdmin) && <OptionsButton goal={currGoal} />}
                 <Box h='200px'>
                     {currGoal.category === GoalTypes.habit ?
                         <HabitRadialBar goal={currGoal} progress={progress} /> :
