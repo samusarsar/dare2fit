@@ -18,6 +18,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.js';
 import WorkoutsView from './views/WorkoutsView/WorkoutsView.js';
 import WorkoutForm from './components/Workouts/WorkoutForm/WorkoutForm.js';
 import { IAppContextValue, IUserData } from './common/types.js';
+import AboutView from './views/AboutView/AboutView.js';
 
 const App: React.FC = () => {
     const [user, loading] = useAuthState(auth);
@@ -58,6 +59,7 @@ const App: React.FC = () => {
                     <Routes>
                         <Route path='/' element={<RootLayout />}>
                             <Route index element={<LandingPage />} />
+                            <Route path='about' element={<AboutView />} />
                             <Route element={<ProtectedRoute />} >
                                 <Route path='login' element={<LogIn />} />
                                 <Route path='signup' element={<SignUp />} />
@@ -69,7 +71,6 @@ const App: React.FC = () => {
                                 <Route path='community' element={<CommunityView />} />
                                 <Route path='profile/:handle' element={<ProfileView />} />
                             </Route>
-
                             <Route path='*' element={<NotFound />} />
                         </Route>
                     </Routes>
