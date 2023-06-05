@@ -233,7 +233,7 @@ export const editUserHealthData = (handle: string, propKey: string, propValue: s
 /**
  * Calculates the Basal Metabolic Rate (BMR) based on user data.
  * @param {IUserData} userData - The user data object.
- * @return {number | null} The calculated BMR value or null if the necessary data is missing.
+ * @return {number} The calculated BMR value or 0 if the necessary data is missing.
  */
 export const calculateBmr = (userData: IUserData) => {
     const profileActivityLevel = userData.health?.activityLevel || ActivityLevel.noActivity;
@@ -253,6 +253,11 @@ export const calculateBmr = (userData: IUserData) => {
     return 0;
 };
 
+/**
+Calculates the daily calorie intake based on the user's data.
+@param {IUserData} userData - The user data object.
+@return {number} The calculated daily calorie intake 0 if the necessary data is missing.
+ */
 export const calculateCalories = (userData: IUserData) => {
     const profileWeightGoal = userData!.health?.weightGoal || WeightGoal.maintainWeight;
 
