@@ -5,8 +5,10 @@ import { AppContext } from '../../../context/AppContext/AppContext';
 import { useLocation } from 'react-router-dom';
 import { IUserData } from '../../../common/types';
 import ShareButtons from '../../Base/ShareButtons/ShareButtons';
-import { changeAvatar, makeFriends, resolveRequestByRecipient, resolveRequestBySender, sendFriendRequest, unFriend } from '../../../services/user.services';
+import { changeAvatar, changeUserRole, makeFriends, resolveRequestByRecipient, resolveRequestBySender, sendFriendRequest, unFriend } from '../../../services/user.services';
 import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai';
+import { UserRoles } from '../../../common/enums';
+import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 
 const ProfileHeader: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -20,6 +22,9 @@ const ProfileHeader: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const isMe = profile.handle === userData!.handle;
+    const amAdmin = userData!.role === UserRoles.Admin;
+    const amAppliedForAdmin = userData!.role === UserRoles.WantAdmin;
+    const isAdmin = profile.role === UserRoles.Admin;
     const isFriend = userData!.friends ? Object.keys(userData!.friends).includes(profile.handle) : false;
     const hasReceivedRequest = userData!.receivedFriendRequests ? Object.keys(userData!.receivedFriendRequests).includes(profile.handle) : false;
     const hasSentRequest = userData!.sentFriendRequests ? Object.keys(userData!.sentFriendRequests).includes(profile.handle) : false;
@@ -69,6 +74,18 @@ const ProfileHeader: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
             .then(() => setLoadingBtn(false));
     };
 
+    const handleApplyForAdmin = () => {
+        setLoadingBtn(true);
+        changeUserRole(userData!.handle, UserRoles.WantAdmin)
+            .then(() => setLoadingBtn(false));
+    };
+
+    const handleUnapplyForAdmin = () => {
+        setLoadingBtn(true);
+        changeUserRole(userData!.handle, UserRoles.Base)
+            .then(() => setLoadingBtn(false));
+    };
+
     return (
         <VStack w='100%' gap={1}>
             <Box p={1} bg={contrastColor} rounded='2xl'>
@@ -80,7 +97,10 @@ const ProfileHeader: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
             <Heading as='h2' size='md'>{`${profile.firstName} ${profile.lastName}`}</Heading>
             <HStack>
                 <Text>@{profile.handle}</Text>
-                {isFriend && <Badge colorScheme='teal' size='md'>Friend</Badge>}
+                <VStack>
+                    {isFriend && <Badge colorScheme='teal' size='md'>Friend</Badge>}
+                    {isAdmin && <Badge colorScheme='purple' size='md'>Admin</Badge>}
+                </VStack>
             </HStack>
             {!isMe &&
             <HStack>
@@ -95,6 +115,10 @@ const ProfileHeader: FC<{ profile: IUserData }> = ({ profile }): ReactElement =>
                             <Button colorScheme='teal' variant='outline' leftIcon={<AiOutlineUserAdd />} isLoading={loadingBtn} size='sm' onClick={handleWithdrawFriendRequest}>Request Sent</Button>)) :
                     (<Button colorScheme='pink' variant='outline' leftIcon={<AiOutlineUserDelete />} size='sm' isLoading={loadingBtn} onClick={handleRemoveFriend}>Remove Friend</Button>)}
             </HStack>}
+            {(isMe && !amAdmin) &&
+                ((!amAppliedForAdmin) ?
+                    <Button colorScheme='orange' leftIcon={<MdOutlineAdminPanelSettings />} size='sm' isLoading={loadingBtn} onClick={handleApplyForAdmin}>Apply for Admin</Button> :
+                    <Button colorScheme='orange' variant='outline' leftIcon={<MdOutlineAdminPanelSettings />} size='sm' isLoading={loadingBtn} onClick={handleUnapplyForAdmin}>Applied for Admin</Button>)}
             <HStack gap={2}>
                 <ShareButtons location={location.pathname} text={profile.handle} />
             </HStack>
