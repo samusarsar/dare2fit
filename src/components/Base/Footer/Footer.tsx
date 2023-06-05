@@ -1,5 +1,6 @@
 import { FC, ReactElement } from 'react';
-import { Box, Container, Icon, Image, Stack, Text, useToast } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
+import { Box, Container, HStack, Icon, Image, Stack, Text, useToast } from '@chakra-ui/react';
 import { BsFacebook, BsTwitter, BsLinkedin } from 'react-icons/bs';
 
 const Footer: FC = (): ReactElement => {
@@ -31,7 +32,14 @@ const Footer: FC = (): ReactElement => {
                     src='https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-05.png?alt=media&token=b30b1374-884a-46c5-b544-3b4d86fe5f41&_gl=1*c93heq*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NTYyNzA4OC42Ni4xLjE2ODU2Mjc2ODMuMC4wLjA.'
                     h='40px' />
             </Container>
-
+            <HStack justify='center' mt={2} flexWrap='wrap'>
+                <Link to='/'>Home</Link>
+                <Link to='activity'>Activity</Link>
+                <Link to='workouts'>Workouts</Link>
+                <Link to='goals'>Goals</Link>
+                <Link to='community'>Community</Link>
+                <Link to='about'>About</Link>
+            </HStack>
             <Box>
                 <Container
                     as={Stack}
