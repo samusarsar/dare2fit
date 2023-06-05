@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import { IWorkout } from '../../../common/types';
 import WorkoutDetails from '../WorkoutDetails/WorkoutDetails';
-import { HStack, Heading, Icon, Select, Text, VStack, useColorModeValue } from '@chakra-ui/react';
+import { HStack, Heading, Icon, Select, Spinner, Text, VStack, useColorModeValue } from '@chakra-ui/react';
 import { ImFilesEmpty } from 'react-icons/im';
 
 
-const WorkoutsList: FC<{ heading: string, workouts: IWorkout[] | []}> = ({ heading, workouts }) => {
+const WorkoutsList: FC<{ heading: string, workouts: IWorkout[] | [] | null}> = ({ heading, workouts }) => {
     const [filterCategory, setFilterCategory] = useState('anyCategory');
     const [filterDifficulty, setFilterDifficulty] = useState('anyDifficulty');
     const [workoutsToShow, setWorkoutsToShow] = useState(workouts);
@@ -45,16 +45,23 @@ const WorkoutsList: FC<{ heading: string, workouts: IWorkout[] | []}> = ({ headi
                     </Select>
                 </HStack>
             </HStack>
-            {workoutsToShow.length === 0 ?
+            {workoutsToShow ?
+                ((workoutsToShow.length === 0) ?
+                    <HStack align='start' py={5} mb={2} w='100%' gap={2} overflowX='auto'>
+
+                        <HStack width='sm' h='250px' rounded='md' justify='center' boxShadow='lg' bg={background}>
+                            <Icon as={ImFilesEmpty} fontSize='2em' />
+                            <Text>No workouts</Text>
+                        </HStack>
+                    </HStack> :
+                    <HStack align='start' py={5} pb={8} mb={2} w='100%' gap={2} overflowX='auto'>
+                        { workoutsToShow.map(workout => (<WorkoutDetails key={workout.workoutId} workout={workout} />)) }
+                    </HStack>) :
                 <HStack align='start' py={5} mb={2} w='100%' gap={2} overflowX='auto'>
 
                     <HStack width='sm' h='250px' rounded='md' justify='center' boxShadow='lg' bg={background}>
-                        <Icon as={ImFilesEmpty} fontSize='2em' />
-                        <Text>No workouts</Text>
+                        <Spinner size='xl'/>
                     </HStack>
-                </HStack> :
-                <HStack align='start' py={5} pb={8} mb={2} w='100%' gap={2} overflowX='auto'>
-                    { workoutsToShow.map(workout => (<WorkoutDetails key={workout.workoutId} workout={workout} />)) }
                 </HStack>}
         </VStack>
     );

@@ -14,8 +14,8 @@ const WorkoutsView: FC = (): ReactElement => {
 
     const { pathname } = useLocation();
 
-    const [myWorkouts, setMyWorkouts] = useState<IWorkout[] | []>([]);
-    const [savedWorkouts, setSavedWorkouts] = useState<IWorkout[] | []>([]);
+    const [myWorkouts, setMyWorkouts] = useState<IWorkout[] | [] | null>(null);
+    const [savedWorkouts, setSavedWorkouts] = useState<IWorkout[] | [] | null>(null);
 
     useEffect(() => {
         getWorkoutsByHandle(userData!.handle)
