@@ -3,14 +3,14 @@ import { Box, HStack, Heading, VStack, Text, Grid } from '@chakra-ui/layout';
 import { IGoal } from '../../../common/types';
 import { Select } from '@chakra-ui/select';
 import moment from 'moment';
-import { Icon, useColorModeValue } from '@chakra-ui/react';
+import { Icon, Spinner, useColorModeValue } from '@chakra-ui/react';
 import { ImFilesEmpty } from 'react-icons/im';
 import CreateGoal from '../CreateGoal/CreateGoal';
 import { useParams } from 'react-router';
 import { GoalTypes } from '../../../common/enums';
 import SingleGoal from '../SingleGoal/SingleGoal';
 
-const GoalList: FC<{ goals: IGoal[] | null, goalType: GoalTypes, heading: string }> = ({ goals, goalType, heading }): ReactElement => {
+const GoalList: FC<{ goals: IGoal[] | [] | null, goalType: GoalTypes, heading: string }> = ({ goals, goalType, heading }): ReactElement => {
     const [filter, setFilter] = useState('all');
     const [goalsToShow, setGoalsToShow] = useState(goals);
 
@@ -74,21 +74,26 @@ const GoalList: FC<{ goals: IGoal[] | null, goalType: GoalTypes, heading: string
                         </Select>
                     )}
             </HStack>
-            {(goalsToShow && !goalsToShow.length) &&
-                (<HStack w='310px' h='250px' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={background}>
-                    {!handle ?
-                        <CreateGoal index={goalType === GoalTypes.habit ? 0 : 1} /> :
-                        <>
-                            <Icon as={ImFilesEmpty} fontSize='2em' />
-                            <Text>No {goalType === GoalTypes.habit ? 'habits' : 'challenges'}</Text>
-                        </>}
-                </HStack>)}
-            {goalsToShow &&
+            {goalsToShow ?
+                (goalsToShow.length === 0 ?
+                    (<HStack w='310px' h='250px' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={background}>
+                        {!handle ?
+                            <CreateGoal index={goalType === GoalTypes.habit ? 0 : 1} /> :
+                            <>
+                                <Icon as={ImFilesEmpty} fontSize='2em' />
+                                <Text>No {goalType === GoalTypes.habit ? 'habits' : 'challenges'}</Text>
+                            </>}
+                    </HStack>) :
+                    (<Box w='100%' overflowX='auto' pb={8}>
+                        <Grid gap={2} templateColumns='repeat(auto-fill, 1fr)' h='100%' display='flex'>
+                            {goalsToShow.map(goal =>
+                                <SingleGoal key={goal.goalId} goal={goal} />)}
+                        </Grid>
+                    </Box>)) :
                 (<Box w='100%' overflowX='auto' pb={8}>
-                    <Grid gap={2} templateColumns='repeat(auto-fill, 1fr)' h='100%' display='flex'>
-                        {goalsToShow.map(goal =>
-                            <SingleGoal key={goal.goalId} goal={goal} />)}
-                    </Grid>
+                    <HStack w='310px' h='250px' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={background}>
+                        <Spinner size='xl' />
+                    </HStack>
                 </Box>)}
         </VStack>
     );
