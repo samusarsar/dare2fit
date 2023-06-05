@@ -76,13 +76,16 @@ const GoalList: FC<{ goals: IGoal[] | [] | null, goalType: GoalTypes, heading: s
             </HStack>
             {goalsToShow ?
                 (goalsToShow.length === 0 ?
-                    (<HStack w='310px' h='250px' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={background}>
-                        {!handle ?
-                            <CreateGoal index={goalType === GoalTypes.habit ? 0 : 1} /> :
-                            <>
-                                <Icon as={ImFilesEmpty} fontSize='2em' />
-                                <Text>No {goalType === GoalTypes.habit ? 'habits' : 'challenges'}</Text>
-                            </>}
+                    (<HStack align='start' py={5} mb={2} w='100%' gap={2} overflowX='auto'>
+
+                        <HStack width='xs' h='250px' rounded='md' justify='center' boxShadow='lg' bg={background}>
+                            {!handle ?
+                                <CreateGoal index={goalType === GoalTypes.habit ? 0 : 1} /> :
+                                <>
+                                    <Icon as={ImFilesEmpty} fontSize='2em' />
+                                    <Text>No {goalType === GoalTypes.habit ? 'habits' : 'challenges'}</Text>
+                                </>}
+                        </HStack>
                     </HStack>) :
                     (<Box w='100%' overflowX='auto' pb={8}>
                         <Grid gap={2} templateColumns='repeat(auto-fill, 1fr)' h='100%' display='flex'>

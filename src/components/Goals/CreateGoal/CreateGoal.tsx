@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useContext } from 'react';
 import {
     Modal,
     ModalOverlay,
@@ -21,10 +21,16 @@ import {
 import { IoMdAdd } from 'react-icons/io';
 import HabitForm from './HabitForm/HabitForm';
 import ChallengeForm from './ChallengeForm/ChallengeForm';
+import { AppContext } from '../../../context/AppContext/AppContext';
+import { UserRoles } from '../../../common/enums';
 
 const CreateGoal: FC<{ index?: number }> = ({ index = 0 }): ReactElement => {
+    const { userData } = useContext(AppContext);
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     const backgroundColor = useColorModeValue('brand.white', 'brand.grey');
+
+    const amBlocked = userData!.role === UserRoles.Blocked;
 
     return (
         <HStack justify="center" w="100%" p={4}>
@@ -34,6 +40,7 @@ const CreateGoal: FC<{ index?: number }> = ({ index = 0 }): ReactElement => {
                 colorScheme="green"
                 rounded="xl"
                 onClick={onOpen}
+                isDisabled={amBlocked}
             >
                 <Icon as={IoMdAdd} boxSize={6} mr={2} />
             Add Goal

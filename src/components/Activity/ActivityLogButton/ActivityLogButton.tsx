@@ -1,10 +1,10 @@
 // eslint-disable-next-line max-len
-import { Box, Button, ButtonGroup, Collapse, HStack, IconButton, InputGroup, InputRightAddon, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, VStack, useDisclosure } from '@chakra-ui/react';
+import { Alert, AlertIcon, Box, Button, ButtonGroup, Collapse, HStack, IconButton, InputGroup, InputRightAddon, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, VStack, useDisclosure } from '@chakra-ui/react';
 import { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { IoIosArrowUp } from 'react-icons/io';
 import { MdArrowDropDown } from 'react-icons/md';
 import { getEnumValue } from '../../../common/helper';
-import { Units } from '../../../common/enums';
+import { Units, UserRoles } from '../../../common/enums';
 import { getWorkoutsByHandle } from '../../../services/workout.services';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import { ITodayLog, IWorkout } from '../../../common/types';
@@ -36,6 +36,8 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): Re
     const workoutIsLogged = todayLog ?
         Object.keys(todayLog).includes('workout') :
         false;
+
+    const amBlocked = userData!.role === UserRoles.Blocked;
 
     const handleLog = () => {
         if (!!activityType && !!loggedValue) {
@@ -139,7 +141,14 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): Re
                 </VStack>
             </Collapse>
             {!isOpen ?
-                <Button w='100%' colorScheme='yellow' onClick={onToggle}>Log Activity</Button> :
+                (<>
+                    {amBlocked &&
+                    <Alert status='error'>
+                        <AlertIcon />
+                            You are blocked and can&apos;t log activities.
+                    </Alert>}
+                    <Button w='100%' isDisabled={amBlocked} colorScheme='yellow' onClick={onToggle}>Log Activity</Button>
+                </>) :
                 (<ButtonGroup w='100%' isAttached>
                     <Button w='100%' colorScheme='yellow' isDisabled={!activityType || !loggedValue} onClick={handleLog}>Log Activity</Button>
                     <IconButton icon={<IoIosArrowUp />} aria-label='hide' onClick={handleHide} />

@@ -5,13 +5,16 @@ import { VStack } from '@chakra-ui/layout';
 import GoalList from '../../components/Goals/GoalList/GoalList';
 import CreateGoal from '../../components/Goals/CreateGoal/CreateGoal';
 import { IGoal } from '../../common/types';
-import { GoalTypes } from '../../common/enums';
+import { GoalTypes, UserRoles } from '../../common/enums';
+import { Alert, AlertIcon } from '@chakra-ui/react';
 
 const GoalsView: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
 
     const [habits, setHabits] = useState<IGoal[] | [] | null>(null);
     const [challenges, setChallenges] = useState<IGoal[] | [] | null>(null);
+
+    const amBlocked = userData!.role === UserRoles.Blocked;
 
     useEffect(() => {
         getGoalsByHandle(userData!.handle)
@@ -27,6 +30,11 @@ const GoalsView: FC = (): ReactElement => {
 
     return (
         <VStack gap={2}>
+            {amBlocked &&
+            <Alert status='error' w={{ base: '100%', xl: '80%' }}>
+                <AlertIcon />
+                    You are blocked and can&apos;t add new goals.
+            </Alert>}
             <CreateGoal />
             <GoalList goals={habits} goalType={GoalTypes.habit} heading='My Habits:' />
             <GoalList goals={challenges} goalType={GoalTypes.challenge} heading='My Challenges:' />
