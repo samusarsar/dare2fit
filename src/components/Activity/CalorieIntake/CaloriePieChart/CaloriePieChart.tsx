@@ -14,19 +14,16 @@ const CaloriePieChart: FC = (): ReactElement => {
                         'id': 'python',
                         'label': 'python',
                         'value': 148,
-                        'color': 'hsl(76, 70%, 50%)',
                     },
                     {
                         'id': 'haskell',
                         'label': 'haskell',
                         'value': 490,
-                        'color': 'hsl(213, 70%, 50%)',
                     },
                     {
                         'id': 'php',
                         'label': 'php',
                         'value': 246,
-                        'color': 'hsl(283, 70%, 50%)',
                     },
                 ]
             }
@@ -86,56 +83,6 @@ const CaloriePieChart: FC = (): ReactElement => {
                     rotation: -45,
                     lineWidth: 6,
                     spacing: 10,
-                },
-            ]}
-            fill={[
-                {
-                    match: {
-                        id: 'ruby',
-                    },
-                    id: 'dots',
-                },
-                {
-                    match: {
-                        id: 'c',
-                    },
-                    id: 'dots',
-                },
-                {
-                    match: {
-                        id: 'go',
-                    },
-                    id: 'dots',
-                },
-                {
-                    match: {
-                        id: 'python',
-                    },
-                    id: 'lines',
-                },
-                {
-                    match: {
-                        id: 'scala',
-                    },
-                    id: 'lines',
-                },
-                {
-                    match: {
-                        id: 'lisp',
-                    },
-                    id: 'lines',
-                },
-                {
-                    match: {
-                        id: 'elixir',
-                    },
-                    id: 'lines',
-                },
-                {
-                    match: {
-                        id: 'javascript',
-                    },
-                    id: 'lines',
                 },
             ]}
         />
