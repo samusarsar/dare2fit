@@ -40,7 +40,7 @@ const ActivityLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }) =>
                         <Badge colorScheme='pink' h='fit-content' p={2} rounded='full'>
                             Workout:
                         </Badge>
-                        <HStack w='100%' justify='center' pt={2}>
+                        <HStack w='100%' justify='right' pt={2}>
                             <Text>{todayLog.workout?.name}</Text>
                             <IconButton
                                 size='xs'
@@ -55,7 +55,7 @@ const ActivityLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }) =>
                         <Badge colorScheme='teal' h='fit-content' p={2} rounded='full'>
                         Walking:
                         </Badge>
-                        <HStack w='100%' justify='center' pt={2} flexWrap='wrap-reverse'>
+                        <HStack w='100%' justify='right' pt={2} flexWrap='wrap-reverse'>
                             <Text>{todayLog.walking} steps</Text>
                             <IconButton
                                 size='xs'
@@ -70,7 +70,7 @@ const ActivityLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }) =>
                         <Badge colorScheme='purple' h='fit-content' p={2} rounded='full'>
                         Running:
                         </Badge>
-                        <HStack w='100%' justify='center' pt={2} flexWrap='wrap-reverse'>
+                        <HStack w='100%' justify='right' pt={2} flexWrap='wrap-reverse'>
                             <Text>{todayLog.running} km</Text>
                             <IconButton
                                 size='xs'
@@ -85,7 +85,7 @@ const ActivityLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }) =>
                         <Badge colorScheme='orange' h='fit-content' p={2} rounded='full'>
                         Cycling:
                         </Badge>
-                        <HStack w='100%' justify='center' pt={2} flexWrap='wrap-reverse'>
+                        <HStack w='100%' justify='right' pt={2} flexWrap='wrap-reverse'>
                             <Text>{todayLog.cycling} km</Text>
                             <IconButton
                                 size='xs'
@@ -100,7 +100,7 @@ const ActivityLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }) =>
                         <Badge colorScheme='blue' h='fit-content' p={2} rounded='full'>
                         Swimming:
                         </Badge>
-                        <HStack w='100%' justify='center' pt={2} flexWrap='wrap-reverse'>
+                        <HStack w='100%' justify='right' pt={2} flexWrap='wrap-reverse'>
                             <Text>{todayLog.swimming} m</Text>
                             <IconButton
                                 size='xs'

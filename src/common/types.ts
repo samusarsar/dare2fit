@@ -145,6 +145,7 @@ export interface ITodayLog {
     running?: number;
     cycling?: number;
     swimming?: number;
+    calories?: number;
     [key: string]: string | number | ILoggedWorkout | undefined;
 }
 
