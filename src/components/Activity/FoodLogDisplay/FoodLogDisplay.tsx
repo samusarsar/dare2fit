@@ -1,13 +1,22 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 
 import { Badge, Box, HStack, IconButton, Text, VStack } from '@chakra-ui/react';
 import { IoMdRemove } from 'react-icons/io';
 
 import { ITodayLog } from '../../../common/types';
+import { unlogFood } from '../../../services/food.services';
+import { AppContext } from '../../../context/AppContext/AppContext';
 
 const FoodLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }) => {
 
+    const { userData } = useContext(AppContext);
+
     const badgeColorScheme = ['red', 'orange', 'yellow', 'green', 'teal', 'blue', 'cyan', 'purple', 'pink', 'linkedin', 'facebook', 'messenger'];
+
+    const handleUnlog = (foodName: string) => {
+        console.log(foodName);
+        unlogFood(userData!.handle, foodName);
+    };
 
     if (todayLog && todayLog.calories) {
         return (
@@ -24,7 +33,7 @@ const FoodLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }) => {
                                 icon={<IoMdRemove />}
                                 colorScheme='red'
                                 aria-label='remove activity'
-                                onClick={(e) => console.log(e)} />
+                                onClick={() => handleUnlog(foodEntry[0])} />
                         </HStack>
                     </Box>
                 ))
