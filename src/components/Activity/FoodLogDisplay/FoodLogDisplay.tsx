@@ -14,7 +14,6 @@ const FoodLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }) => {
     const badgeColorScheme = ['red', 'orange', 'yellow', 'green', 'teal', 'blue', 'cyan', 'purple', 'pink', 'linkedin', 'facebook', 'messenger'];
 
     const handleUnlog = (foodName: string) => {
-        console.log(foodName);
         unlogFood(userData!.handle, foodName);
     };
 

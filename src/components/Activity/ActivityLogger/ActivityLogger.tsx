@@ -33,7 +33,7 @@ const ActivityLogger: FC = (): ReactElement => {
             <Box bg='brand.red' p={3} rounded='full' mb={4}>
                 <Text fontWeight='bold'>{today}</Text>
             </Box>
-            <HStack w='100%' flexWrap={{ base: 'wrap', lg: 'nowrap' }} gap={5} spacing={0}>
+            <HStack w='100%' align='start' flexWrap={{ base: 'wrap', lg: 'nowrap' }} gap={5} spacing={0}>
                 <Box w='100%' bg={background} rounded='lg' boxShadow='lg' p={4} >
                     <ActivityLogDisplay todayLog={todayLog} />
                     <ActivityLogButton todayLog={todayLog} />

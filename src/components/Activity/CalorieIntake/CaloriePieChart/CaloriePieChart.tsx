@@ -2,30 +2,22 @@ import { FC, ReactElement } from 'react';
 import { ResponsivePie } from '@nivo/pie';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 
-const CaloriePieChart: FC = (): ReactElement => {
+const CaloriePieChart: FC<{ calorieLog: {[key: string]: number} }> = ({ calorieLog }): ReactElement => {
     const tooltipColor = useColorModeValue('#F7FAFC', '#171923');
     const contrastColor = useColorModeValue('#171923', '#F7FAFC');
+
+    const data = Object.keys(calorieLog).map(food => {
+        return {
+            id: food,
+            label: food,
+            value: calorieLog[food],
+        };
+    });
 
     return (
         <ResponsivePie
             data={
-                [
-                    {
-                        'id': 'python',
-                        'label': 'python',
-                        'value': 148,
-                    },
-                    {
-                        'id': 'haskell',
-                        'label': 'haskell',
-                        'value': 490,
-                    },
-                    {
-                        'id': 'php',
-                        'label': 'php',
-                        'value': 246,
-                    },
-                ]
+                data
             }
             theme={{
                 tooltip: {
@@ -34,7 +26,7 @@ const CaloriePieChart: FC = (): ReactElement => {
                     },
                 },
             }}
-            margin={{ top: 0, right: 60, bottom: 0, left: 60 }}
+            margin={{ top: 0, right: 40, bottom: 0, left: 40 }}
             innerRadius={0.05}
             padAngle={3}
             cornerRadius={5}
@@ -51,6 +43,7 @@ const CaloriePieChart: FC = (): ReactElement => {
                 ],
             }}
             arcLinkLabelsSkipAngle={10}
+            enableArcLinkLabels={false}
             arcLinkLabelsTextColor={contrastColor}
             arcLinkLabelsThickness={2}
             arcLinkLabelsColor={{ from: 'color' }}
