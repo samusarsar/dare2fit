@@ -5,7 +5,7 @@ import { TiEquals } from 'react-icons/ti';
 import { MdBalance } from 'react-icons/md';
 
 
-const CaloriePieChartLabels: FC<{ calorieLog: object, recommendedCalories: number }> = ({ calorieLog, recommendedCalories }): ReactElement => {
+const CaloriePieChartLabels: FC<{ calorieLog: {[key: string]: number}, recommendedCalories: number }> = ({ calorieLog, recommendedCalories }): ReactElement => {
 
     const calorieIntake = Object.values(calorieLog).reduce((acc, curr) => acc + curr, 0);
 
