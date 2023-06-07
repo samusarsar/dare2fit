@@ -21,10 +21,10 @@ const CalorieIntake: FC = () => {
     useEffect(() => {
         const todayDate = moment().format('YYYY-MM-DD');
 
-        return onValue(ref(db, `logs/${userData!.handle}/${todayDate}`), (snapshot) => {
+        return onValue(ref(db, `logs/${userData!.handle}/${todayDate}/calories`), (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
-                setCalorieLog(data.calories);
+                setCalorieLog(data);
             } else {
                 setCalorieLog({});
             }
