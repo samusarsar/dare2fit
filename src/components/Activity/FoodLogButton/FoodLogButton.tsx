@@ -1,14 +1,19 @@
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 
-import { Box, Button, ButtonGroup, Collapse, FormControl, FormErrorMessage, FormLabel, HStack, IconButton, Input, useDisclosure } from '@chakra-ui/react';
+import { Alert, AlertIcon, Box, Button, ButtonGroup, Collapse, FormControl, FormErrorMessage, FormLabel, HStack, IconButton, Input, useDisclosure } from '@chakra-ui/react';
 import { IoIosArrowUp } from 'react-icons/io';
 import SearchFoodButton from '../../Foods/SearchFoodButton/SearchFoodButton';
+import { UserRoles } from '../../../common/enums';
+import { AppContext } from '../../../context/AppContext/AppContext';
 
 const FoodLogButton: FC = () => {
+    const { userData } = useContext(AppContext);
 
     const [foodName, setFoodName] = useState('');
 
     const { isOpen, onToggle } = useDisclosure();
+
+    const amBlocked = userData!.role === UserRoles.Blocked;
 
     const handleHide = () => {
         setFoodName('');
@@ -33,7 +38,14 @@ const FoodLogButton: FC = () => {
             </Collapse>
             {
                 !isOpen ?
-                    <Button w='100%' colorScheme='yellow' onClick={onToggle}>Log Food</Button> :
+                    (<>
+                        {amBlocked &&
+                            <Alert status='error'>
+                                <AlertIcon />
+                                    You are blocked and can&apos;t log food.
+                            </Alert>}
+                        <Button w='100%' colorScheme='yellow' onClick={onToggle} isDisabled={amBlocked}>Log Food</Button>
+                    </>) :
                     (<ButtonGroup w='100%' isAttached>
 
                         <SearchFoodButton foodName={foodName} />
