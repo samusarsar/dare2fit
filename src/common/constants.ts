@@ -90,3 +90,15 @@ export const WEIGHT_GOAL_DATA = {
         index: 1.53,
     },
 };
+
+export const badgeColorScheme = [
+    'red',
+    'orange',
+    'yellow',
+    'green',
+    'teal',
+    'blue',
+    'cyan',
+    'purple',
+    'pink',
+];

@@ -6,12 +6,11 @@ import { IoMdRemove } from 'react-icons/io';
 import { ITodayLog } from '../../../common/types';
 import { unlogFood } from '../../../services/food.services';
 import { AppContext } from '../../../context/AppContext/AppContext';
+import { badgeColorScheme } from '../../../common/constants';
 
 const FoodLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }) => {
 
     const { userData } = useContext(AppContext);
-
-    const badgeColorScheme = ['red', 'orange', 'yellow', 'green', 'teal', 'blue', 'cyan', 'purple', 'pink', 'linkedin', 'facebook', 'messenger'];
 
     const handleUnlog = (foodName: string) => {
         unlogFood(userData!.handle, foodName);
@@ -22,7 +21,11 @@ const FoodLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }) => {
             <VStack align='start' pb={2}>
                 {Object.entries(todayLog.calories).map((foodEntry, index) => (
                     <Box key={foodEntry[0]} w='100%' px={{ base: 0, md: 4 }} py={2} display={{ base: 'block', xl: 'flex' }}>
-                        <Badge colorScheme={badgeColorScheme[index]} h='fit-content' p={2} rounded='full'>
+                        <Badge
+                            colorScheme={badgeColorScheme[index % badgeColorScheme.length]}
+                            h='fit-content'
+                            p={2}
+                            rounded='full'>
                             {foodEntry[0]}:
                         </Badge>
                         <HStack w='100%' justify='right' pt={2}>
