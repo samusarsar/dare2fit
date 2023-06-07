@@ -243,7 +243,7 @@ const WorkoutForm: FC<{ workout?: IWorkout, onClose?: () => void }> = ({ workout
 
                         <Button
                             type='submit'
-                            disabled={isSubmitting}
+                            isDisabled={isSubmitting || !workoutExercises.length}
                             w={'full'}
                             my={8}
                             bg='brand.purple'

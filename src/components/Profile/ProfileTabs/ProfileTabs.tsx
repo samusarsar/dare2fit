@@ -39,7 +39,7 @@ const ProfileTabs: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
                 </TabPanel>}
                 {!isMe &&
                 <TabPanel>
-                    {isFriend ?
+                    {(isFriend || amAdmin) ?
                         <ProfileGoals profile={profile} /> :
                         <VStack h='200px' justify='center'>
                             <Text>You have to be friends with <b>@{profile.handle}</b> to view his Goals.</Text>
@@ -47,7 +47,7 @@ const ProfileTabs: FC<{ profile: IUserData }> = ({ profile }): ReactElement => {
                 </TabPanel>}
                 {!isMe &&
                 <TabPanel>
-                    {isFriend ?
+                    {(isFriend || amAdmin) ?
                         <ProfileWorkouts profile={profile} /> :
                         <VStack h='200px' justify='center'>
                             <Text>You have to be friends with <b>@{profile.handle}</b> to view his Workouts.</Text>
