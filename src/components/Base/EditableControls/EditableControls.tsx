@@ -13,12 +13,12 @@ const EditableControls: FC = (): ReactElement => {
 
     return isEditing ? (
         <ButtonGroup justifyContent='center' size='xs' my='auto'>
-            <IconButton icon={<AiOutlineCheck />} {...getSubmitButtonProps()} />
-            <IconButton icon={<AiOutlineClose />} {...getCancelButtonProps()} />
+            <IconButton icon={<AiOutlineCheck />} aria-label="submit-edit" {...getSubmitButtonProps()} />
+            <IconButton icon={<AiOutlineClose />} aria-label="cancel-edit" {...getCancelButtonProps()} />
         </ButtonGroup>
     ) : (
         <Flex justifyContent='center' my='auto'>
-            <IconButton size='xs' icon={<AiOutlineEdit />} {...getEditButtonProps()} />
+            <IconButton size='xs' icon={<AiOutlineEdit />} aria-label="open-edit" {...getEditButtonProps()} />
         </Flex>
     );
 };

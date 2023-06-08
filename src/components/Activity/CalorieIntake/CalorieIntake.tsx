@@ -10,6 +10,8 @@ import CaloriePieChartLabels from './CaloriePieChartLabels/CaloriePieChartLabels
 import moment from 'moment';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../../config/firebase-config';
+import { Icon } from '@chakra-ui/react';
+import { ImFilesEmpty } from 'react-icons/im';
 
 const CalorieIntake: FC = () => {
     const { userData } = useContext(AppContext);
@@ -43,7 +45,12 @@ const CalorieIntake: FC = () => {
                 <VStack align='center' rounded='lg'>
                     <Box bg={background} rounded='lg' boxShadow='lg' width={{ base: '2xs', md: 'xs' }} minH='100%' position='relative'>
                         <Box height='300px' overflow='hidden'>
-                            <CaloriePieChart calorieLog={calorieLog} />
+                            {Object.keys(calorieLog).length ?
+                                <CaloriePieChart calorieLog={calorieLog} /> :
+                                <VStack h="100%" justify="center">
+                                    <Icon as={ImFilesEmpty} fontSize="2em" />
+                                    <Text>No food logged today</Text>
+                                </VStack>}
                         </Box>
                         <CaloriePieChartLabels calorieLog={calorieLog} recommendedCalories={profileCalories} />
                     </Box>

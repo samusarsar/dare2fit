@@ -3,10 +3,13 @@ import { User } from 'firebase/auth';
 import { ActivityLevel, Gender, UserRoles, WeightGoal } from './enums';
 import { ExerciseUnits } from './enums';
 
-export interface IAppContextValue {
+export interface IAppState {
     user: User | null | undefined;
     userData: IUserData | null;
-    setContext?: Dispatch<SetStateAction<{ user: User | null | undefined; userData: IUserData | null; }>>;
+}
+
+export interface IAppContextValue extends IAppState {
+    setContext: Dispatch<SetStateAction<{ user: User | null | undefined; userData: IUserData | null; }>>;
 }
 
 export type IHealth = {

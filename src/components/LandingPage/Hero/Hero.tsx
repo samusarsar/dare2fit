@@ -40,7 +40,7 @@ const Hero: FC = (): ReactElement => {
                         />
                     </VStack>
                     <Heading
-                        fontWeight={600}
+                        fontWeight={900}
                         fontSize={{ base: '4xl', md: '6xl' }}
                         lineHeight='110%'>
                         Do you really <br />

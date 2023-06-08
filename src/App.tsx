@@ -17,12 +17,12 @@ import SignUp from './views/SignUp/SignUp.js';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.js';
 import WorkoutsView from './views/WorkoutsView/WorkoutsView.js';
 import WorkoutForm from './components/Workouts/WorkoutForm/WorkoutForm.js';
-import { IAppContextValue, IUserData } from './common/types.js';
+import { IAppContextValue, IAppState, IUserData } from './common/types.js';
 import AboutView from './views/AboutView/AboutView.js';
 
 const App: React.FC = () => {
     const [user, loading] = useAuthState(auth);
-    const [appState, setAppState] = useState<IAppContextValue>({
+    const [appState, setAppState] = useState<IAppState>({
         user,
         userData: null,
     });
@@ -55,7 +55,7 @@ const App: React.FC = () => {
     if ((!loading && !user) || (!loading && user && appState.userData)) {
         return (
             <>
-                <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
+                <AppContext.Provider value={{ ...appState, setContext: setAppState } as IAppContextValue}>
                     <Routes>
                         <Route path='/' element={<RootLayout />}>
                             <Route index element={<LandingPage />} />

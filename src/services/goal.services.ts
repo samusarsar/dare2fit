@@ -6,7 +6,7 @@ import { ITodayLog } from '../common/types';
 /**
  * Retrieves goals by handle from the database.
  * @param {string} handle - The handle of the user.
- * @return {Promise<any>} - A promise that resolves to the goals data.
+ * @return {Promise<IGoal[] | []>} - A promise that resolves to the goals data.
  * @throws {Error} - If no goals are found for the given user.
  */
 export const getGoalsByHandle = (handle: string) => {
@@ -31,6 +31,12 @@ export const getGoalsByHandle = (handle: string) => {
         .then(goals => goals.filter(goal => goal));
 };
 
+/**
+ * Retrieves a goal by its ID from the database.
+ * @param {string} goalId - The ID of the goal.
+ * @return {Promise<IGoal>} - A promise that resolves to the goal data.
+ * @throws {Error} - If the goal with the given ID does not exist.
+ */
 export const getGoalByID = (goalId: string) => {
     return get(ref(db, `goals/${goalId}`))
         .then(snapshot => {
@@ -76,7 +82,7 @@ export const addGoal = ({ author, name, type, repeat, startDate, endDate, target
  * Adds a goal to the user's goals list.
  * @param {string} handle - The handle of the user.
  * @param {string} goalId - The ID of the goal to add.
- * @return {Promise<void>} - A promise that resolves when the goal is added to the user's goals list.
+ * @return {Promise} - A promise that resolves when the goal is added to the user's goals list.
  */
 const addGoalToUser = (handle: string, goalId: string) => {
     return get(ref(db, `users/${handle}/goals`))
@@ -93,15 +99,35 @@ const addGoalToUser = (handle: string, goalId: string) => {
         });
 };
 
+/**
+ * Deletes a goal from the database.
+ * @param {string} handle - The handle of the user.
+ * @param {string} goalId - The ID of the goal to delete.
+ * @return {Promise} - A promise that resolves when the goal is deleted from the database.
+ */
 export const deleteGoal = (handle: string, goalId: string) => {
     return remove(ref(db, `goals/${goalId}`))
         .then(() => removeGoalFromUser(handle, goalId));
 };
 
+/**
+ * Removes a goal from the user's goals list.
+ * @param {string} handle - The handle of the user.
+ * @param {string} goalId - The ID of the goal to remove.
+ * @return {Promise} - A promise that resolves when the goal is removed from the user's goals list.
+ */
 export const removeGoalFromUser = (handle: string, goalId: string) => {
     return remove(ref(db, `users/${handle}/goals/${goalId}`));
 };
 
+/**
+ * Edits a goal in the database.
+ * @param {Object} params - The parameters for editing the goal.
+ * @param {string} params.goalId - The ID of the goal to edit.
+ * @param {string} [params.name] - The updated name of the goal.
+ * @param {number} [params.target] - The updated target value of the goal.
+ * @return {Promise} - A promise that resolves when the goal is edited in the database.
+ */
 export const editGoal = ({ goalId, name, target } : { goalId: string, name?: string, target?: number }) => {
     const updates = name && target ?
         { name, target } :
@@ -112,11 +138,23 @@ export const editGoal = ({ goalId, name, target } : { goalId: string, name?: str
     return update(ref(db, `goals/${goalId}`), updates);
 };
 
+/**
+ * Competes on a goal by adding the user's handle to the competingWith list.
+ * @param {string} handle - The handle of the user.
+ * @param {string} goalId - The ID of the goal to compete on.
+ * @return {Promise} - A promise that resolves when the user starts competing on the goal.
+ */
 export const competeOnGoal = (handle: string, goalId: string) => {
     return update(ref(db, `goals/${goalId}/competingWith`), { [handle]: true })
         .then(() => addGoalToUser(handle, goalId));
 };
 
+/**
+ * Stops competing on a goal by removing the user's handle from the competingWith list.
+ * @param {string} handle - The handle of the user.
+ * @param {string} goalId - The ID of the goal to stop competing on.
+ * @return {Promise} - A promise that resolves when the user stops competing on the goal.
+ */
 export const stopCompetingOnGoal = (handle: string, goalId: string) => {
     return update(ref(db, `goals/${goalId}/competingWith`), { [handle]: null })
         .then(() => removeGoalFromUser(handle, goalId));

@@ -1,5 +1,5 @@
 // eslint-disable-next-line max-len
-import { Alert, AlertIcon, Box, Button, ButtonGroup, Collapse, HStack, IconButton, InputGroup, InputRightAddon, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, VStack, useDisclosure } from '@chakra-ui/react';
+import { Alert, AlertIcon, Box, Button, ButtonGroup, Collapse, HStack, IconButton, InputGroup, InputRightAddon, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, VStack, useDisclosure, useToast } from '@chakra-ui/react';
 import { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import { IoIosArrowUp } from 'react-icons/io';
 import { MdArrowDropDown } from 'react-icons/md';
@@ -23,6 +23,8 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): Re
 
     const units = activityType ? getEnumValue(Units, activityType) : null;
 
+    const toast = useToast();
+
     const userWorkoutOptions = (activityType === 'workout') ?
         userWorkouts :
         userWorkouts.filter(workout => workout.category === activityType);
@@ -41,15 +43,39 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): Re
 
     const handleLog = () => {
         if (!!activityType && !!loggedValue) {
-            logActivity({ handle: userData!.handle, activityType, loggedValue });
-
-            if (trainingWith.length > 0) {
-                logActivity({ handle: trainingWith, activityType, loggedValue });
-            }
-
-            onToggle();
-            setActivityType('');
-            setLoggedValue(null);
+            logActivity({ handle: userData!.handle, activityType, loggedValue })
+                .then(() => {
+                    if (trainingWith.length > 0) {
+                        logActivity({ handle: trainingWith, activityType, loggedValue });
+                    }
+                })
+                .then(() => {
+                    toast({
+                        title: `Activity logged successfully!`,
+                        description: `You have added to you activity log.`,
+                        status: 'success',
+                        duration: 3000,
+                        isClosable: true,
+                        position: 'top',
+                        variant: 'subtle',
+                    });
+                })
+                .then(() => {
+                    onToggle();
+                    setActivityType('');
+                    setLoggedValue(null);
+                })
+                .catch(() => {
+                    toast({
+                        title: 'Error logging activity!',
+                        description: 'Please try again later.',
+                        status: 'error',
+                        duration: 3000,
+                        isClosable: true,
+                        position: 'top',
+                        variant: 'subtle',
+                    });
+                });
         }
     };
 

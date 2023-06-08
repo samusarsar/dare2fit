@@ -25,7 +25,7 @@ export const addWorkout = (workout: IWorkoutFormValues, handle: string) => {
  * Adds a workout to the user's workout list.
  * @param {string} workoutId - The ID of the workout to add.
  * @param {string} handle  - The user handle.
- * @return {Promise<void>} A Promise that resolves when the workout is added to the user's list.
+ * @return {Promise} A Promise that resolves when the workout is added to the user's list.
  */
 export const addWorkoutToUser = (workoutId: string, handle: string) => {
     return get(ref(db, `users/${handle}/workouts`))
@@ -94,15 +94,33 @@ export const sortWorkoutsByDate = (workouts: IWorkout[] | []) => {
     return [...workouts].sort((a, b) => moment(b.createdOn, 'DD/MM/YYYY HH;mm;ss').diff(moment(a.createdOn, 'DD/MM/YYYY HH;mm;ss')));
 };
 
+/**
+ * Removes a workout from a user's list of workouts.
+ * @param {string} workoutId - The ID of the workout to be removed.
+ * @param {string} handle - The handle of the user.
+ * @return {Promise} - A promise that resolves when the workout is successfully removed from the user's list.
+ */
 export const removeWorkoutFromUser = (workoutId: string, handle: string) => {
     return remove(ref(db, `users/${handle}/workouts/${workoutId}`));
 };
 
+/**
+ * Deletes a workout from the database and removes it from the user's list of workouts.
+ * @param {string} workoutId - The ID of the workout to be deleted.
+ * @param {string} handle - The handle of the user.
+ * @return {Promise} - A promise that resolves when the workout is successfully deleted.
+ */
 export const deleteWorkout = (workoutId: string, handle: string) => {
     return remove(ref(db, `workouts/${workoutId}`))
         .then(() => removeWorkoutFromUser(workoutId, handle));
 };
 
+/**
+ * Edits a workout in the database.
+ * @param {IWorkoutFormValues} workout - The updated workout object.
+ * @param {string} workoutId - The ID of the workout to be edited.
+ * @return {Promise} - A promise that resolves when the workout is successfully edited.
+ */
 export const editWorkout = (workout: IWorkoutFormValues, workoutId: string) => {
 
     return update(ref(db, `workouts/${workoutId}`), workout);

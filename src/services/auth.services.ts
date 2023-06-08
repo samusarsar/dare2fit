@@ -23,7 +23,7 @@ export const loginUser = (email: string, password: string) => {
 
 /**
  * Logs out the currently authenticated user.
- * @return {Promise<void>} A Promise that resolves when the sign-out operation is complete.
+ * @return {Promise} A Promise that resolves when the sign-out operation is complete.
  */
 export const logoutUser = () => {
     return signOut(auth);

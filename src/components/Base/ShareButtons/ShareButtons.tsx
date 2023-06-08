@@ -18,7 +18,6 @@ const ShareButtons: FC<{ location: string, text: string, size?: number }> = ({ l
             </TwitterShareButton>
             <LinkedinShareButton
                 url={`[insertURLhere]${location}`}
-                hashtag="#dare2fit"
             >
                 <LinkedinIcon size={size} round />
             </LinkedinShareButton>

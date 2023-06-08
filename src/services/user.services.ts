@@ -10,7 +10,7 @@ import { addNotification } from './notification.services';
 /**
  * Retrieves a user by their handle.
  * @param {string} handle - The user handle.
- * @return {Promise<any>} A promise that resolves with the user data.
+ * @return {Promise<IUserData>} A promise that resolves with the user data.
  * @throws {Error} If the user doesn't exist.
  */
 export const getUserByHandle = (handle: string) => {
@@ -27,7 +27,7 @@ export const getUserByHandle = (handle: string) => {
 /**
  * Retrieves a user by their telephone.
  * @param {string} telephone - The user telephone.
- * @return {Promise<any>} A promise that resolves with the user data.
+ * @return {Promise<IUserData>} A promise that resolves with the user data.
  * @throws {Error} If the user doesn't exist.
  */
 export const getUserByTelephone = (telephone: string) => {
@@ -49,7 +49,7 @@ export const getUserByTelephone = (telephone: string) => {
  * @param {string} telephone - The user email.
  * @param {string} firstName - The user's first name.
  * @param {string} lastName - The user's last name.
- * @return {Promise<void>} A promise that resolves when the user is created.
+ * @return {Promise} A promise that resolves when the user is created.
  */
 export const createUser = (handle: string, uid: string, email: string, telephone: string, firstName: string, lastName: string): Promise<void> => {
     const createdOn = moment(new Date()).format('DD/MM/YYYY HH:mm:ss');
@@ -68,7 +68,7 @@ export const createUser = (handle: string, uid: string, email: string, telephone
 /**
  * Retrieves user data by their UID.
  * @param {string} uid - The user UID.
- * @return {Promise<any>} A promise that resolves with the user data.
+ * @return {Promise<IUserData>} A promise that resolves with the user data.
  * @throws {Error} If the user doesn't exist.
  */
 export const getUserData = (uid: string) => {
@@ -84,7 +84,7 @@ export const getUserData = (uid: string) => {
 
 /**
  * Retrieves all users.
- * @return {Promise<any>} A promise that resolves with the user data.
+ * @return {Promise<IUserData[] | []>} A promise that resolves with the user data.
  * @throws {Error} If no users are found.
  */
 export const getAllUsers = (): Promise<IUserData[]> => {
@@ -101,7 +101,7 @@ export const getAllUsers = (): Promise<IUserData[]> => {
 /**
  * Retrieves all friends of a user by the user's handle.
  * @param {string} handle - The user handle.
- * @return {Promise<any>} A promise that resolves with the handles of all the user's friends.
+ * @return {Promise<string[]>} A promise that resolves with the handles of all the user's friends.
  * @throws {Error} If the user doesn't have friends.
  */
 export const getUserFriends = (handle: string) => {
@@ -119,7 +119,7 @@ export const getUserFriends = (handle: string) => {
  * Retrieves the friend requests for a user.
  * @param {string} handle - The handle of the user.
  * @param {FriendRequestType} type - The type of friend request to retrieve.
- * @return {Promise<any>} - A Promise that resolves to the friend requests data.
+ * @return {Promise<string[]>} - A Promise that resolves to the friend requests data.
  * @throws {Error} - If no friend requests are found for the user.
  */
 export const getUserFriendRequests = (handle: string, type: FriendRequestType) => {
@@ -133,6 +133,12 @@ export const getUserFriendRequests = (handle: string, type: FriendRequestType) =
         });
 };
 
+/**
+ * Sends a friend request from the sender to the recipient.
+ * @param {string} sender - The handle of the sender.
+ * @param {string} recipient - The handle of the recipient.
+ * @return {Promise} - A promise that resolves when the friend request is sent.
+ */
 export const sendFriendRequest = (sender: string, recipient: string) => {
     return get(ref(db, `users/${sender}/sentFriendRequests`))
         .then(snapshot => {
@@ -153,16 +159,34 @@ export const sendFriendRequest = (sender: string, recipient: string) => {
         .then(() => addNotification(recipient, `${sender} sent you a friend request.`));
 };
 
+/**
+ * Resolves a friend request by the sender, removing the request from both sender and recipient.
+ * @param {string} sender - The handle of the sender.
+ * @param {string} recipient - The handle of the recipient.
+ * @return {Promise} - A promise that resolves when the request is resolved.
+ */
 export const resolveRequestBySender = (sender: string, recipient: string) => {
     return update(ref(db, `users/${sender}/sentFriendRequests`), { [recipient]: null })
         .then(() => update(ref(db, `users/${recipient}/receivedFriendRequests`), { [sender]: null }));
 };
 
+/**
+ * Resolves a friend request by the recipient, removing the request from both recipient and sender.
+ * @param {string} recipient - The handle of the recipient.
+ * @param {string} sender - The handle of the sender.
+ * @return {Promise} - A promise that resolves when the request is resolved.
+ */
 export const resolveRequestByRecipient = (recipient: string, sender: string) => {
     return update(ref(db, `users/${recipient}/receivedFriendRequests`), { [sender]: null })
         .then(() => update(ref(db, `users/${sender}/sentFriendRequests`), { [recipient]: null }));
 };
 
+/**
+ * Makes two users friends by accepting a friend request.
+ * @param {string} accepting - The handle of the user accepting the request.
+ * @param {string} accepted - The handle of the user whose request is accepted.
+ * @return {Promise} - A promise that resolves when the users become friends.
+ */
 export const makeFriends = (accepting: string, accepted: string) => {
     return resolveRequestByRecipient(accepting, accepted)
         .then(() => get(ref(db, `users/${accepting}/friends`)))
@@ -184,12 +208,26 @@ export const makeFriends = (accepting: string, accepted: string) => {
         .then(() => addNotification(accepted, `${accepting} accepted your friend request!`));
 };
 
+/**
+ * Unfriends two users by removing the friendship connection between them.
+ * @param {string} remover - The handle of the user initiating the unfriending.
+ * @param {string} removed - The handle of the user being unfriended.
+ * @return {Promise} - A promise that resolves when the users are unfriended.
+ */
 export const unFriend = (remover: string, removed: string) => {
     return update(ref(db, `users/${remover}/friends`), { [removed]: null })
         .then(() => update(ref(db, `users/${removed}/friends`), { [remover]: null }))
         .then(() => addNotification(removed, `${remover} unfriended you.`));
 };
 
+/**
+ * Edits the details of a user.
+ * @param {object} userDetails - The user details to be edited.
+ * @param {string} userDetails.handle - The handle of the user.
+ * @param {string} userDetails.propKey - The property key to be edited.
+ * @param {string} userDetails.propValue - The new value for the property.
+ * @return {Promise} - A promise that resolves when the user details are edited.
+ */
 export const editUserDetails = ({ handle, propKey, propValue }:
     { handle: string, propKey: string, propValue: string }) => {
     return update(ref(db, `users/${handle}`), {
@@ -197,6 +235,12 @@ export const editUserDetails = ({ handle, propKey, propValue }:
     });
 };
 
+/**
+ * Changes the avatar of a user.
+ * @param {string} handle - The handle of the user.
+ * @param {File} avatar - The new avatar file.
+ * @return {Promise} - A promise that resolves when the avatar is changed.
+ */
 export const changeAvatar = (handle: string, avatar: File) => {
     const fileRef = sRef(storage, `users/${handle}/avatar`);
     return uploadBytes(fileRef, avatar)
@@ -204,6 +248,15 @@ export const changeAvatar = (handle: string, avatar: File) => {
         .then((url) => editUserDetails({ handle, propKey: 'avatarURL', propValue: url }));
 };
 
+/**
+ * Edits the health-related numeric data of a user.
+ * @param {Object} options - The options for editing the data.
+ * @param {string} options.handle - The handle of the user.
+ * @param {string} options.propKey - The key of the property to edit.
+ * @param {number} options.propValue - The new value of the property.
+ * @param {boolean} options.isMetric - Indicates whether the value is in the metric system.
+ * @return {Promise} - A promise that resolves when the user's data is updated.
+ */
 export const editUserHealthNumberData = ({ handle, propKey, propValue, isMetric }:
     { handle: string, propKey: string, propValue: number, isMetric: boolean }) => {
     const coeffMetricToImperial = propKey === 'weight' ? 2.2 : 0.033;
@@ -264,6 +317,12 @@ export const calculateCalories = (userData: IUserData) => {
     return Math.round(calculateBmr(userData) * WEIGHT_GOAL_DATA[profileWeightGoal].index);
 };
 
+/**
+ * Changes the role of a user.
+ * @param {string} handle - The handle of the user.
+ * @param {UserRoles} role - The new role of the user.
+ * @return {Promise} - A promise that resolves when the user's role is updated.
+ */
 export const changeUserRole = (handle: string, role: UserRoles) => {
     return update(ref(db, `users/${handle}`), {
         role,
@@ -277,4 +336,3 @@ export const changeUserRole = (handle: string, role: UserRoles) => {
             }
         });
 };
-

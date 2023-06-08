@@ -64,7 +64,25 @@ const WorkoutForm: FC<{ workout?: IWorkout, onClose?: () => void }> = ({ workout
         if (!workout) {
             addWorkout(workoutToCreate, userData!.handle)
                 .then(() => navigate('../../workouts'))
-                .then(() => setSubmitting(false));
+                .then(() => setSubmitting(false))
+                .then(() => toast({
+                    title: 'Workout created successfully!',
+                    description: 'You have created your workout.',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'top',
+                    variant: 'subtle',
+                }))
+                .catch(() => toast({
+                    title: 'Error creating workout!',
+                    description: 'Please try again later.',
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'top',
+                    variant: 'subtle',
+                }));
         } else {
             editWorkout(workoutToCreate, workout.workoutId)
                 .then(() => onClose && onClose())
