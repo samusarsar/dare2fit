@@ -1,5 +1,5 @@
 import { IconButton } from '@chakra-ui/button';
-import { Badge, Box } from '@chakra-ui/layout';
+import { Badge, Box, HStack, Text } from '@chakra-ui/layout';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { FC, ReactElement, useContext } from 'react';
 import { FiBell, FiBellOff, FiUser, FiUsers } from 'react-icons/fi';
@@ -8,6 +8,8 @@ import SingleNotification from '../SingleNotification/SingleNotification';
 import { IconType } from 'react-icons/lib';
 import { useNavigate } from 'react-router';
 import { MdBlock, MdOutlineAnnouncement } from 'react-icons/md';
+import { AiOutlineApple, AiOutlineAndroid } from 'react-icons/ai';
+import { Icon } from '@chakra-ui/react';
 
 const NotificationsList: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -30,6 +32,11 @@ const NotificationsList: FC = (): ReactElement => {
                 {notifications && <Badge colorScheme='pink' position='absolute' bottom={0} right={0}>{notifications.length}</Badge>}
             </Box>
             <MenuList w={{ base: '300px', lg: '450px' }} maxH='500px' overflowY='auto'>
+                <HStack w="100%" rounded="lg" bg="brand.green" justify="center" p={3} color="brand.dark">
+                    <Icon as={AiOutlineApple} fontSize="1.5em" />
+                    <Icon as={AiOutlineAndroid} fontSize="1.5em" />
+                    <Text>Check out our native companion app!</Text>
+                </HStack>
                 {notifications ?
                     notifications.map(([timestamp, notification]) => {
                         let icon: IconType;
