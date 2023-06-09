@@ -19,18 +19,26 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
     const [todayWorkoutIsLogged, setTodayWorkoutIsLogged] = useState<boolean | null>(null);
     const [thisWorkoutIsLogged, setThisWorkoutIsLogged] = useState<boolean | null>(null);
 
+    const [loadingBtnSave, setLoadingBtnSave] = useState(false);
+    const [loadingBtnDelete, setLoadingBtnDelete] = useState(false);
+    const [loadingBtnLog, setLoadingBtnLog] = useState(false);
+
     const authorIsMe = userData!.handle === workout.author;
     const isSaved = userData!.workouts ? Object.keys(userData!.workouts).includes(workout.workoutId) : false;
     const amAdmin = userData!.role === UserRoles.Admin;
 
     const handleSave = () => {
-        addWorkoutToUser(workout.workoutId, userData!.handle);
-        addNotification(workout.author, `${userData!.handle} has saved your workout '${workout.workoutName}!`);
+        setLoadingBtnSave(true);
+        addWorkoutToUser(workout.workoutId, userData!.handle)
+            .then(() => addNotification(workout.author, `${userData!.handle} has saved your workout '${workout.workoutName}!`))
+            .finally(() => setLoadingBtnSave(false));
     };
 
     const handleUnsave = () => {
-        removeWorkoutFromUser(workout.workoutId, userData!.handle);
-        addNotification(workout.author, `${userData!.handle} has unsaved your workout '${workout.workoutName}.`);
+        setLoadingBtnSave(true);
+        removeWorkoutFromUser(workout.workoutId, userData!.handle)
+            .then(() => addNotification(workout.author, `${userData!.handle} has unsaved your workout '${workout.workoutName}.`))
+            .finally(() => setLoadingBtnSave(false));
     };
 
     const handleEdit = () => {
@@ -38,15 +46,21 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
     };
 
     const handleDelete = () => {
-        deleteWorkout(workout.workoutId, userData!.handle);
+        setLoadingBtnDelete(true);
+        deleteWorkout(workout.workoutId, userData!.handle)
+            .then(() => setLoadingBtnDelete(false));
     };
 
     const handleLogWorkout = () => {
-        logActivity({ handle: userData!.handle, activityType: 'workout', loggedValue: `${workout.workoutName}_${workout.category}` });
+        setLoadingBtnLog(true);
+        logActivity({ handle: userData!.handle, activityType: 'workout', loggedValue: `${workout.workoutName}_${workout.category}_${workout.workoutId}` })
+            .then(() => setLoadingBtnLog(false));
     };
 
     const handleUnlogWorkout = () => {
-        unlogActivity({ handle: userData!.handle, activityType: 'workout' });
+        setLoadingBtnLog(true);
+        unlogActivity({ handle: userData!.handle, activityType: 'workout' })
+            .then(() => setLoadingBtnLog(false));
     };
 
     useEffect(() => {
@@ -60,7 +74,7 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
                 const data = snapshot.val();
 
                 setTodayWorkoutIsLogged(Object.keys(data).includes('workout'));
-                setThisWorkoutIsLogged(Object.keys(data).includes('workout') && data.workout.name === workout.workoutName);
+                setThisWorkoutIsLogged(Object.keys(data).includes('workout') && data.workout.workoutId === workout.workoutId);
             }
         });
     }, [todayWorkoutIsLogged]);
@@ -68,7 +82,7 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
     return (
         <Stack>
             {((authorIsMe || isSaved) && (todayWorkoutIsLogged !== null && thisWorkoutIsLogged !== null)) &&
-            !todayWorkoutIsLogged ?
+            (!todayWorkoutIsLogged ?
                 (<Button
                     w="194px"
                     variant="ghost"
@@ -76,6 +90,7 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
                     justifyContent="space-between"
                     fontWeight="normal"
                     fontSize="sm"
+                    isLoading={loadingBtnLog}
                     onClick={handleLogWorkout}>
                         Log Workout
                 </Button>) :
@@ -87,6 +102,7 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
                         justifyContent="space-between"
                         fontWeight="normal"
                         fontSize="sm"
+                        isLoading={loadingBtnLog}
                         onClick={handleUnlogWorkout}>
                         Unlog Workout
                     </Button>) :
@@ -97,9 +113,10 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
                         justifyContent="space-between"
                         fontWeight="normal"
                         fontSize="sm"
+                        isLoading={loadingBtnLog}
                         onClick={handleLogWorkout}>
                         Overwrite Workout Log
-                    </Button>))}
+                    </Button>)))}
             {!authorIsMe ?
                 <>
                     {(!isSaved) ?
@@ -110,6 +127,7 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
                             justifyContent="space-between"
                             fontWeight="normal"
                             fontSize="sm"
+                            isLoading={loadingBtnSave}
                             onClick={handleSave}>
                                 Save Workout
                         </Button>) :
@@ -120,6 +138,7 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
                             justifyContent="space-between"
                             fontWeight="normal"
                             fontSize="sm"
+                            isLoading={loadingBtnSave}
                             onClick={handleUnsave}>
                                 Unsave Workout
                         </Button>)}
@@ -143,6 +162,7 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
                 fontWeight="normal"
                 colorScheme="red"
                 fontSize="sm"
+                isLoading={loadingBtnDelete}
                 onClick={handleDelete}>
                 Delete Workout
             </Button>}

@@ -129,12 +129,12 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): Re
                                 onChange={(e) => setLoggedValue(e.target.value)}>
                                 <optgroup label="My Workouts">
                                     {userWorkoutOptions.map(workout =>
-                                        <option key={workout.workoutId} value={`${workout.workoutName}_${workout.category}`}>{workout.workoutName}</option>,
+                                        <option key={workout.workoutId} value={`${workout.workoutName}_${workout.category}_${workout.workoutId}`}>{workout.workoutName}</option>,
                                     )}
                                 </optgroup>
                                 <optgroup label="Saved Workouts">
                                     {savedWorkoutOptions.map(workout =>
-                                        <option key={workout.workoutId} value={`${workout.workoutName}_${workout.category}`}>{workout.workoutName}</option>,
+                                        <option key={workout.workoutId} value={`${workout.workoutName}_${workout.category}_${workout.workoutId}`}>{workout.workoutName}</option>,
                                     )}
                                 </optgroup>
                             </Select>) :

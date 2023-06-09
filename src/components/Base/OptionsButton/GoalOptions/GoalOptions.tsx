@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
 import { IGoal } from '../../../../common/types';
 import { Button, Stack } from '@chakra-ui/react';
 import { AppContext } from '../../../../context/AppContext/AppContext';
@@ -13,6 +13,9 @@ import { addNotification } from '../../../../services/notification.services';
 const GoalOptions: FC<{ goal: IGoal, onOpen: () => void, onOpenLog: () => void }> = ({ goal, onOpen, onOpenLog }) => {
     const { userData } = useContext(AppContext);
 
+    const [loadingBtnCompete, setLoadingBtnCompete] = useState(false);
+    const [loadingBtnDelete, setLoadingBtnDelete] = useState(false);
+
     const authorIsMe = userData!.handle === goal.author;
     const amCompeting = goal.competingWith ? Object.keys(goal.competingWith).includes(userData!.handle) : false;
     const amAdmin = userData!.role === UserRoles.Admin;
@@ -22,13 +25,17 @@ const GoalOptions: FC<{ goal: IGoal, onOpen: () => void, onOpenLog: () => void }
     };
 
     const handleCompete = () => {
-        competeOnGoal(userData!.handle, goal.goalId);
-        addNotification(goal.author, `${userData!.handle} is now competing with you on your '${goal.name}' challenge!`);
+        setLoadingBtnCompete(true);
+        competeOnGoal(userData!.handle, goal.goalId)
+            .then(() => addNotification(goal.author, `${userData!.handle} is now competing with you on your '${goal.name}' challenge!`))
+            .finally(() => setLoadingBtnCompete(false));
     };
 
     const handleStopCompeting = () => {
-        stopCompetingOnGoal(userData!.handle, goal.goalId);
-        addNotification(goal.author, `${userData!.handle} stopped competing with you on your '${goal.name}' challenge!`);
+        setLoadingBtnCompete(true);
+        stopCompetingOnGoal(userData!.handle, goal.goalId)
+            .then(() => addNotification(goal.author, `${userData!.handle} stopped competing with you on your '${goal.name}' challenge!`))
+            .finally(() => setLoadingBtnCompete(false));
     };
 
     const handleEdit = () => {
@@ -36,7 +43,9 @@ const GoalOptions: FC<{ goal: IGoal, onOpen: () => void, onOpenLog: () => void }
     };
 
     const handleDelete = () => {
-        deleteGoal(userData!.handle, goal.goalId);
+        setLoadingBtnDelete(true);
+        deleteGoal(userData!.handle, goal.goalId)
+            .then(() => setLoadingBtnDelete(false));
     };
 
     return (
@@ -61,6 +70,7 @@ const GoalOptions: FC<{ goal: IGoal, onOpen: () => void, onOpenLog: () => void }
                         justifyContent="space-between"
                         fontWeight="normal"
                         fontSize="sm"
+                        isLoading={loadingBtnCompete}
                         onClick={handleCompete}>
                         Compete
                     </Button> :
@@ -71,6 +81,7 @@ const GoalOptions: FC<{ goal: IGoal, onOpen: () => void, onOpenLog: () => void }
                         justifyContent="space-between"
                         fontWeight="normal"
                         fontSize="sm"
+                        isLoading={loadingBtnCompete}
                         onClick={handleStopCompeting}>
                         Exit Competition
                     </Button> )}
@@ -94,6 +105,7 @@ const GoalOptions: FC<{ goal: IGoal, onOpen: () => void, onOpenLog: () => void }
                     fontWeight="normal"
                     colorScheme="red"
                     fontSize="sm"
+                    isLoading={loadingBtnDelete}
                     onClick={handleDelete}>
                     Delete Goal
                 </Button>}
