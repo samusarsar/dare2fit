@@ -6,6 +6,7 @@ import ActivityLogger from '../../components/Activity/ActivityLogger/ActivityLog
 import WorkoutsCarousel from '../../components/Activity/ActivityCarousel/WorkoutsCarousel';
 import GoalsCarousel from '../../components/Activity/ActivityCarousel/GoalsCarousel';
 import CalorieIntake from '../../components/Activity/CalorieIntake/CalorieIntake';
+import WaterIntake from '../../components/Activity/WaterIntake/WaterIntake';
 
 const ActivityView: FC = (): ReactElement => {
     return (
@@ -15,6 +16,7 @@ const ActivityView: FC = (): ReactElement => {
                 <WorkoutsCarousel />
                 <GoalsCarousel />
                 <CalorieIntake />
+                <WaterIntake />
             </Flex>
 
         </VStack>
