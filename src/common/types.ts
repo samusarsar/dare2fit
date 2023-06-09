@@ -78,19 +78,6 @@ export interface IGoal {
     [key: string]: number | string | boolean | undefined | IDuration | ICompetingWith;
 }
 
-// export interface IExercise {
-//     exerciseName: string,
-//     exerciseId: string,
-//     handle: string,
-//     type: string,
-//     units: string,
-//     difficulty: string,
-//     createdOn: string,
-//     instructions?: string,
-//     imageURL?: string
-//     lastEdited?: string,
-// }
-
 export interface IWorkout {
     workoutId: string,
     author: string,
@@ -111,7 +98,7 @@ export interface IWorkoutFormValues {
     duration?: string,
     calories?: string,
     instructions?: string,
-    exercises: IWorkoutExercise[] | [], // TODO
+    exercises: IWorkoutExercise[] | [],
 }
 
 export interface IExerciseFormValues {

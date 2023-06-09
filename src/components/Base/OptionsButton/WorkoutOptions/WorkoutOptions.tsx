@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { IWorkout } from '../../../../common/types';
 import { Button, Stack } from '@chakra-ui/react';
 import { AppContext } from '../../../../context/AppContext/AppContext';
@@ -7,9 +7,17 @@ import { addWorkoutToUser, deleteWorkout, removeWorkoutFromUser } from '../../..
 import { BsSave, BsSaveFill } from 'react-icons/bs';
 import { addNotification } from '../../../../services/notification.services';
 import { UserRoles } from '../../../../common/enums';
+import { onValue, ref } from 'firebase/database';
+import { db } from '../../../../config/firebase-config';
+import moment from 'moment';
+import { logActivity, unlogActivity } from '../../../../services/activity.services';
+import { BiLogInCircle, BiLogOutCircle } from 'react-icons/bi';
 
 const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout, onOpen }) => {
     const { userData } = useContext(AppContext);
+
+    const [todayWorkoutIsLogged, setTodayWorkoutIsLogged] = useState<boolean | null>(null);
+    const [thisWorkoutIsLogged, setThisWorkoutIsLogged] = useState<boolean | null>(null);
 
     const authorIsMe = userData!.handle === workout.author;
     const isSaved = userData!.workouts ? Object.keys(userData!.workouts).includes(workout.workoutId) : false;
@@ -33,8 +41,65 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
         deleteWorkout(workout.workoutId, userData!.handle);
     };
 
+    const handleLogWorkout = () => {
+        logActivity({ handle: userData!.handle, activityType: 'workout', loggedValue: `${workout.workoutName}_${workout.category}` });
+    };
+
+    const handleUnlogWorkout = () => {
+        unlogActivity({ handle: userData!.handle, activityType: 'workout' });
+    };
+
+    useEffect(() => {
+        const todayDate = moment().format('YYYY-MM-DD');
+
+        return onValue(ref(db, `logs/${userData!.handle}/${todayDate}`), (snapshot) => {
+            if (!snapshot.exists()) {
+                setTodayWorkoutIsLogged(false);
+                setThisWorkoutIsLogged(false);
+            } else {
+                const data = snapshot.val();
+
+                setTodayWorkoutIsLogged(Object.keys(data).includes('workout'));
+                setThisWorkoutIsLogged(Object.keys(data).includes('workout') && data.workout.name === workout.workoutName);
+            }
+        });
+    }, [todayWorkoutIsLogged]);
+
     return (
         <Stack>
+            {((authorIsMe || isSaved) && (todayWorkoutIsLogged !== null && thisWorkoutIsLogged !== null)) &&
+            !todayWorkoutIsLogged ?
+                (<Button
+                    w="194px"
+                    variant="ghost"
+                    rightIcon={<BiLogInCircle />}
+                    justifyContent="space-between"
+                    fontWeight="normal"
+                    fontSize="sm"
+                    onClick={handleLogWorkout}>
+                        Log Workout
+                </Button>) :
+                (thisWorkoutIsLogged ?
+                    (<Button
+                        w="194px"
+                        variant="ghost"
+                        rightIcon={<BiLogOutCircle />}
+                        justifyContent="space-between"
+                        fontWeight="normal"
+                        fontSize="sm"
+                        onClick={handleUnlogWorkout}>
+                        Unlog Workout
+                    </Button>) :
+                    (<Button
+                        w="194px"
+                        variant="ghost"
+                        rightIcon={<BiLogInCircle />}
+                        justifyContent="space-between"
+                        fontWeight="normal"
+                        fontSize="sm"
+                        onClick={handleLogWorkout}>
+                        Overwrite Workout Log
+                    </Button>))}
             {!authorIsMe ?
                 <>
                     {(!isSaved) ?
