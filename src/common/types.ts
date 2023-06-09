@@ -21,7 +21,8 @@ export type IHealth = {
     BMI?: number,
     activityLevel?: ActivityLevel,
     weightGoal?: WeightGoal,
-    waterGoal?: number,
+    waterTargetMetric?: number,
+    waterTargetImperial?: number,
 }
 
 export type ICollection = {
