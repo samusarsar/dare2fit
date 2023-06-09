@@ -9,12 +9,16 @@ import { IconType } from 'react-icons/lib';
 import { useNavigate } from 'react-router';
 import { MdBlock, MdOutlineAnnouncement } from 'react-icons/md';
 import { AiOutlineApple, AiOutlineAndroid } from 'react-icons/ai';
-import { Icon } from '@chakra-ui/react';
+import { Icon, useColorModeValue } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 const NotificationsList: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
 
     const navigate = useNavigate();
+
+    const hoverBackground = useColorModeValue('brand.dark', 'brand.light');
+    const hoverText = useColorModeValue('brand.light', 'brand.dark');
 
     const notifications = userData!.notifications ? Object.entries(userData!.notifications) : null;
 
@@ -32,11 +36,20 @@ const NotificationsList: FC = (): ReactElement => {
                 {notifications && <Badge colorScheme='pink' position='absolute' bottom={0} right={0}>{notifications.length}</Badge>}
             </Box>
             <MenuList w={{ base: '300px', lg: '450px' }} maxH='500px' overflowY='auto'>
-                <HStack w="100%" rounded="lg" bg="brand.green" justify="center" p={3} color="brand.dark">
-                    <Icon as={AiOutlineApple} fontSize="1.5em" />
-                    <Icon as={AiOutlineAndroid} fontSize="1.5em" />
-                    <Text>Check out our native companion app!</Text>
-                </HStack>
+                <Link to={'https://expo.dev/@samu.sar/dare2fit-companion-app'} target='_blank' rel='noopener noreferrer'>
+                    <HStack
+                        w='100%'
+                        rounded='lg'
+                        bg='brand.green'
+                        justify='center'
+                        p={3} color='brand.dark'
+                        transition='0.15s ease-in'
+                        _hover={{ bg: hoverBackground, color: hoverText }}>
+                        <Icon as={AiOutlineApple} fontSize='1.5em' />
+                        <Icon as={AiOutlineAndroid} fontSize='1.5em' />
+                        <Text>Check out our native companion app!</Text>
+                    </HStack>
+                </Link>
                 {notifications ?
                     notifications.map(([timestamp, notification]) => {
                         let icon: IconType;
