@@ -24,6 +24,7 @@ const NavButton: FC<{ color: string, children: string, onClose: () => void }> = 
                 borderRadius="lg"
                 role="group"
                 cursor="pointer"
+                transition='0.15s ease-in'
                 _hover={{ textDecoration: 'none', bg: color, color: 'brand.light' }}
             >
                 {children}
