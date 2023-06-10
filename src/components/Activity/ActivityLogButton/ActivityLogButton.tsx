@@ -43,10 +43,19 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): Re
 
     const handleLog = () => {
         if (!!activityType && !!loggedValue) {
-            logActivity({ handle: userData!.handle, activityType, loggedValue })
+            let finalLoggedValue: number | { name: string, category: string, workoutId: string };
+            if (activityType === 'workout') {
+                const allWorkouts = [...userWorkouts, ...savedWorkouts];
+                const { workoutName, category, workoutId } = allWorkouts.find(workout => workout.workoutId === loggedValue)!;
+                finalLoggedValue = { name: workoutName, category: category, workoutId: workoutId };
+            } else {
+                finalLoggedValue = loggedValue as number;
+            }
+
+            logActivity({ handle: userData!.handle, activityType, loggedValue: finalLoggedValue })
                 .then(() => {
                     if (trainingWith.length > 0) {
-                        logActivity({ handle: trainingWith, activityType, loggedValue });
+                        logActivity({ handle: trainingWith, activityType, loggedValue: finalLoggedValue });
                     }
                 })
                 .then(() => {
@@ -129,12 +138,12 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): Re
                                 onChange={(e) => setLoggedValue(e.target.value)}>
                                 <optgroup label="My Workouts">
                                     {userWorkoutOptions.map(workout =>
-                                        <option key={workout.workoutId} value={`${workout.workoutName}_${workout.category}_${workout.workoutId}`}>{workout.workoutName}</option>,
+                                        <option key={workout.workoutId} value={workout.workoutId}>{workout.workoutName}</option>,
                                     )}
                                 </optgroup>
                                 <optgroup label="Saved Workouts">
                                     {savedWorkoutOptions.map(workout =>
-                                        <option key={workout.workoutId} value={`${workout.workoutName}_${workout.category}_${workout.workoutId}`}>{workout.workoutName}</option>,
+                                        <option key={workout.workoutId} value={workout.workoutId}>{workout.workoutName}</option>,
                                     )}
                                 </optgroup>
                             </Select>) :

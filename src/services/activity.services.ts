@@ -8,19 +8,18 @@ import { ITodayLog } from '../common/types';
  *
  * @param {string} handle - The user's handle.
  * @param {string} activityType - The type of activity.
- * @param {string|number} loggedValue - The value logged for the activity.
+ * @param {object|number} loggedValue - The value logged for the activity.
  * @return {Promise} A promise that resolves when the activity is logged.
  */
 export const logActivity = ({ handle, activityType, loggedValue } :
-    { handle: string, activityType: string, loggedValue: string | number }) => {
+    { handle: string, activityType: string, loggedValue: { name: string, category: string, workoutId: string} | number }) => {
 
     const isWorkout = activityType === 'workout' || activityType === 'strength' || activityType === 'stamina' || activityType === 'stretching';
 
     const todayDate = moment().format('YYYY-MM-DD');
 
     if (isWorkout) {
-        const [name, category, workoutId] = (loggedValue as string).split('_');
-        return update(ref(db, `logs/${handle}/${todayDate}/workout`), { name: name, category: category, workoutId: workoutId });
+        return update(ref(db, `logs/${handle}/${todayDate}/workout`), (loggedValue as object));
     }
 
     return get(ref(db, `logs/${handle}/${todayDate}/${activityType}`))
