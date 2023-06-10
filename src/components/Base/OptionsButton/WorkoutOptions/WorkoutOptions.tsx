@@ -53,7 +53,7 @@ const WorkoutOptions: FC<{ workout: IWorkout, onOpen: () => void }> = ({ workout
 
     const handleLogWorkout = () => {
         setLoadingBtnLog(true);
-        logActivity({ handle: userData!.handle, activityType: 'workout', loggedValue: `${workout.workoutName}_${workout.category}_${workout.workoutId}` })
+        logActivity({ handle: userData!.handle, activityType: 'workout', loggedValue: { name: workout.workoutName, category: workout.category, workoutId: workout.workoutId } })
             .then(() => setLoadingBtnLog(false));
     };
 
