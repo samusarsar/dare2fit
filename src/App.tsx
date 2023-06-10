@@ -19,9 +19,10 @@ import WorkoutsView from './views/WorkoutsView/WorkoutsView.js';
 import WorkoutForm from './components/Workouts/WorkoutForm/WorkoutForm.js';
 import { IAppContextValue, IAppState, IUserData } from './common/types.js';
 import AboutView from './views/AboutView/AboutView.js';
+import ServerDown from './views/ServerDown/ServerDown.js';
 
 const App: React.FC = () => {
-    const [user, loading] = useAuthState(auth);
+    const [user, loading, error] = useAuthState(auth);
     const [appState, setAppState] = useState<IAppState>({
         user,
         userData: null,
@@ -52,12 +53,18 @@ const App: React.FC = () => {
         });
     }, [user]);
 
+    if (error) {
+        return (
+            <ServerDown />
+        );
+    }
+
     if ((!loading && !user) || (!loading && user && appState.userData)) {
         return (
             <>
                 <AppContext.Provider value={{ ...appState, setContext: setAppState } as IAppContextValue}>
                     <Routes>
-                        <Route path='/' element={<RootLayout />}>
+                        <Route path='/' element={<RootLayout />} >
                             <Route index element={<LandingPage />} />
                             <Route path='about' element={<AboutView />} />
                             <Route element={<ProtectedRoute />} >

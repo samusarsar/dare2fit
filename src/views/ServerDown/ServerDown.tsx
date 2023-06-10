@@ -1,11 +1,8 @@
 import { Heading, Text, VStack, Button, Image } from '@chakra-ui/react';
-import { FC, ReactElement, useContext } from 'react';
+import { FC, ReactElement } from 'react';
 import { useNavigate } from 'react-router';
-import { AppContext } from '../../context/AppContext/AppContext';
 
-const NotFound: FC = (): ReactElement => {
-    const { userData } = useContext(AppContext);
-
+const ServerDown: FC = (): ReactElement => {
     const navigate = useNavigate();
 
     return (
@@ -23,18 +20,18 @@ const NotFound: FC = (): ReactElement => {
                 fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}>
                 <Text
                     as={'span'}>
-                    Error 404
+                    Error 500
                 </Text>
                 <br />
                 <Text as={'span'} color={'brand.red'}>
-                    Page Not Found
+                    Server Down
                 </Text>
             </Heading>
-            <Text>Hmm... looks like the page you are trying to access doesn&apos;t exist... That&apos;s okay, though! </Text>
-            <Text>Why don&apos;t you head back to the home page and explore dare2fit from there? {!userData && 'Or go ahead and log in or sign up!'}</Text>
+            <Text>Uh-Oh... our server is currently having some issues... We are sure that it will be up and running in no time!</Text>
+            <Text>Please try again a bit later!</Text>
             <Button colorScheme="teal" onClick={() => navigate('/')}>Back to Home</Button>
         </VStack>
     );
 };
 
-export default NotFound;
+export default ServerDown;
