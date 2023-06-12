@@ -16,11 +16,12 @@ export const findFood = (searchFood: string): Promise<IFood[] | []> => {
         } })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Can not get exercises');
+                throw new Error('Can not get food');
             }
             return response.json();
         });
 };
+
 /**
 Logs the consumption of a food item and its associated calories into the user's daily log.
 @param {string} handle - The user's handle.
@@ -50,9 +51,7 @@ Removes the logged food entry for a specific food item from the user's daily log
 @return {Promise} A promise that resolves when the food entry is successfully removed.
 */
 export const unlogFood = (handle: string, foodName: string) => {
-    console.log(foodName);
     const todayDate = moment().format('YYYY-MM-DD');
 
     return update(ref(db, `logs/${handle}/${todayDate}/calories/`), { [foodName]: null });
-
 };

@@ -27,6 +27,7 @@ const SelectExercisesForm: FC<ISelectExercisesFormProps> = ( { workoutExercises,
         setIsLoading(true);
         findExercises(values)
             .then(data => setSuggestedExercises(data))
+            .catch(() => setSuggestedExercises([]))
             .finally(() => setIsLoading(false));
     };
 
