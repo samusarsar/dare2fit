@@ -2,9 +2,9 @@ import { FC, useContext, useState } from 'react';
 
 import { Alert, AlertIcon, Box, Button, ButtonGroup, Collapse, FormControl, FormErrorMessage, FormLabel, HStack, IconButton, Input, useDisclosure } from '@chakra-ui/react';
 import { IoIosArrowUp } from 'react-icons/io';
-import SearchFoodButton from '../../Foods/SearchFoodButton/SearchFoodButton';
 import { UserRoles } from '../../../common/enums';
 import { AppContext } from '../../../context/AppContext/AppContext';
+import SearchFood from '../../Foods/SearchFood/SearchFood';
 
 const FoodLogButton: FC = () => {
     const { userData } = useContext(AppContext);
@@ -48,7 +48,7 @@ const FoodLogButton: FC = () => {
                     </>) :
                     (<ButtonGroup w='100%' isAttached>
 
-                        <SearchFoodButton foodName={foodName} />
+                        <SearchFood foodName={foodName} />
 
                         <IconButton icon={<IoIosArrowUp />} aria-label='hide' onClick={handleHide} />
                     </ButtonGroup>)

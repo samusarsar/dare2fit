@@ -6,7 +6,7 @@ import { findFood } from '../../../services/food.services';
 import FoodsLayout from '../FoodsLayout/FoodsLayout';
 import { IFood } from '../../../common/types';
 
-const SearchFoodButton: FC<{ foodName: string }> = ({ foodName }) => {
+const SearchFood: FC<{ foodName: string }> = ({ foodName }) => {
     const [suggestedFoods, setSuggestedFoods] = useState<IFood[] | []>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -53,4 +53,4 @@ const SearchFoodButton: FC<{ foodName: string }> = ({ foodName }) => {
     );
 };
 
-export default SearchFoodButton;
+export default SearchFood;
