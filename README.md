@@ -30,7 +30,7 @@
 - Set Health data to increase tracker functionality and options;
 - Apply for a become admin to keep the `dare2fit` community healthy and welcoming!
 
-## <img src="https://img.icons8.com/?size=512&id=7856&format=png"  width="30" height="30"> Features
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Ffeatures.png?alt=media&token=e5fc5779-b3db-41c2-a576-947ca382ea5a&_gl=1*81oei1*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc3OTgzLjAuMC4w"  width="30" height="30"> Features
 
 - For first-time users we present a quick overview of our `dare2fit` community right on the `Landing Page`:
   - a **total count** of all `dare2fit` users;
@@ -58,7 +58,7 @@
  - Alternatively, other users' `Profile` tabs will allow you to view their general details and if they are your friend - view their Goals and Workouts as well.
 - **If you really `dare2fit` - Welcome to your journey!** ;)
 
-## <img src="https://img.icons8.com/?size=512&id=IO34MKyjiE3B&format=png"  width="30" height="30"> Getting Started
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Fstart.png?alt=media&token=ee8cc2b3-1a61-4519-9f96-59177216b4d6&_gl=1*t5p8co*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc4MDEzLjAuMC4w"  width="30" height="30"> Getting Started
 
 ### Visit site on Firebase-Hosted address:
 
@@ -74,7 +74,7 @@
 5. Open localhost link in browser to view web-platform;
 6. `Do you really dare2fit? (Y/n)`
 
-## <img src="https://img.icons8.com/?size=512&id=8305&format=png"  width="30" height="30"> Database Scheme (Structure)
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Fdatabase.png?alt=media&token=958f4c41-6532-4e07-a31d-e437ebe00527&_gl=1*o97b6d*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc3OTQ0LjAuMC4w"  width="30" height="30"> Database Scheme (Structure)
 
 ### Goals document:
 
@@ -94,7 +94,7 @@
 
 
 
-## <img src="https://img.icons8.com/?size=512&id=2908&format=png"  width="30" height="30"> Frequently Asked Questions
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Ffaq.png?alt=media&token=12b5c59f-8faf-4cba-98f4-b6cd9329b78b&_gl=1*9f9cxq*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc3OTYxLjAuMC4w"  width="30" height="30"> Frequently Asked Questions
 
 - **How can I create a profile on dare2fit?**
   - To create a profile you simply need to click **`Log In`** on the top right of the navigation menu or found anywhere else around the website as well and navigate to the **`Sign Up`** page from there. Then you need to enter your first and last names, email address, telephone number, select a username, create a password and you're done!
@@ -107,7 +107,7 @@
 - **How can I start tracking my calories?**
   - Through the **`Profile Health Tab`** you can set up your health data, in order for us to begin calculating the necessary calorie balance for you to reach your goals. Go on over there, fill out all the needed information and you can add Calorie-Tracking to your fitness journey right away!
 
-## <img src="https://img.icons8.com/?size=512&id=122809&format=png"  width="30" height="30"> Community and Contributions
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Fcommunity.png?alt=media&token=893ecd6f-908b-4c1e-9223-25d82f1bb8b1&_gl=1*watnuy*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc3OTI1LjAuMC4w"  width="30" height="30"> Community and Contributions
 
 The `dare2fit` platform is developed by the infamous **Team 16** (Simona Ilcheva and Samuil Sarandev).
 
@@ -115,6 +115,6 @@ The creators vow to engage in open, two-sided communication with the platform's 
 
 Our team works very hard, day and night, to provide you with the best possible experience of the interior design world. *Forever-free-of-charge.*
 
-## <img src="https://img.icons8.com/?size=512&id=2969&format=png"  width="30" height="30"> External Resources
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Fresources.png?alt=media&token=9fe5f5ee-5413-4af3-a50b-c7f01650d1fe&_gl=1*4u0xo2*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc3OTk4LjAuMC4w"  width="30" height="30"> External Resources
 
 The `dare2fit` platform is powered by **Firebase** in agreement with their provided *Terms and Conditions* for fair usage of their **Spark Plan**.
