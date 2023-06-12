@@ -17,6 +17,7 @@ const SearchFoodButton: FC<{ foodName: string }> = ({ foodName }) => {
         findFood(foodName)
             .then(setSuggestedFoods)
             .then(onOpen)
+            .catch(() => setSuggestedFoods([]))
             .finally(() => setIsLoading(false));
     };
 

@@ -56,7 +56,7 @@ const GoalsCarousel: FC = () => {
                             ((goalsView === GoalTypes.habit && !habits.length) ? (
                                 <HStack w='100%' h='100%' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={goalBackground}>
                                     <Icon as={ImFilesEmpty} fontSize='2em' />
-                                    <Text>No habitss</Text>
+                                    <Text>No habits</Text>
                                 </HStack>
                             ) : goalsView === GoalTypes.habit ? (
                                 <SingleGoal goal={habits[index]} />
