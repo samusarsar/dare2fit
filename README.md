@@ -86,7 +86,7 @@
 
 ### Users document:
 
-<img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Fusers.png?alt=media&token=ba0f641c-058e-4fe8-810e-f46a86da97c4&_gl=1*1et62a9*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU2NDIxMi4xMDAuMS4xNjg2NTY1OTk1LjAuMC4w">
+<img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Fusers.png?alt=media&token=70ab4ec0-f67f-4063-b747-9612eb0cc071&_gl=1*1myk97n*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc3MjgwLjAuMC4w">
 
 ### Workouts document:
 
