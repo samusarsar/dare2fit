@@ -1,10 +1,10 @@
-import React from 'react';
+import { FC } from 'react';
 import Hero from '../../components/LandingPage/Hero/Hero';
 import { VStack } from '@chakra-ui/react';
 import StatList from '../../components/LandingPage/StatList/StatList';
 import FeaturesList from '../../components/LandingPage/FeaturesList/FeaturesList';
 
-const LandingPage: React.FC = () => {
+const LandingPage: FC = () => {
     return (
         <VStack>
             <Hero />

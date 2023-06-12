@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { equalTo, onValue, orderByChild, query, ref } from 'firebase/database';
@@ -21,7 +21,7 @@ import { IAppContextValue, IAppState, IUserData } from './common/types.js';
 import AboutView from './views/AboutView/AboutView.js';
 import ServerDown from './views/ServerDown/ServerDown.js';
 
-const App: React.FC = () => {
+const App: FC = () => {
     const [user, loading, error] = useAuthState(auth);
     const [appState, setAppState] = useState<IAppState>({
         user,

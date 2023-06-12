@@ -1,11 +1,11 @@
-import React, { ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 
 import { Box, Drawer, DrawerContent, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 
 import Sidebar from './Sidebar';
 import MobileNav from './MobileNav';
 
-const SidebarWithHeader: React.FC<{ children: ReactElement }> = ({ children }): ReactElement => {
+const SidebarWithHeader: FC<{ children: ReactElement }> = ({ children }): ReactElement => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const bg = useColorModeValue('brand.light', 'brand.dark');
