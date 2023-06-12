@@ -10,7 +10,6 @@ import moment from 'moment';
  * @return {Promise<string>} A Promise that resolves to the ID of the added workout.
  */
 export const addWorkout = (workout: IWorkoutFormValues, handle: string) => {
-    // const newWorkout = { ...workout, createdOn: moment(new Date()) };
     return push(
         ref(db, 'workouts'), { ...workout, createdOn: moment(new Date()).format('DD/MM/YYYY HH:mm:ss') },
     ).then(result => {
