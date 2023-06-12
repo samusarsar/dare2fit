@@ -5,24 +5,26 @@ import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, B
 import { IFood } from '../../../common/types';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import { logFood } from '../../../services/food.services';
+import { WATER } from '../../../common/constants';
 
 const SingleFood: FC<{ food: IFood, children?: ReactElement }> = ({ food, children }) => {
 
     const { userData } = useContext(AppContext);
 
     const [grams, setGrams] = useState(0);
+    const [milliliters, setMilliliters] = useState(0);
 
     const toast = useToast();
 
     const calories = Math.floor(food.calories / food.serving_size_g * grams);
 
-    const handleLogFood = () => {
-        logFood(userData!.handle, food.name, calories)
+    const handleLogFood = (quantity: number) => {
+        logFood(userData!.handle, food.name, quantity)
             .then(() => setGrams(0))
             .then(() => {
                 toast({
                     title: `Food logged successfully!`,
-                    description: `You have logged ${calories} kcal of ${food.name}.`,
+                    description: `You have logged ${quantity} ${food.name !== WATER ? `kcal` : `ml`} of ${food.name}.`,
                     status: 'success',
                     duration: 3000,
                     isClosable: true,
@@ -57,48 +59,74 @@ const SingleFood: FC<{ food: IFood, children?: ReactElement }> = ({ food, childr
             <AccordionPanel pb={4}>
                 <HStack mb={3} flexWrap='wrap' gap={1}>
                     <Box maxW={{ base: '50%', md: '40%' }} >
-                        <FormControl isRequired>
-                            <InputGroup size='sm' >
-                                <NumberInput onChange={(e) => setGrams(+e)} min={0} value={grams}>
-                                    <NumberInputField />
-                                </NumberInput>
-                                <InputRightAddon>gr</InputRightAddon>
-                            </InputGroup>
-                        </FormControl>
+
+                        {food.name !== WATER ? (
+                            <FormControl isRequired>
+                                <InputGroup size='sm' >
+                                    <NumberInput onChange={(e) => setGrams(+e)} min={0} value={grams}>
+                                        <NumberInputField />
+                                    </NumberInput>
+                                    <InputRightAddon>gr</InputRightAddon>
+                                </InputGroup>
+                            </FormControl>
+                        ):(
+                            <FormControl isRequired>
+                                <InputGroup size='sm' >
+                                    <NumberInput onChange={(e) => setMilliliters(+e)} min={0} value={milliliters}>
+                                        <NumberInputField />
+                                    </NumberInput>
+                                    <InputRightAddon>ml</InputRightAddon>
+                                </InputGroup>
+                            </FormControl>
+                        )}
+
                     </Box>
                     <Spacer />
-                    <Badge colorScheme='green'>{calories}kcal</Badge>
-                    <Button
-                        size='sm'
-                        colorScheme='yellow'
-                        isDisabled={!grams}
-                        onClick={handleLogFood}>Log food</Button>
+                    {food.name !== WATER && <Badge colorScheme='green'>{calories}kcal</Badge>}
+
+                    {food.name !== WATER ? (
+                        <Button
+                            size='sm'
+                            colorScheme='yellow'
+                            isDisabled={!grams}
+                            onClick={() => handleLogFood(grams)}>Log food</Button>
+                    ):(
+                        <Button
+                            size='sm'
+                            colorScheme='blue'
+                            isDisabled={!milliliters}
+                            onClick={() => handleLogFood(milliliters)}>Log water</Button>
+                    )}
+
                 </HStack>
-                <HStack>
-                    <Text>serving size: </Text>
-                    <Spacer />
-                    <Badge>{Math.floor(food.serving_size_g)} gr</Badge>
-                </HStack>
-                <HStack>
-                    <Text>calories per serving: </Text>
-                    <Spacer />
-                    <Badge>{Math.floor(food.calories)} kcal</Badge>
-                </HStack>
-                <HStack>
-                    <Text>carbohydrates: </Text>
-                    <Spacer />
-                    <Badge>{Math.floor(food.carbohydrates_total_g)} gr</Badge>
-                </HStack>
-                <HStack>
-                    <Text>protein: </Text>
-                    <Spacer />
-                    <Badge>{Math.floor(food.protein_g)} gr</Badge>
-                </HStack>
-                <HStack>
-                    <Text>fat: </Text>
-                    <Spacer />
-                    <Badge>{Math.floor(food.fat_total_g)} gr</Badge>
-                </HStack>
+                {(food.name.toLowerCase() !== WATER) && <>
+                    <HStack>
+                        <Text>serving size: </Text>
+                        <Spacer />
+                        <Badge>{Math.floor(food.serving_size_g)} gr</Badge>
+                    </HStack>
+                    <HStack>
+                        <Text>calories per serving: </Text>
+                        <Spacer />
+                        <Badge>{Math.floor(food.calories)} kcal</Badge>
+                    </HStack>
+                    <HStack>
+                        <Text>carbohydrates: </Text>
+                        <Spacer />
+                        <Badge>{Math.floor(food.carbohydrates_total_g)} gr</Badge>
+                    </HStack>
+                    <HStack>
+                        <Text>protein: </Text>
+                        <Spacer />
+                        <Badge>{Math.floor(food.protein_g)} gr</Badge>
+                    </HStack>
+                    <HStack>
+                        <Text>fat: </Text>
+                        <Spacer />
+                        <Badge>{Math.floor(food.fat_total_g)} gr</Badge>
+                    </HStack>
+                </>}
+
 
             </AccordionPanel>
         </AccordionItem>

@@ -26,6 +26,8 @@ export const COLOR_BRAND_YELLOW = '#F2B807';
 export const COLOR_BRAND_WHITE = '#FFFFFF';
 export const COLOR_BRAND_GRAY = '#2D3748';
 
+export const WATER = 'water';
+
 export const API_NINJAS_EXERCISES = 'https://api.api-ninjas.com/v1/exercises';
 export const API_NINJAS_FOOD = 'https://api.api-ninjas.com/v1/nutrition';
 export const API_NINJAS_KEY = 'cn6dW1SAvI817LEXzpf+cg==0msk7WrGU2sy3MKb';

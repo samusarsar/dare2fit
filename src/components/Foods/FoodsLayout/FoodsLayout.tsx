@@ -6,6 +6,7 @@ import SingleFood from '../SingleFood/SingleFood';
 import { IFood } from '../../../common/types';
 
 const FoodsLayout: FC<{ foods: IFood[] | [] }> = ({ foods }) => {
+
     if (foods.length === 0) {
         return (
             <Text>No foods match the searching criteria</Text>
