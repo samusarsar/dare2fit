@@ -30,11 +30,19 @@ const ProfileHealth: FC = (): ReactElement => {
                     { category: 'overweight', color: 'purple', icon: TbWeight } :
                     { category: 'obese', color: 'red', icon: BiHealth };
 
+    const recommendedWaterTargetImperial = userData!.health?.weightImperial ?
+        userData!.health?.weightImperial / 2 :
+        null;
+    const recommendedWaterTargetMetric = recommendedWaterTargetImperial ?
+        recommendedWaterTargetImperial / 0.0338 :
+        null;
+
+
     const inputColor = useColorModeValue('blackAlpha.400', 'whiteAlpha.400');
 
     const weightInputRef = useRef<HTMLInputElement | null>(null);
-
     const heightInputRef = useRef<HTMLInputElement | null>(null);
+    const waterInputRef = useRef<HTMLInputElement | null>(null);
 
     const { getInputProps: getInputPropsWeight, getIncrementButtonProps: getIncrementButtonPropsWeight, getDecrementButtonProps: getDecrementButtonPropsWeight } = useNumberInput({
         step: 0.5,
@@ -46,6 +54,11 @@ const ProfileHealth: FC = (): ReactElement => {
         min: 1,
     });
 
+    const { getInputProps: getInputPropsWater, getIncrementButtonProps: getIncrementButtonPropsWater, getDecrementButtonProps: getDecrementButtonPropsWater } = useNumberInput({
+        step: 25,
+        min: 500,
+    });
+
     const incWeight = getIncrementButtonPropsWeight();
     const decWeight = getDecrementButtonPropsWeight();
     const inputWeight = getInputPropsWeight();
@@ -53,6 +66,10 @@ const ProfileHealth: FC = (): ReactElement => {
     const incHeight = getIncrementButtonPropsHeight();
     const decHeight = getDecrementButtonPropsHeight();
     const inputHeight = getInputPropsHeight();
+
+    const incWater = getIncrementButtonPropsWater();
+    const decWater = getDecrementButtonPropsWater();
+    const inputWater = getInputPropsWater();
 
     const profileActivityLevel = userData!.health?.activityLevel || ActivityLevel.noActivity;
     const profileWeightGoal = userData!.health?.weightGoal || WeightGoal.maintainWeight;
@@ -206,9 +223,11 @@ const ProfileHealth: FC = (): ReactElement => {
 
                         <Tr>
                             <Td>
-                                <Text fontWeight='bold'>Calorie calculator:</Text>
+                                <Text fontWeight='bold'>Calorie Calculator:</Text>
                                 {(profileCalories > 0 && profileCalories <= 1200) &&
-                                        <Text mt='2' color='red' fontStyle='italic'>It is not recommended to consume less than 1200 calories a day. Please consult a doctor!</Text>}
+                                        <Text mt='2' color='red' fontStyle='italic' fontSize='0.8em'>
+                                            It is not recommended to consume less than 1200 calories a day. Please consult a doctor!
+                                        </Text>}
                             </Td>
                             <Td>
                                 <HStack>
@@ -229,6 +248,36 @@ const ProfileHealth: FC = (): ReactElement => {
                                             }
                                         </Select>
                                     </HStack>
+                                </VStack>
+                            </Td>
+                        </Tr>
+
+                        <Tr>
+                            <Td>
+                                <Text fontWeight='bold'>Water Target:</Text>
+                                {(recommendedWaterTargetMetric && recommendedWaterTargetImperial) &&
+                                    (isMetric ?
+                                        <Text mt='2' fontStyle='italic' fontSize='0.8em'>(recommended water intake: {recommendedWaterTargetMetric.toFixed(0)} ml)</Text> :
+                                        <Text mt='2' fontStyle='italic' fontSize='0.8em'>(Recommended water intake: {recommendedWaterTargetImperial.toFixed(1)} fl oz)</Text>)}
+                            </Td>
+                            <Td>{!userData!.health?.waterTargetMetric ?
+                                ('No entry yet') :
+                                (<>
+                                    {isMetric ?
+                                        userData!.health?.waterTargetMetric :
+                                        userData!.health?.waterTargetImperial} <Badge fontSize='0.8em' colorScheme={isMetric ? 'blue' : 'pink'}>{isMetric ? 'ml' : 'fl oz'}</Badge>
+                                </>)}
+                            </Td>
+                            <Td>
+                                <VStack>
+                                    <HStack>
+                                        <Button {...decWater} colorScheme='facebook'>-</Button>
+                                        <Input {...inputWater} ref={waterInputRef} bg={inputColor} />
+                                        <Button {...incWater} colorScheme='facebook'>+</Button>
+                                    </HStack>
+                                    <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+waterInputRef.current!.value, 'waterTarget')}>
+                                        Update in {isMetric ? 'ml' : 'fl oz'}
+                                    </Button>
                                 </VStack>
                             </Td>
                         </Tr>
