@@ -73,9 +73,7 @@ export interface IGoal {
     target: number;
     units: string;
     author: string;
-    isExpired?: boolean;
-    initDate?: string;
-    [key: string]: number | string | boolean | undefined | IDuration | ICompetingWith;
+    [key: string]: number | string | undefined | IDuration | ICompetingWith;
 }
 
 export interface IWorkout {
