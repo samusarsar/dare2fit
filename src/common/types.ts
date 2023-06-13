@@ -137,6 +137,7 @@ export interface ITodayLog {
     cycling?: number;
     swimming?: number;
     calories?: { [key: string]: number };
+    [key: string]: number | ILoggedWorkout | { [key: string]: number } | undefined;
 }
 
 export type IGoalProgresses = {
