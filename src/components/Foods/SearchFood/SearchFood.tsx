@@ -30,7 +30,7 @@ const SearchFood: FC<{ foodName: string }> = ({ foodName }) => {
                 onClick={handleSearch}
                 isDisabled={!foodName}
                 isLoading={isLoading}>
-                Search Food
+                Search
             </Button>
 
             <Modal isOpen={isOpen} onClose={onClose}>

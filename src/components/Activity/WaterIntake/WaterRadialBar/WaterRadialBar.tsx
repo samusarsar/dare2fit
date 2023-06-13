@@ -20,7 +20,7 @@ const WaterRadialBar: FC<{ waterLog: number, waterTarget: number }> = ({ waterLo
     return (
         <ResponsiveRadialBar
             data={radialData}
-            maxValue={waterTarget}
+            maxValue={waterTarget || waterLog}
             valueFormat=">-0,.0~f"
             startAngle={0}
             endAngle={360}

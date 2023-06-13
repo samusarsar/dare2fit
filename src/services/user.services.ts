@@ -250,11 +250,10 @@ export const changeAvatar = (handle: string, avatar: File) => {
 
 /**
  * Edits the health-related numeric data of a user.
- * @param {Object} options - The options for editing the data.
- * @param {string} options.handle - The handle of the user.
- * @param {string} options.propKey - The key of the property to edit.
- * @param {number} options.propValue - The new value of the property.
- * @param {boolean} options.isMetric - Indicates whether the value is in the metric system.
+ * @param {string} handle - The handle of the user.
+ * @param {string} propKey - The key of the property to edit.
+ * @param {number} propValue - The new value of the property.
+ * @param {boolean} isMetric - Indicates whether the value is in the metric system.
  * @return {Promise} - A promise that resolves when the user's data is updated.
  */
 export const editUserHealthNumberData = ({ handle, propKey, propValue, isMetric }:
@@ -271,6 +270,19 @@ export const editUserHealthNumberData = ({ handle, propKey, propValue, isMetric 
     return update(ref(db, `users/${handle}/health`), {
         [`${propKey}Metric`]: +metricValue,
         [`${propKey}Imperial`]: +imperialValue,
+    });
+};
+
+/**
+ * Clear the health-related numeric data of a user.
+ * @param {string} handle - The handle of the user.
+ * @param {string} propKey - The key of the property to clear.
+ * @return {Promise} - A promise that resolves when the user's data is cleared.
+ */
+export const clearUserHealthNumberData = ({ handle, propKey }: { handle: string, propKey: string }) => {
+    return update(ref(db, `users/${handle}/health`), {
+        [`${propKey}Metric`]: null,
+        [`${propKey}Imperial`]: null,
     });
 };
 

@@ -25,14 +25,14 @@ const FoodLogButton: FC = () => {
             <Collapse in={isOpen} animateOpacity>
                 <HStack rounded='md' px={1} py={3}>
                     <FormControl isRequired>
-                        <FormLabel htmlFor='foodName'>Food Name</FormLabel>
+                        <FormLabel htmlFor='foodName'>Search</FormLabel>
                         <FormErrorMessage>Required</FormErrorMessage>
                         <Input
                             value={foodName}
                             onChange={e => setFoodName(e.target.value)}
                             id='foodName'
                             name='foodName'
-                            placeholder='search for food by name' />
+                            placeholder='search for food by name or water' />
                     </FormControl>
                 </HStack>
             </Collapse>
@@ -42,9 +42,9 @@ const FoodLogButton: FC = () => {
                         {amBlocked &&
                             <Alert status='error'>
                                 <AlertIcon />
-                                    You are blocked and can&apos;t log food.
+                                    You are blocked and can&apos;t log food and water.
                             </Alert>}
-                        <Button w='100%' colorScheme='yellow' onClick={onToggle} isDisabled={amBlocked}>Log Food</Button>
+                        <Button w='100%' colorScheme='yellow' onClick={onToggle} isDisabled={amBlocked}>Log Food & Water</Button>
                     </>) :
                     (<ButtonGroup w='100%' isAttached>
 

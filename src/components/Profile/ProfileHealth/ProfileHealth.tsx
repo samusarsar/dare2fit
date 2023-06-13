@@ -1,12 +1,12 @@
 import { FC, ReactElement, useContext, useRef, useState } from 'react';
 // eslint-disable-next-line max-len
-import { Badge, Box, Button, Center, HStack, Icon, Input, Select, Switch, Table, Tbody, Td, Text, Th, Thead, Tr, VStack, useColorModeValue, useNumberInput } from '@chakra-ui/react';
+import { Badge, Box, Button, ButtonGroup, Center, HStack, Icon, Input, Select, Switch, Table, Tbody, Td, Text, Th, Thead, Tr, VStack, useColorModeValue, useNumberInput } from '@chakra-ui/react';
 import { TiFeather } from 'react-icons/ti';
 import { TbWeight } from 'react-icons/tb';
 import { BsCheck } from 'react-icons/bs';
 import { BiHealth } from 'react-icons/bi';
 
-import { calculateBmr, calculateCalories, editUserHealthData, editUserHealthNumberData } from '../../../services/user.services';
+import { calculateBmr, calculateCalories, clearUserHealthNumberData, editUserHealthData, editUserHealthNumberData } from '../../../services/user.services';
 import { ActivityLevel, Gender, WeightGoal } from '../../../common/enums';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import { ACTIVITY_LEVEL_DATA, WEIGHT_GOAL_DATA } from '../../../common/constants';
@@ -74,13 +74,17 @@ const ProfileHealth: FC = (): ReactElement => {
     const profileActivityLevel = userData!.health?.activityLevel || ActivityLevel.noActivity;
     const profileWeightGoal = userData!.health?.weightGoal || WeightGoal.maintainWeight;
 
-    const profileBmr = calculateBmr(userData!); // TODO
+    const profileBmr = calculateBmr(userData!);
     const profileCalories = calculateCalories(userData!);
 
     const handleEditNumberData = (value: number, prop: string) => {
         if (!!value && !isNaN(value)) {
             editUserHealthNumberData({ handle: userData!.handle, propKey: prop, propValue: value, isMetric });
         }
+    };
+
+    const handleClearNumberData = (prop: string) => {
+        clearUserHealthNumberData({ handle: userData!.handle, propKey: prop });
     };
 
     const handleEditGender = (value: string) => {
@@ -150,9 +154,14 @@ const ProfileHealth: FC = (): ReactElement => {
                                         <Input {...inputWeight} ref={weightInputRef} bg={inputColor} />
                                         <Button {...incWeight} colorScheme='facebook'>+</Button>
                                     </HStack>
-                                    <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+weightInputRef.current!.value, 'weight')}>
-                                        Update in {isMetric ? 'kg' : 'lbs'}
-                                    </Button>
+                                    <ButtonGroup>
+                                        <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+weightInputRef.current!.value, 'weight')}>
+                                            Update in {isMetric ? 'kg' : 'lbs'}
+                                        </Button>
+                                        <Button variant='ghost' colorScheme='orange' onClick={() => handleClearNumberData('weight')}>
+                                                Clear
+                                        </Button>
+                                    </ButtonGroup>
                                 </VStack>
                             </Td>
                         </Tr>
@@ -173,9 +182,14 @@ const ProfileHealth: FC = (): ReactElement => {
                                         <Input {...inputHeight} ref={heightInputRef} bg={inputColor} />
                                         <Button {...incHeight} colorScheme='facebook'>+</Button>
                                     </HStack>
-                                    <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+heightInputRef.current!.value, 'height')}>
-                                        Update in {isMetric ? 'cm' : 'ft'}
-                                    </Button>
+                                    <ButtonGroup>
+                                        <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+heightInputRef.current!.value, 'height')}>
+                                            Update in {isMetric ? 'cm' : 'ft'}
+                                        </Button>
+                                        <Button variant='ghost' colorScheme='orange' onClick={() => handleClearNumberData('height')}>
+                                            Clear
+                                        </Button>
+                                    </ButtonGroup>
                                 </VStack>
                             </Td>
                         </Tr>
@@ -275,9 +289,14 @@ const ProfileHealth: FC = (): ReactElement => {
                                         <Input {...inputWater} ref={waterInputRef} bg={inputColor} />
                                         <Button {...incWater} colorScheme='facebook'>+</Button>
                                     </HStack>
-                                    <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+waterInputRef.current!.value, 'waterTarget')}>
-                                        Update in {isMetric ? 'ml' : 'fl oz'}
-                                    </Button>
+                                    <ButtonGroup>
+                                        <Button variant='ghost' colorScheme='teal' onClick={() => handleEditNumberData(+waterInputRef.current!.value, 'waterTarget')}>
+                                            Update in {isMetric ? 'ml' : 'fl oz'}
+                                        </Button>
+                                        <Button variant='ghost' colorScheme='orange' onClick={() => handleClearNumberData('waterTarget')}>
+                                            Clear
+                                        </Button>
+                                    </ButtonGroup>
                                 </VStack>
                             </Td>
                         </Tr>
