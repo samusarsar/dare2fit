@@ -89,7 +89,7 @@ const SingleFood: FC<{ food: IFood, children?: ReactElement }> = ({ food, childr
                             size='sm'
                             colorScheme='yellow'
                             isDisabled={!grams}
-                            onClick={() => handleLogFood(grams)}>Log food</Button>
+                            onClick={() => handleLogFood(calories)}>Log food</Button>
                     ):(
                         <Button
                             size='sm'
