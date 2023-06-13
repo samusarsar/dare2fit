@@ -26,7 +26,9 @@ const CalorieIntake: FC = () => {
         return onValue(ref(db, `logs/${userData!.handle}/${todayDate}/calories`), (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
-                setCalorieLog(data);
+                // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+                const { water, ...todayCalories } = data;
+                setCalorieLog(todayCalories);
             } else {
                 setCalorieLog({});
             }
