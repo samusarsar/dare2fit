@@ -20,7 +20,10 @@ const SingleFood: FC<{ food: IFood, children?: ReactElement }> = ({ food, childr
 
     const handleLogFood = (quantity: number) => {
         logFood(userData!.handle, food.name, quantity)
-            .then(() => setGrams(0))
+            .then(() => {
+                setGrams(0);
+                setMilliliters(0);
+            })
             .then(() => {
                 toast({
                     title: `Food logged successfully!`,
