@@ -148,3 +148,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Firebase hosting files
+.firebaserc
+firebase.json
+.firebase/
