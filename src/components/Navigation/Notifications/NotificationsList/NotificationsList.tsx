@@ -35,7 +35,7 @@ const NotificationsList: FC = (): ReactElement => {
                     icon={<FiBell />} />
                 {notifications && <Badge colorScheme='pink' position='absolute' bottom={0} right={0}>{notifications.length}</Badge>}
             </Box>
-            <MenuList w={{ base: '300px', lg: '450px' }} maxH='500px' overflowY='auto'>
+            <MenuList w={{ base: '300px', lg: '450px' }} maxH='500px' overflowY='auto' zIndex={10}>
                 <Link to={'https://expo.dev/@samu.sar/dare2fit-companion-app'} target='_blank' rel='noopener noreferrer'>
                     <HStack
                         w='100%'
