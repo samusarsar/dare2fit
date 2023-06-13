@@ -90,8 +90,8 @@ const HabitRadialBar: FC<{ goal: IGoal, progress: IGoalProgresses }> = ({ goal, 
             />
             <VStack align='center'
                 bg={circleInfoColor}
-                h='100px'
-                w='100px'
+                h={{ base: `${pathname === '/activity' ? '110px' : '100px'}`, md: `${pathname === '/activity' ? '140px' : '100px'}` }}
+                w={{ base: `${pathname === '/activity' ? '110px' : '100px'}`, md: `${pathname === '/activity' ? '140px' : '100px'}` }}
                 p={3}
                 rounded='full'
                 justify='center'

@@ -51,7 +51,7 @@ const GoalsCarousel: FC = () => {
                 </Flex>
 
                 <VStack align='center' rounded='lg'>
-                    <Box height='320px' overflow='auto' width={{ base: '2xs', md: 'xs' }}>
+                    <Box height='100%' maxH='405px' overflow='auto' width={{ base: '2xs', md: 'xs' }}>
                         {(habits && challenges) ?
                             ((goalsView === GoalTypes.habit && !habits.length) ? (
                                 <HStack w='100%' h='100%' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={goalBackground}>
@@ -68,7 +68,7 @@ const GoalsCarousel: FC = () => {
                             ) : (
                                 <SingleGoal goal={challenges[index]} />
                             )) :
-                            (<HStack w='100%' h='100%' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={goalBackground}>
+                            (<HStack w='100%' h='405px' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={goalBackground}>
                                 <Spinner size='xl'/>
                             </HStack>)}
                     </Box>

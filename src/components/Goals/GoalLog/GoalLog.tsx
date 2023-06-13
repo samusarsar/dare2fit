@@ -130,14 +130,7 @@ const GoalLog: FC<{ isOpen: boolean, onClose: () => void, goal: IGoal }> = ({ is
                                     curve="cardinal"
                                     axisTop={null}
                                     axisRight={null}
-                                    axisBottom={{
-                                        tickSize: 5,
-                                        tickPadding: 5,
-                                        tickRotation: 0,
-                                        legend: 'date',
-                                        legendOffset: 41,
-                                        legendPosition: 'middle',
-                                    }}
+                                    axisBottom={null}
                                     axisLeft={{
                                         tickSize: 5,
                                         tickPadding: 5,

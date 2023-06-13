@@ -12,13 +12,15 @@ import { AppContext } from '../../../context/AppContext/AppContext';
 import moment, { MomentInput } from 'moment';
 import { getChallengeLogByHandle, getHabitLogByHandle } from '../../../services/goal.services';
 import OptionsButton from '../../Base/OptionsButton/OptionsButton';
+import { useLocation } from 'react-router';
 
 const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
-
     const { userData } = useContext(AppContext);
 
     const [currGoal, setCurrGoal] = useState<IGoal>(goal);
     const [progress, setProgress] = useState<IGoalProgresses | null>(null);
+
+    const { pathname } = useLocation();
 
     const background = useColorModeValue('brand.white', 'brand.grey');
 
@@ -115,7 +117,7 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
         return (
             <Box bg={background} rounded='lg' boxShadow='lg' minH='100%' p={4} position='relative'>
                 {(authorIsMe || currGoal.category === GoalTypes.challenge || amAdmin) && <OptionsButton goal={currGoal} />}
-                <Box h='200px'>
+                <Box h={pathname === '/activity' ? '300px' : '200px'}>
                     {currGoal.category === GoalTypes.habit ?
                         <HabitRadialBar goal={currGoal} progress={progress} /> :
                         <ChallengeRadialBar goal={currGoal} progress={progress} />}

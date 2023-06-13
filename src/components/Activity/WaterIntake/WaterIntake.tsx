@@ -32,7 +32,7 @@ const WaterIntake: FC = () => {
     return (
         <Flex justifyContent='flex-start'>
             <Box p={2} borderRadius='lg' bg='brand.purple' width={{ base: 'fit-content', md: 'sm', lg: 'fit-content' }}>
-                <Flex justifyContent='space-between' alignItems='center' color='brand.dark' gap={2} mb={2}>
+                <Flex justifyContent='space-between' alignItems='center' color='brand.dark' gap={2} mb={2} h='30px'>
                     <Text>Daily Water Intake</Text>
                 </Flex>
 

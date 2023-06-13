@@ -54,7 +54,7 @@ const WorkoutsCarousel: FC = () => {
                 </Flex>
 
                 <VStack align='start' rounded='lg'>
-                    <Box height='320px' overflow='auto' width={{ base: '2xs', md: 'sm' }}>
+                    <Box height='405px' overflow='auto' width={{ base: '2xs', md: 'sm' }}>
                         {(myWorkouts && savedWorkouts) ?
                             ((workoutsView === WorkoutTypes.my && !myWorkouts.length) ? (
                                 <HStack w='100%' h='100%' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={workoutBackground}>
