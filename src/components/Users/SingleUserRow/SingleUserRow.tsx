@@ -36,6 +36,8 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
 
     const textColor = useColorModeValue('gray.700', 'white');
 
+    const roleToDisplay = (currUser.role === UserRoles.WantAdmin || currUser.role === UserRoles.Base) ? 'darer' : currUser.role;
+
     const handleAddFriend = () => {
         setLoadingBtn(true);
         sendFriendRequest(userData!.handle, user.handle)
@@ -121,7 +123,7 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
                     p="3px 10px"
                     borderRadius="8px"
                 >
-                    {currUser.role}
+                    {roleToDisplay}
                 </Badge>
             </Td>
             {!handle ?
@@ -184,9 +186,6 @@ const SingleUserRow: FC<{ user: IUserData }> = ({ user }): ReactElement => {
                                     onClick={() => handleRoleChange(UserRoles.Base)}>
                                     Unblock
                                 </Button>}
-                            {/* <Button w='100%' variant='outline' colorScheme='red' isLoading={loadingBtn}>
-                                Delete
-                            </Button> */}
                         </VStack>
                     </Td>
                 </>)}
