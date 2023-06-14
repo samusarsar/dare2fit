@@ -11,6 +11,7 @@ import { MdBlock, MdOutlineAnnouncement } from 'react-icons/md';
 import { AiOutlineApple, AiOutlineAndroid } from 'react-icons/ai';
 import { Icon, useColorModeValue } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { GiWeightLiftingUp } from 'react-icons/gi';
 
 const NotificationsList: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -66,6 +67,9 @@ const NotificationsList: FC = (): ReactElement => {
                         } else if (notification === 'You have been blocked.') {
                             icon = MdBlock;
                             linkTo = `profile/${userData!.handle}`;
+                        } else if (notification.includes('saved your workout')) {
+                            icon = GiWeightLiftingUp;
+                            linkTo = `profile/${notification.split(' ')[0]}`;
                         } else {
                             icon = FiBell;
                             linkTo = null;
