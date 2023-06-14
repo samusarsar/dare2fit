@@ -44,7 +44,7 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({ todayLog }): Re
     const handleLog = () => {
         if (!!activityType && !!loggedValue) {
             let finalLoggedValue: number | { name: string, category: string, workoutId: string };
-            if (activityType === 'workout') {
+            if (activityType === 'workout' || activityType === 'strength' || activityType === 'stamina' || activityType === 'stretching') {
                 const allWorkouts = [...userWorkouts, ...savedWorkouts];
                 const { workoutName, category, workoutId } = allWorkouts.find(workout => workout.workoutId === loggedValue)!;
                 finalLoggedValue = { name: workoutName, category: category, workoutId: workoutId };
