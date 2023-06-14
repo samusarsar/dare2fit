@@ -96,7 +96,7 @@ const GoalOptions: FC<{ goal: IGoal, onOpen: () => void, onOpenLog: () => void }
                     onClick={handleEdit}>
                     Edit Goal
                 </Button>}
-            {authorIsMe || amAdmin &&
+            {(authorIsMe || amAdmin) &&
                 <Button
                     w="194px"
                     variant="ghost"
