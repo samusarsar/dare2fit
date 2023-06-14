@@ -33,6 +33,7 @@ export const API_NINJAS_FOOD = 'https://api.api-ninjas.com/v1/nutrition';
 export const API_NINJAS_KEY = 'cn6dW1SAvI817LEXzpf+cg==0msk7WrGU2sy3MKb';
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
+export const SITE_URL = 'https://dare2fit-f6eb4.web.app';
 
 export const ACTIVITY_LEVEL_DATA = {
     noActivity: {
