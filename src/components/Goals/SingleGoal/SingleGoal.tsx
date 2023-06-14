@@ -26,11 +26,11 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
 
     const typeIsWorkoutCategory = goal.type === 'strength' || goal.type === 'stamina' || goal.type === 'stretching';
     const authorIsMe = userData!.handle === goal.author;
-    const amCompeting = currGoal.competingWith ? Object.keys(currGoal.competingWith).includes(userData!.handle) : false;
+    const amCompeting = currGoal?.competingWith ? Object.keys(currGoal.competingWith).includes(userData!.handle) : false;
     const amAdmin = userData!.role === UserRoles.Admin;
 
     let allProgressesLoaded: boolean;
-    if (currGoal.competingWith) {
+    if (currGoal?.competingWith) {
         allProgressesLoaded = progress ?
             Object.keys(progress).length === (Object.keys(currGoal.competingWith).length + 1) :
             false;
@@ -85,7 +85,7 @@ const SingleGoal: FC<{ goal: IGoal }> = ({ goal }) => {
         const todayDate = moment().format('YYYY-MM-DD');
 
         return onValue(ref(db, `logs/${(!authorIsMe && amCompeting) ? userData!.handle : goal.author}/${todayDate}`), () => {
-            if (currGoal.competingWith) {
+            if (currGoal?.competingWith) {
                 const competitors = Object.keys(currGoal.competingWith);
                 competitors.push(goal.author);
 
