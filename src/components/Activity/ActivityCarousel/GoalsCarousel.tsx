@@ -54,14 +54,14 @@ const GoalsCarousel: FC = () => {
                     <Box height='100%' maxH='405px' overflowY='auto' overflowX='hidden' width={{ base: '2xs', md: 'xs' }}>
                         {(habits && challenges) ?
                             ((goalsView === GoalTypes.habit && !habits.length) ? (
-                                <HStack w='100%' h='100%' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={goalBackground}>
+                                <HStack w='100%' h='405px' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={goalBackground}>
                                     <Icon as={ImFilesEmpty} fontSize='2em' />
                                     <Text>No habits</Text>
                                 </HStack>
                             ) : goalsView === GoalTypes.habit ? (
                                 <SingleGoal goal={habits[index]} />
                             ) : goalsView === GoalTypes.challenge && !challenges.length ? (
-                                <HStack w='100%' h='100%' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={goalBackground}>
+                                <HStack w='100%' h='405px' rounded='md' justify='center' boxShadow='lg' overflowX='auto' pb={8} bg={goalBackground}>
                                     <Icon as={ImFilesEmpty} fontSize='2em' />
                                     <Text>No challenges</Text>
                                 </HStack>
