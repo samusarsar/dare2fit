@@ -12,6 +12,7 @@ const WaterIntake: FC = () => {
     const { userData } = useContext(AppContext);
 
     const [waterLog, setWaterLog] = useState<number>(0);
+    console.log(waterLog);
 
     const background = useColorModeValue('brand.white', 'brand.grey');
 
@@ -22,7 +23,7 @@ const WaterIntake: FC = () => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 const waterQ = Object.entries(data).find(([key]) => key === 'water');
-                setWaterLog(waterQ!.length ? (waterQ![1] as number) : 0);
+                setWaterLog(waterQ?.length ? (waterQ![1] as number) : 0);
             } else {
                 setWaterLog(0);
             }
