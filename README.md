@@ -62,7 +62,7 @@
 
 ### Visit site on Firebase-Hosted address:
 
-1. Visit the [dare2fit *firebase-hosted website*](insert link here);
+1. Visit the [dare2fit *firebase-hosted website*](https://dare2fit-f6eb4.web.app/);
 2. Enjoy the world of `dare2fit`!
 
 ### Setup and run locally:
