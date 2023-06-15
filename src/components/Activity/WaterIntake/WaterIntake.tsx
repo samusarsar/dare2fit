@@ -12,7 +12,6 @@ const WaterIntake: FC = () => {
     const { userData } = useContext(AppContext);
 
     const [waterLog, setWaterLog] = useState<number>(0);
-    console.log(waterLog);
 
     const background = useColorModeValue('brand.white', 'brand.grey');
 
