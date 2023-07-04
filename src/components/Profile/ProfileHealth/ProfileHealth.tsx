@@ -1,6 +1,6 @@
 import { FC, ReactElement, useContext, useRef, useState } from 'react';
 // eslint-disable-next-line max-len
-import { Badge, Box, Button, ButtonGroup, Center, HStack, Icon, Input, Select, Switch, Table, Tbody, Td, Text, Th, Thead, Tr, VStack, useColorModeValue, useNumberInput } from '@chakra-ui/react';
+import { Badge, Box, Button, ButtonGroup, Center, HStack, Icon, Input, Select, Switch, Table, Tbody, Td, Text, Th, Thead, Tooltip, Tr, VStack, useColorModeValue, useNumberInput } from '@chakra-ui/react';
 import { TiFeather } from 'react-icons/ti';
 import { TbWeight } from 'react-icons/tb';
 import { BsCheck } from 'react-icons/bs';
@@ -10,6 +10,7 @@ import { calculateBmr, calculateCalories, clearUserHealthNumberData, editUserHea
 import { ActivityLevel, Gender, WeightGoal } from '../../../common/enums';
 import { AppContext } from '../../../context/AppContext/AppContext';
 import { ACTIVITY_LEVEL_DATA, WEIGHT_GOAL_DATA } from '../../../common/constants';
+import { AiFillInfoCircle } from 'react-icons/ai';
 
 const ProfileHealth: FC = (): ReactElement => {
     const { userData } = useContext(AppContext);
@@ -200,7 +201,10 @@ const ProfileHealth: FC = (): ReactElement => {
                             </Td>
                             <Td>
                                 <HStack>
-                                    <Text>{profileBMI ? profileBMI.toFixed(1) : 'Insufficient data for BMI calculation.'}</Text>
+                                    <VStack>
+                                        <Text>{profileBMI ? profileBMI.toFixed(1) : 'Insufficient data for BMI calculation.'}</Text>
+                                        {!profileBMI && <Text color='gray' fontSize='0.8em'><i>Weight and Height data needed.</i></Text>}
+                                    </VStack>
                                     <Badge colorScheme={bmiData.color} fontSize='0.8em'>{bmiData.category}</Badge>
                                 </HStack>
                             </Td>
@@ -214,7 +218,18 @@ const ProfileHealth: FC = (): ReactElement => {
                             </Td>
                             <Td>
                                 <HStack>
-                                    <Text>{profileBmr || 'Insufficient data for BMR calculation.'}</Text>
+                                    <VStack>
+                                        <Text>{profileBmr ? profileBmr.toFixed(1) : 'Insufficient data for BMR calculation.'}</Text>
+                                        {!profileBmr &&
+                                        <HStack>
+                                            <Text color='gray' fontSize='0.8em'><i>Date of Birth, Gender, Weight and Height data needed.</i></Text>
+                                            <Tooltip label={`Date of Birth is found in 'Details' tab`}>
+                                                <span>
+                                                    <Icon as={AiFillInfoCircle}/>
+                                                </span>
+                                            </Tooltip>
+                                        </HStack>}
+                                    </VStack>
                                     {profileBmr && <Badge colorScheme='red' fontSize='0.8em'>kcal/day</Badge>}
                                 </HStack>
                             </Td>
@@ -245,7 +260,18 @@ const ProfileHealth: FC = (): ReactElement => {
                             </Td>
                             <Td>
                                 <HStack>
-                                    <Text>{profileCalories || 'Insufficient data for calorie calculation.'}</Text>
+                                    <VStack>
+                                        <Text>{profileCalories || 'Insufficient data for BMR calculation.'}</Text>
+                                        {!profileCalories &&
+                                        <HStack>
+                                            <Text color='gray' fontSize='0.8em'><i>Date of Birth, Gender, Weight and Height data needed.</i></Text>
+                                            <Tooltip label={`Date of Birth is found in 'Details' tab`}>
+                                                <span>
+                                                    <Icon as={AiFillInfoCircle}/>
+                                                </span>
+                                            </Tooltip>
+                                        </HStack>}
+                                    </VStack>
                                     {profileCalories && <Badge colorScheme='red' fontSize='0.8em'>kcal/day</Badge>}
                                 </HStack>
                             </Td>
